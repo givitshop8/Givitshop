@@ -1,0 +1,48 @@
+name: Deploy Givitshop Admin
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Givitshop_Admin_Panel.zip'
+      - '.github/workflows/admin-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare admin site
+        run: |
+          rm -rf site
+          mkdir -p site
+          unzip -q Givitshop_Admin_Panel.zip -d extracted
+          cp -r extracted/admin/. site/
+          touch site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
