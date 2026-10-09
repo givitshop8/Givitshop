@@ -11,9 +11,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Extract V11 customer project
+      - name: Extract V12 customer project
         run: |
-          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V11.zip -d /tmp/givitshop
+          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V12.zip -d /tmp/givitshop
           cp -R /tmp/givitshop/android/. android/
           cp -R /tmp/givitshop/web/. web/ || true
       - name: Setup Java 17
@@ -29,7 +29,7 @@ jobs:
       - name: Build APK Debug
         working-directory: android
         run: gradle assembleDebug --stacktrace
-      - name: Save APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Givitshop-APK
