@@ -14,7 +14,7 @@ jobs:
 
       - name: Extract latest customer project
         run: |
-          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V8.zip -d /tmp/givitshop
+          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V9.zip -d /tmp/givitshop
           cp -R /tmp/givitshop/android/. android/
           cp -R /tmp/givitshop/web/. web/ || true
 
