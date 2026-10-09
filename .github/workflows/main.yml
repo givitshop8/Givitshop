@@ -12,9 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract latest customer project
+      - name: Extract V10 customer project
         run: |
-          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V9.zip -d /tmp/givitshop
+          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V10.zip -d /tmp/givitshop
           cp -R /tmp/givitshop/android/. android/
           cp -R /tmp/givitshop/web/. web/ || true
 
