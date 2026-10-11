@@ -11,9 +11,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Extract V34 customer project
+      - name: Extract V35 customer project
         run: |
-          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V34.zip -d /tmp/givitshop
+          unzip -o Givitshop_Siap_Build_Foto_Slide_Deskripsi_V35.zip -d /tmp/givitshop
           cp -R /tmp/givitshop/android/. android/
           cp -R /tmp/givitshop/web/. web/ || true
       - name: Setup Java 17
