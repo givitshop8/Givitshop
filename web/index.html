@@ -1,13 +1,1127 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Givitshop</title>
-</head>
-<body>
-  <h1>GIVITSHOP</h1>
-  <p>Belanja online lebih mudah dengan aplikasi Givitshop.</p>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e85b7a"><title>Givitshop — Beauty & Lifestyle</title>
+<style>
+:root{--pink:#e85b7a;--pink2:#fff0f4;--ink:#26232a;--muted:#77727a;--line:#eee7ea;--card:#fff;--bg:#faf8f9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input{font:inherit}button{cursor:pointer;border:0}.app{max-width:480px;margin:auto;min-height:100vh;background:#fff;padding-bottom:calc(76px + env(safe-area-inset-bottom, 0px));box-shadow:0 0 40px #0000000a}.top{padding:calc(18px + env(safe-area-inset-top, 0px)) 18px 10px;position:sticky;top:0;background:#fff;z-index:5}.brand{font-family:Georgia,serif;font-size:29px;color:var(--pink);font-weight:700}.tag{font-size:11px;color:var(--muted);margin-top:1px}.search{display:flex;gap:8px;margin-top:14px}.search input{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 14px;outline:none;background:#fafafa}.icon{background:#fff;border:1px solid var(--line);width:44px;border-radius:14px}.hero{margin:8px 16px 18px;background:linear-gradient(135deg,#ffe3eb,#fff7f9);border-radius:22px;padding:20px;display:flex;justify-content:space-between;overflow:hidden;position:relative;isolation:isolate}.hero-copy{position:relative;z-index:2;max-width:72%}.hero-photo{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:22px;display:none}.hero.has-photo:after{display:none}.hero.has-photo{padding:0;aspect-ratio:16/9;min-height:0}.hero.has-photo .hero-copy{display:none!important}.hero.has-photo .hero-photo{display:block;object-fit:contain}.hero.has-photo .blob{display:none!important}.hero.has-photo .blob{display:none!important}.hero.has-photo .hero-copy{max-width:74%}.hero.has-photo h1,.hero.has-photo p,.hero.has-photo button{position:relative;z-index:2}.hero h1{font-size:25px;line-height:1.05;margin:0 0 8px}.hero p{font-size:12px;color:#71666c;max-width:220px}.cta{background:var(--pink);color:#fff;border-radius:12px;padding:10px 14px;font-weight:700;font-size:12px}.blob{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 40% 30%,#fff 0 12%,#f5b8c8 13% 30%,#e98aa3 31% 60%,#d94c6d 61%);opacity:.75;align-self:center}.section{padding:0 16px}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px}.sectionhead h2{font-size:18px;margin:0}.sectionhead span{font-size:12px;color:var(--pink);font-weight:700}.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.cat{padding:11px 4px;border:1px solid var(--line);border-radius:15px;text-align:center;font-size:10px}.cat b{display:block;font-size:23px;margin-bottom:5px}.chips{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.chip{white-space:nowrap;padding:8px 12px;border-radius:20px;background:#f6f2f4;font-size:11px}.chip.active{background:var(--pink);color:#fff}.products{display:grid;grid-template-columns:1fr 1fr;gap:12px}.product{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#fff}.pic{height:clamp(150px,42vw,210px);min-height:150px;background:linear-gradient(135deg,#f9e3e9,#fff);display:grid;place-items:center;position:relative}.pic .bottle{width:54px;height:86px;border-radius:14px 14px 8px 8px;background:linear-gradient(90deg,#fff,#f5c8d2,#fff);box-shadow:0 8px 18px #a64f6422}.pic .jar{width:86px;height:54px;border-radius:10px 10px 18px 18px;background:linear-gradient(#f6b5c6,#fff);box-shadow:0 8px 18px #a64f6422}.heart{position:absolute;right:9px;top:8px;background:#fff;border-radius:50%;width:30px;height:30px}.pbody{padding:10px}.pname{font-size:12px;font-weight:700;min-height:32px}.rating{font-size:10px;color:#9a7a24;margin:5px 0}.price{font-size:14px;font-weight:800;color:var(--pink)}.old{font-size:10px;color:#aaa;text-decoration:line-through;margin-left:5px;font-weight:400}.add{width:100%;margin-top:8px;padding:9px;border-radius:11px;background:#fff0f4;color:var(--pink);font-weight:800;font-size:11px}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);height:calc(68px + env(safe-area-inset-bottom, 0px));padding-bottom:env(safe-area-inset-bottom, 0px);box-sizing:border-box;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:10}.nav{background:#fff;color:#8a858a;font-size:10px}.nav.active{color:var(--pink);font-weight:800}.nav b{display:block;font-size:20px;margin-bottom:2px}.badge{position:absolute;margin:-28px 0 0 14px;background:var(--pink);color:#fff;border-radius:9px;padding:1px 5px;font-size:8px}.view{display:none;padding-bottom:20px}.view.active{display:block}.back{padding:18px 16px;font-weight:800}.detailpic{height:clamp(250px,72vw,360px);margin:0;border-radius:0;overflow-x:auto;overflow-y:hidden;background:linear-gradient(135deg,#f9e0e7,#fff);display:flex;align-items:center;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:none}.detailpic::-webkit-scrollbar{display:none}.detailpic .galleryslide{flex:0 0 100%;width:100%;height:100%;display:grid;place-items:center;scroll-snap-align:center}.detailpic .galleryslide img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;padding:0;display:block;box-sizing:border-box}.detailpic .jar{width:160px;height:100px}.detail{padding:16px}.detail h1{font-size:21px;margin:0 0 6px}.structured-description{margin-top:12px}.structured-description p{font-size:13px;line-height:1.7;color:#6f6a70;margin:0;white-space:normal;overflow-wrap:anywhere}.structured-description p.has-separator{margin:0 0 10px;padding:0 0 10px;border-bottom:1px solid var(--line)}.desc{font-size:12px;line-height:1.65;color:#6f6a70;white-space:pre-wrap;overflow-wrap:anywhere;margin:10px 0 16px;display:block}.kahf-descriptions{margin-top:12px}.desc-item{padding:0 0 14px;margin:0 0 14px;border-bottom:1px solid var(--line)}.desc-item:last-child{border-bottom:0;margin-bottom:0}.desc-item h3{font-size:13px;line-height:1.4;color:#403b40;margin:0 0 7px;font-weight:700}.desc-item p{font-size:13px;line-height:1.7;color:#6f6a70;margin:0;white-space:normal;overflow-wrap:anywhere}.detailThumbs{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 2px;scrollbar-width:none}.detailThumbs::-webkit-scrollbar{display:none}.detailThumb{flex:0 0 58px;width:58px;height:58px;padding:3px;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}.detailThumb.active{border:2px solid var(--pink)}.detailThumb img{width:100%;height:100%;object-fit:contain;display:block}.buybar{position:fixed;bottom:calc(68px + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%);width:min(480px,100%);padding:10px 16px;background:#fff;border-top:1px solid var(--line);display:flex;gap:10px;z-index:8}.buybar .pricebox{flex:1;font-weight:800;color:var(--pink);padding:12px}.primary{flex:1;background:var(--pink);color:#fff;border-radius:13px;font-weight:800}.cartrow{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.thumb{width:72px;height:72px;flex:0 0 72px;border-radius:12px;background:#fae7ec;display:grid;place-items:center;overflow:hidden}.thumb .productimg{width:100%;height:100%;object-fit:contain;padding:6px;box-sizing:border-box}.cartinfo{flex:1}.qty{display:flex;gap:8px;align-items:center;margin-top:8px}.qty button{width:27px;height:27px;border-radius:8px;background:#f5f1f3}
+.product-reviews{padding:0 16px 16px;margin:-44px 0 88px}
+.product-reviews h2{font-size:18px;margin:0 0 10px}
+.review-summary{color:#9a7a28;font-size:13px;margin-bottom:12px}
+.review-card{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;background:#fff}
+.review-card .review-stars{color:#c9972c;font-size:14px}
+.review-card .review-meta{font-size:11px;color:#888;margin-top:5px}
+.review-form{background:#fff4f6;border-radius:16px;padding:14px;margin:12px 0}
+.review-form input,.review-form select,.review-form textarea{box-sizing:border-box;width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:5px 0 8px;font:inherit}
+.checkout{margin:16px;background:#fff4f6;border-radius:18px;padding:16px}.checkoutrow{display:flex;justify-content:space-between;margin:8px 0;font-size:12px}.total{font-size:18px;font-weight:900;color:var(--pink)}.empty{text-align:center;padding:60px 20px;color:#777}.admin{margin:16px;border-radius:20px;background:#211d20;color:#fff;padding:18px}.admin h2{margin:0 0 15px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fff;color:#222;border-radius:14px;padding:14px}.stat small{color:#777}.stat strong{display:block;font-size:18px;margin-top:5px}
+
+.productimg{display:block;max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain!important;object-position:center center!important;position:relative;z-index:1;box-sizing:border-box}.pic{overflow:hidden}.pic .productimg{width:100%!important;height:100%!important;min-width:0;min-height:0;object-fit:contain!important;padding:10px!important}.detailpic{position:relative;display:flex;align-items:stretch;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;touch-action:pan-x!important;user-select:none}.detailpic .galleryslide{flex:0 0 100%!important;width:100%!important;min-width:100%!important;height:100%!important;overflow:hidden;display:flex!important;align-items:center;justify-content:center;scroll-snap-align:start!important}.detailpic .galleryslide img,.detailpic img.productimg{width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;padding:12px!important}.thumb .productimg{padding:5px}.fallback{display:none}
+.qriscard{margin:16px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;text-align:center}
+.qrisimg{width:min(100%,360px);display:block;margin:12px auto;border-radius:8px}
+.qrisamount{font-size:24px;font-weight:900;color:var(--pink);margin:8px 0}
+.qrisnote{font-size:11px;color:#6f6a70;line-height:1.5}
+.qrisstatus{background:#fff7e8;border:1px solid #f3dfb2;border-radius:12px;padding:12px;text-align:left;font-size:12px;line-height:1.5}
+.paybtn{width:100%;margin-top:12px;background:var(--pink);color:#fff;border-radius:13px;padding:13px;font-weight:800}
+.secondarybtn{width:100%;margin-top:8px;background:#f6f2f4;color:var(--ink);border-radius:13px;padding:12px;font-weight:700}
+.optionbtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;font-size:11px}.optionbtn.selected{border-color:var(--pink);background:#fff1f5;color:var(--pink);font-weight:800}.optionbtn:disabled{opacity:.5}
+
+.cartbadge{position:absolute;top:-6px;right:-6px;min-width:21px;height:21px;padding:0 5px;border-radius:10px;background:#e85b7a;color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-sizing:border-box}.carticonwrap{position:relative;display:inline-block}.detailhead{display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top, 0px)) 16px 12px;position:sticky;top:0;background:#fff;z-index:6;border-bottom:1px solid var(--line)}.backbtn{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-weight:800;color:var(--ink)}.detailcartbtn{position:relative;background:#fff;border:1px solid var(--line);width:42px;height:42px;border-radius:12px}.detailhead-actions{display:flex;align-items:center;gap:8px}.detailsharebtn{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);width:42px;height:42px;border-radius:12px;color:var(--ink);font-size:21px;cursor:pointer}.carthead{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;gap:10px;padding:12px 16px;position:sticky;top:0;background:#fff;z-index:6;border-bottom:1px solid var(--line);font-size:18px}.carthead .backbtn{width:42px;height:42px;padding:0;font-size:22px}.cartheadicon{width:42px;height:42px;border:1px solid var(--line);background:#fff;border-radius:12px;font-size:18px}.addfloat{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%);width:min(448px,calc(100% - 32px));z-index:25;background:#fff;border:1px solid var(--line);border-radius:16px;padding:9px;box-shadow:0 8px 28px #00000014}.addfloat button{width:100%;background:var(--pink);color:#fff;border-radius:12px;padding:13px;font-weight:900}.modalback{position:fixed;inset:0;background:#0008;z-index:30;display:flex;align-items:flex-end;justify-content:center}.modal{width:min(480px,100%);max-height:calc(82vh - env(safe-area-inset-bottom, 0px));overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px 16px calc(24px + env(safe-area-inset-bottom, 0px));box-shadow:0 -10px 30px #0002}.modalhead{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px}.modalthumb{width:68px;height:68px;border-radius:12px;background:#fae7ec;display:grid;place-items:center;overflow:hidden}.modalthumb .productimg{padding:5px}.modaltitle{flex:1}.closebtn{background:#f5f1f3;border-radius:50%;width:32px;height:32px}.successmodal{align-items:center;padding:16px}.successmodal .modal{border-radius:22px;text-align:center;max-height:none}.successicon{font-size:42px;margin-bottom:8px}.successactions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.successactions button{padding:12px;border-radius:12px;font-weight:800}.
+/* V21: gambar detail produk memenuhi lebar layar tanpa ruang kiri-kanan */
+.detailpic{
+  width:100% !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  border-radius:0 !important;
+  box-sizing:border-box !important;
+  background:#f9e7ed !important;
+}
+.detailpic .galleryslide{
+  flex:0 0 100% !important;
+  width:100% !important;
+}
+.detailpic .galleryslide img,
+.detailpic img.productimg{
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  padding:0 !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  box-sizing:border-box !important;
+}
+
+/* V22: zoom gambar produk dan ruang aman untuk deskripsi */
+.imagezoomback{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top,12px) 0 env(safe-area-inset-bottom,12px);box-sizing:border-box}
+.imagezoomback img{display:block;width:100%;height:100%;max-height:100%;object-fit:contain;touch-action:pinch-zoom}
+.imagezoomclose{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:16px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#222;font-size:26px;z-index:2}
+.addfloat{bottom:calc(104px + env(safe-area-inset-bottom, 0px)) !important}
+.detail{padding-bottom:100px !important}
+
+/* V24: tampilkan foto produk selebar layar tanpa memotong gambar */
+.detailpic{
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:flex-start !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  background:#f9e7ed !important;
+}
+.detailpic .galleryslide{
+  flex:0 0 100% !important;
+  width:100% !important;
+  min-width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  overflow:visible !important;
+  display:block !important;
+  box-sizing:border-box !important;
+}
+.detailpic .galleryslide img,
+.detailpic img.productimg{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  min-width:100% !important;
+  min-height:0 !important;
+  max-width:100% !important;
+  max-height:none !important;
+  padding:0 !important;
+  margin:0 !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  box-sizing:border-box !important;
+}
+
+/* V25: gambar pada kartu produk di halaman utama memenuhi lebar kartu tanpa dipotong */
+.pic{
+  height:auto !important;
+  min-height:0 !important;
+  display:block !important;
+  padding:0 !important;
+  overflow:hidden;
+}
+.pic .productimg{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:none !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  padding:0 !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
+
+.home-banner-track{position:absolute;inset:0;display:flex;transition:transform .45s ease;touch-action:pan-x;will-change:transform;cursor:grab;user-select:none;-webkit-user-select:none}
+.home-banner-slide{flex:0 0 100%;width:100%;height:100%;position:relative}
+.home-banner-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.home-banner-controls{position:absolute;left:0;right:0;bottom:9px;display:flex;justify-content:center;gap:6px;z-index:5;pointer-events:auto}
+.home-banner-dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.65);box-shadow:0 1px 3px #0003}
+.home-banner-dot.active{width:19px;border-radius:8px;background:#e85b7a}
+.home-banner-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:30px;height:30px;border:0;border-radius:50%;background:#ffffffc9;color:#b83d60;font-size:20px;display:flex;align-items:center;justify-content:center}
+.home-banner-prev{left:7px}.home-banner-next{right:7px}
+</style></head><body><div class="app">
+<header class="top"><div class="brand">Givitshop</div><div class="tag">Skincare • Makeup • Fashion • Hijab • Accessories</div><div class="search"><input id="search" placeholder="Cari produk, brand, atau kategori..." oninput="renderProducts()"><button class="icon" onclick="show('cart')"><span class="carticonwrap">🛒<span id="headerCartBadge" class="cartbadge" style="display:none">0</span></span></button></div></header>
+<main id="home" class="view active"><div class="hero" id="homeHero"><img id="homeHeroPhoto" class="hero-photo" alt="Foto banner Givitshop"><div class="hero-copy"><h1>Kulit sehat,<br>cantik setiap hari</h1><p>Temukan skincare favoritmu dengan pilihan produk yang praktis.</p><button class="cta" onclick="document.getElementById('products').scrollIntoView()">Belanja Sekarang</button></div><div class="blob"></div></div>
+<section class="section"><div class="sectionhead"><h2>Kategori</h2><span>Lihat semua</span></div><div class="cats"><div class="cat" onclick="filterCat('Skincare')"><b>🧴</b>Skincare</div><div class="cat" onclick="filterCat('Makeup')"><b>💄</b>Makeup</div><div class="cat" onclick="filterCat('Fashion')"><b>👗</b>Fashion</div><div class="cat" onclick="filterCat('Hijab')"><b>🧕</b>Hijab</div></div></section>
+<section class="section" id="products"><div class="sectionhead"><h2>Produk Pilihan</h2><span id="clear" onclick="filterCat('Semua')">Semua</span></div><div class="chips"><button class="chip active" onclick="filterCat('Semua')">Semua</button><button class="chip" onclick="filterCat('Skincare')">Skincare</button><button class="chip" onclick="filterCat('Makeup')">Makeup</button><button class="chip" onclick="filterCat('Bodycare')">Bodycare</button></div><div class="products" id="productGrid"></div></section></main>
+<section id="detail" class="view"></section><section id="cart" class="view"></section><section id="checkout" class="view"></section><section id="orders" class="view"></section><section id="account" class="view"></section>
+<nav class="bottom"><button class="nav active" data-v="home" onclick="show('home')"><b>⌂</b>Beranda</button><button class="nav" data-v="home" onclick="document.getElementById('products').scrollIntoView()"><b>⌕</b>Kategori</button><button class="nav" data-v="cart" onclick="show('cart')"><span class="carticonwrap"><b>🛒</b><span id="navCartBadge" class="cartbadge" style="display:none">0</span></span>Keranjang</button><button class="nav" data-v="account" onclick="show('account')"><b>♙</b>Akun</button></nav>
+</div><script>
+/* ===== GIVITSHOP + SUPABASE =====
+   Isi SUPABASE_ANON_KEY dengan Publishable/anon key dari:
+   Supabase > Project Settings > API.
+   JANGAN gunakan service_role key di aplikasi.
+*/
+const SUPABASE_URL = 'https://oaojkkhvscbufpakunrs.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_jeoQMVZMgtnJeUR9tsq8tg_owYrhU-S';
+
+let products = [];
+let productVariants = [];
+let productSizes = [];
+let productPromotions = [];
+let cart = [];
+let currentFilter = 'Semua';
+let lastOrder = null;
+let lastCustomerPhone = '';
+let lastAccessCode = '';
+const paymentToken = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(36).slice(2));
+const EDGE_FUNCTION_URL = SUPABASE_URL + '/functions/v1/cek-ongkir';
+let shippingState = { destination:null, courier:'', service:'', cost:0, confirmed:false, options:[] };
+
+const money = n => new Intl.NumberFormat('id-ID',{
+  style:'currency',currency:'IDR',maximumFractionDigits:0
+}).format(Number(n)||0);
+
+async function sbFetch(path, options={}) {
+  if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('GANTI_DENGAN')) {
+    throw new Error('API key Supabase belum diisi.');
+  }
+  const headers = Object.assign({
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json'
+  }, options.headers || {});
+  const res = await fetch(SUPABASE_URL + path, Object.assign({}, options, {headers}));
+  const text = await res.text();
+  let data = null;
+  try { data = text ? JSON.parse(text) : null; } catch(e) {}
+  if (!res.ok) throw new Error((data && (data.message || data.hint || data.error)) || text || ('HTTP '+res.status));
+  return data;
+}
+
+async function edgeFetch(action, opts={}) {
+  const headers = Object.assign({
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json'
+  }, opts.headers || {});
+  const url = EDGE_FUNCTION_URL + '?action=' + encodeURIComponent(action) + (opts.query ? '&' + opts.query : '');
+  const res = await fetch(url, Object.assign({}, opts, {headers}));
+  const text = await res.text();
+  let data=null; try { data=text ? JSON.parse(text) : null; } catch(e) {}
+  if(!res.ok) throw new Error((data && (data.error || data.message || data.hint)) || text || ('HTTP '+res.status));
+  return data;
+}
+
+function cartSubtotal(){ return cart.reduce((s,i)=>s+cartLinePrice(i)*i.qty,0); }
+function cartWeight(){ return cart.reduce((s,i)=>s+cartLineWeight(i)*i.qty,0); }
+function roundedShippingWeight(){
+  return Math.max(1000, Math.ceil(cartWeight()/1000)*1000);
+}
+function shippingCourierLabel(c){
+  return ({jne:'JNE',jnt:'J&T',grabexpress:'GrabExpress',maxim:'Maxim'})[c] || c || '-';
+}
+
+async function searchDestination(){
+  const input=document.getElementById('destinationSearch');
+  const box=document.getElementById('destinationResults');
+  const q=(input?.value||'').trim();
+  if(!q){box.innerHTML='<div style="font-size:11px;color:#777">Masukkan kota, kecamatan, kelurahan, atau kode pos.</div>';return;}
+  box.innerHTML='<div style="font-size:11px;color:#777">Mencari tujuan...</div>';
+  try{
+    const data=await edgeFetch('search',{query:'search='+encodeURIComponent(q)});
+    const rows=Array.isArray(data?.data)?data.data:[];
+    if(!rows.length){box.innerHTML='<div style="font-size:11px;color:#b42318">Tujuan tidak ditemukan.</div>';return;}
+    box.innerHTML=rows.map(d=>`<button type="button" onclick="selectDestination(${Number(d.id)},'${escapeHtml(d.label||'')}', '${escapeHtml(d.subdistrict_name||'')}', '${escapeHtml(d.city_name||'')}')" style="display:block;width:100%;text-align:left;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:11px"><b>${escapeHtml(d.label||'')}</b><br><span style="color:#777">${escapeHtml(d.subdistrict_name||'')} · ${escapeHtml(d.city_name||'')} · ${escapeHtml(d.zip_code||'')}</span></button>`).join('');
+  }catch(e){box.innerHTML='<div style="font-size:11px;color:#b42318">Gagal mencari tujuan: '+escapeHtml(e.message||e)+'</div>';}
+}
+
+function selectDestination(id,label,subdistrict,city){
+  shippingState.destination={id,label,subdistrict,city};
+  shippingState.options=[];
+  shippingState.service=''; shippingState.cost=0;
+  const selected=document.getElementById('selectedDestination');
+  if(selected) selected.innerHTML='<b>Tujuan:</b> '+escapeHtml(label);
+  const box=document.getElementById('destinationResults'); if(box) box.innerHTML='<div style="font-size:11px;color:#2f7d32;padding:8px;background:#f0fff2;border-radius:10px">✓ Tujuan dipilih</div>';
+  renderShippingOptions();
+}
+
+async function calculateCourier(courier){
+  shippingState.courier=courier;
+  shippingState.service=''; shippingState.cost=0; shippingState.options=[]; shippingState.confirmed=false;
+  renderShippingOptions();
+  if(courier==='grabexpress' || courier==='maxim') return;
+  if(!shippingState.destination){alert('Pilih tujuan pengiriman terlebih dahulu.');return;}
+  const box=document.getElementById('serviceResults'); if(box) box.innerHTML='<div style="font-size:11px;color:#777">Menghitung ongkir '+shippingCourierLabel(courier)+'...</div>';
+  try{
+    const data=await edgeFetch('cost',{method:'POST',body:JSON.stringify({origin:76640,destination:Number(shippingState.destination.id),weight:roundedShippingWeight(),courier})});
+    const rows=Array.isArray(data?.data)?data.data:[];
+    shippingState.options=rows;
+    if(!rows.length){box.innerHTML='<div style="font-size:11px;color:#b42318">Layanan '+shippingCourierLabel(courier)+' tidak tersedia untuk tujuan ini.</div>';return;}
+    box.innerHTML=rows.map((r,i)=>`<button type="button" onclick="selectService(${i})" style="display:block;width:100%;text-align:left;padding:11px;margin-top:7px;border:1px solid ${i===0?'var(--pink)':'var(--line)'};border-radius:12px;background:${i===0?'#fff7f9':'#fff'}"><b>${escapeHtml(r.service||r.name||'-')}</b><br><span style="font-size:10px;color:#777">${escapeHtml(r.description||'')} · ${escapeHtml(r.etd||'-')}</span><span style="float:right;font-weight:800;color:var(--pink)">${money(r.cost)}</span></button>`).join('');
+    selectService(0);
+  }catch(e){box.innerHTML='<div style="font-size:11px;color:#b42318">Gagal menghitung ongkir: '+escapeHtml(e.message||e)+'</div>';}
+}
+
+function selectService(index){
+  const r=shippingState.options[index]; if(!r) return;
+  shippingState.service=r.service||r.name||'Ongkir';
+  shippingState.cost=Number(r.cost)||0;
+  shippingState.confirmed=true;
+  renderShippingSummary();
+}
+
+function renderShippingOptions(){
+  const service=document.getElementById('serviceResults');
+  const manual=document.getElementById('manualShippingNote');
+  if(!service) return;
+  if(shippingState.courier==='grabexpress' || shippingState.courier==='maxim'){
+    shippingState.service='Ongkir dikonfirmasi admin'; shippingState.cost=0; shippingState.confirmed=false;
+    service.innerHTML='<div style="margin-top:8px;padding:12px;border-radius:12px;background:#fff7e8;border:1px solid #f3dfb2;font-size:11px">💬 Ongkir akan dikonfirmasi admin setelah pesanan dibuat.</div>';
+  } else if(shippingState.courier){
+    service.innerHTML='<div style="font-size:11px;color:#777">Pilih layanan pengiriman.</div>';
+  } else {
+    service.innerHTML='<div style="font-size:11px;color:#777">Pilih ekspedisi.</div>';
+  }
+  if(manual) manual.style.display=(shippingState.courier==='grabexpress'||shippingState.courier==='maxim')?'block':'none';
+  renderShippingSummary();
+}
+
+function renderShippingSummary(){
+  const el=document.getElementById('shippingSummary'); if(!el) return;
+  const weight=roundedShippingWeight();
+  const label=shippingState.courier ? shippingCourierLabel(shippingState.courier) : 'Belum dipilih';
+  const service=shippingState.service || '-';
+  const cost=shippingState.courier==='grabexpress'||shippingState.courier==='maxim' ? 0 : shippingState.cost;
+  el.innerHTML=`<div class="checkoutrow"><span>Berat kirim</span><b>${money(weight).replace('Rp','').trim()} g</b></div><div class="checkoutrow"><span>Ekspedisi</span><b>${escapeHtml(label)}</b></div><div class="checkoutrow"><span>Layanan</span><b>${escapeHtml(service)}</b></div><div class="checkoutrow"><span>Ongkir</span><b>${shippingState.courier==='grabexpress'||shippingState.courier==='maxim'?'Menunggu konfirmasi':money(cost)}</b></div>`;
+  const totalEl=document.getElementById('checkoutTotal');
+  if(totalEl) updateCheckoutTotals();
+}
+
+function productType(p) {
+  const s = (p.name || '').toLowerCase();
+  return /serum|sunscreen|toner|spray|shampoo|conditioner|lip|cream tube|bottle/.test(s) ? 'bottle' : 'jar';
+}
+
+function productImage(p, cls='') {
+  return p.image_url
+    ? `<img class="productimg ${cls}" src="${p.image_url}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="${productType(p)} fallback"></div>`
+    : `<div class="${productType(p)}"></div>`;
+}
+
+function productGalleryImages(p, selectedVariantId){
+  const urls=[];
+  const add=u=>{if(typeof u==='string'&&u.trim()&&!urls.includes(u.trim()))urls.push(u.trim())};
+  add(p.image_url);
+  if(Array.isArray(p.images))p.images.forEach(x=>add(typeof x==='string'?x:(x?.url||x?.image_url)));
+  if(Array.isArray(p.image_urls))p.image_urls.forEach(add);
+  if(typeof p.image_urls==='string')p.image_urls.split(/[\n,|]/).forEach(add);
+  const variants=(p.variants||[]).filter(v=>v.is_active!==false);
+  const selected=variants.find(v=>String(v.id)===String(selectedVariantId));
+  if(selected)add(selected.image_url);
+  variants.forEach(v=>add(v.image_url));
+  return urls;
+}
+
+function renderStructuredDescription(description){
+  const raw=String(description||'').replace(/\r/g,'').trim();
+  if(!raw) return `<p class="desc">Belum ada deskripsi produk.</p>`;
+  // Dua kali Enter (baris kosong) menjadi pemisah paragraf; satu Enter hanya pindah baris.
+  const normalized=raw
+    .replace(/<br\s*\/?\s*>/gi,'\n')
+    .replace(/<\/(?:p|div|li|h[1-6])\s*>/gi,'\n')
+    .replace(/<li\b[^>]*>/gi,'• ')
+    .replace(/<[^>]*>/g,'')
+    .replace(/&nbsp;/gi,' ')
+    .replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>')
+    .replace(/\n[ \t]+/g,'\n').trim();
+  const blocks=normalized.split(/\n[ \t]*\n+/).map(x=>x.trim()).filter(Boolean);
+  const clean=[];
+  for(const block of blocks){
+    const lines=block.split('\n').map(x=>x.trim()).filter(Boolean);
+    const text=lines.join('\n');
+    if(text && !clean.some(x=>x.toLowerCase()===text.toLowerCase())) clean.push(text);
+  }
+  return `<div class="structured-description">${clean.map((part,i)=>`<p class="description-line${i<clean.length-1?' has-separator':''}">${part.split('\n').map(escapeHtml).join('<br>')}</p>`).join('')}</div>`;
+}
+
+function renderKahfDescriptions(p){
+  const title=String(p.name||'').toLowerCase();
+  const brand=String(p.brand||'').toLowerCase();
+  const raw=String(p.description||'').trim();
+
+  // Utamakan deskripsi lengkap yang tersimpan pada produk, termasuk produk Kahf.
+  // Jangan mengganti isi deskripsi dengan teks contoh yang lebih pendek.
+  if(raw.length>0 && raw.toLowerCase()!==brand && raw.toLowerCase()!=='kahf'){
+    return `<div class="desc kahf-descriptions"><section class="desc-item"><h3>Deskripsi Produk</h3>${renderStructuredDescription(raw)}</section></div>`;
+  }
+
+  if(brand==='kahf' || title.includes('kahf')){
+    return `<div class="desc kahf-descriptions"><section class="desc-item"><h3>Deskripsi Produk</h3><p>${escapeHtml(p.name||'Produk Kahf')} — informasi deskripsi belum tersedia. Silakan lengkapi deskripsi produk dari panel admin.</p></section></div>`;
+  }
+  return renderStructuredDescription(raw);
+}
+
+function renderProductGallery(p, selectedVariantId){
+  const urls=productGalleryImages(p,selectedVariantId);
+  if(!urls.length)return `<div class="galleryslide">${productImage(p)}</div>`;
+  return urls.map((url,i)=>`<div class="galleryslide"><img class="productimg" src="${escapeHtml(url)}" alt="${escapeHtml(p.name)} - foto ${i+1}" loading="${i?'lazy':'eager'}" onerror="this.style.display='none'"></div>`).join('');
+}
+function renderProductThumbs(p, selectedVariantId){const urls=productGalleryImages(p,selectedVariantId);if(urls.length<2)return '';return `<div class="detailThumbs" id="detailThumbs">${urls.map((u,i)=>`<button class="detailThumb ${i===0?'active':''}" onclick="goProductPhoto(${i})" aria-label="Foto ${i+1}"><img src="${escapeHtml(u)}" alt="Foto ${i+1}" loading="lazy"></button>`).join('')}</div>`}
+function goProductPhoto(i){const g=document.getElementById('detailGallery');if(g)g.scrollTo({left:i*g.clientWidth,behavior:'smooth'});document.querySelectorAll('#detailThumbs .detailThumb').forEach((b,j)=>b.classList.toggle('active',i===j));}
+
+function productPriceLabel(p){
+  const os=(p.options||[]).filter(o=>Number(o.stock)>0 && o.is_active!==false);
+  if(os.length){const prices=os.map(o=>Number(o.price)||0);const min=Math.min(...prices),max=Math.max(...prices);return min===max?money(min):money(min)+' - '+money(max)}
+  const vs=(p.variants||[]).filter(v=>v.is_active!==false);
+  if(!vs.length)return money(p.price);const prices=vs.map(v=>Number(v.price??p.price)).filter(Number.isFinite);const min=Math.min(...prices),max=Math.max(...prices);return min===max?money(min):money(min)+' - '+money(max);
+}
+function promotionForProduct(p){return productPromotions.find(x=>String(x.product_id)===String(p?.id)&&x.is_active!==false)||null}
+function applyPromotion(base,p){
+ const price=Math.max(0,Number(base)||0),promo=promotionForProduct(p);if(!promo)return price;
+ const value=Number(promo.discount_value)||0;
+ const discounted=promo.discount_type==='percent'?price*(1-Math.min(100,value)/100):price-value;
+ return Math.max(0,Math.round(discounted));
+}
+function productPriceMarkup(p){
+ const baseLabel=productPriceLabel(p),promo=promotionForProduct(p);if(!promo)return escapeHtml(baseLabel);
+ const os=(p.options||[]).filter(o=>Number(o.stock)>0&&o.is_active!==false);
+ const vs=(p.variants||[]).filter(v=>v.is_active!==false);
+ let bases=os.length?os.map(o=>Number(o.price)||0):vs.length?vs.map(v=>Number(v.price??p.price)||0):[Number(p.price)||0];
+ let sales=bases.map(n=>applyPromotion(n,p));const oldMin=Math.min(...bases),oldMax=Math.max(...bases),newMin=Math.min(...sales),newMax=Math.max(...sales);
+ const label=(a,b)=>a===b?money(a):money(a)+' - '+money(b);
+ const pct=promo.discount_type==='percent'?Math.round(Number(promo.discount_value))+'%':'Hemat '+money(Math.max(0,oldMin-newMin));
+ return `<span class="old" style="font-size:11px;margin:0 5px 0 0">${escapeHtml(label(oldMin,oldMax))}</span><span>${escapeHtml(label(newMin,newMax))}</span><span style="display:inline-block;margin-left:6px;background:#e85b7a;color:#fff;border-radius:6px;padding:2px 5px;font-size:9px;vertical-align:middle">${escapeHtml(pct)} OFF</span>`;
+}
+function cartBasePrice(i){const p=products.find(x=>String(x.id)===String(i.product_id));const o=optionForCart(i),v=variantForCart(i);return Number(o?.price??v?.price??p?.price)||0}
+function cartLineMarkup(i){const p=products.find(x=>String(x.id)===String(i.product_id));if(!p)return '';const base=cartBasePrice(i),sale=applyPromotion(base,p),promo=promotionForProduct(p);return promo?`<span class="old" style="margin:0 5px 0 0">${money(base)}</span><b>${money(sale)}</b>`:money(base)}
+function variantForCart(item){return item.variant_id?(products.find(p=>String(p.id)===String(item.product_id))?.variants||[]).find(v=>String(v.id)===String(item.variant_id)):null}
+function optionForCart(item){const p=products.find(x=>String(x.id)===String(item.product_id));if(!p||!item.variant_id||!item.size_name)return null;const sid=(p.sizes||[]).find(s=>String(s.name).toLowerCase()===String(item.size_name).toLowerCase())?.id;return (p.options||[]).find(o=>String(o.variant_id)===String(item.variant_id)&&String(o.size_id)===String(sid))||null}
+function cartLinePrice(i){const p=products.find(x=>String(x.id)===String(i.product_id));return applyPromotion(cartBasePrice(i),p)}
+function cartLineWeight(i){const p=products.find(x=>String(x.id)===String(i.product_id));const o=optionForCart(i),v=variantForCart(i);return Number(o?.weight_grams??v?.weight_grams??p?.weight_grams)||1000}
+function cartLineStock(i){const p=products.find(x=>String(x.id)===String(i.product_id));const o=optionForCart(i),v=variantForCart(i);return Number(o?.stock??v?.stock??p?.stock)||0}
+function cartLineKey(productId,variantId,sizeName){return [productId,variantId||'',sizeName||''].join('|')}
+
+function escapeHtml(s='') {
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+async function loadHomeBanner(){
+  const hero=document.getElementById('homeHero');
+  const img=document.getElementById('homeHeroPhoto');
+  if(!hero||!img)return;
+  const bundledBanner='hero-givitshop.png';
+  let urls=[];
+  try{
+    const rows=await sbFetch('/rest/v1/homepage_settings?select=hero_image_url,hero_image_urls,updated_at&id=eq.main&limit=1');
+    const row=Array.isArray(rows)&&rows[0]?rows[0]:null;
+    if(row){let list=row.hero_image_urls;if(typeof list==='string'){try{list=JSON.parse(list)}catch(e){list=[]}}
+      if(Array.isArray(list))urls=list.map(x=>typeof x==='string'?x:(x&&x.url)||'').filter(Boolean);
+      if(!urls.length&&row.hero_image_url)urls=[String(row.hero_image_url).trim()];}
+  }catch(e){console.warn('Banner dari admin belum dapat dimuat:',e.message)}
+  if(!urls.length)urls=[bundledBanner];
+  let track=hero.querySelector('.home-banner-track');
+  hero.classList.add('has-photo');hero.style.touchAction='pan-y';
+  if(!track){track=document.createElement('div');track.className='home-banner-track';const parent=img.parentElement||hero;parent.style.overflow='hidden';parent.style.position='relative';track.style.position='absolute';track.style.inset='0';parent.insertBefore(track,img);img.style.display='none';}
+  track.innerHTML='';track.style.touchAction='pan-y';track.style.webkitUserSelect='none';track.style.userSelect='none';
+  const oldControls=hero.querySelector('.home-banner-controls');if(oldControls)oldControls.remove();
+  urls.forEach((url,i)=>{const slide=document.createElement('div');slide.className='home-banner-slide';const image=document.createElement('img');image.alt='Banner Givitshop '+(i+1);image.draggable=false;image.loading=i===0?'eager':'lazy';image.src=url+(url.includes('?')?'&':'?')+'banner_refresh='+Date.now();slide.appendChild(image);track.appendChild(slide)});
+  const controls=document.createElement('div');controls.className='home-banner-controls';
+  const dotsList=urls.map((_,i)=>{const b=document.createElement('button');b.type='button';b.className='home-banner-dot'+(i===0?' active':'');b.setAttribute('aria-label','Banner '+(i+1));b.onclick=()=>go(i);controls.appendChild(b);return b});
+  (img.parentElement||hero).appendChild(controls);
+  let index=0,timer=null,startX=0,startY=0,tracking=false;
+  function go(n){index=(n+urls.length)%urls.length;track.style.transform='translate3d(-'+(index*100)+'%,0,0)';dotsList.forEach((d,i)=>d.classList.toggle('active',i===index));restart()}
+  function restart(){if(timer)clearInterval(timer);if(urls.length>1)timer=setInterval(()=>go(index+1),5000)}
+  function start(x,y){startX=x;startY=y;tracking=true}
+  function finish(x,y){if(!tracking)return;tracking=false;const dx=x-startX,dy=y-startY;if(urls.length>1&&Math.abs(dx)>25&&Math.abs(dx)>Math.abs(dy)*1.15)go(index+(dx<0?1:-1))}
+  // Listen on the hero in capture phase so the swipe still works in Android WebView.
+  hero.addEventListener('touchstart',e=>{if(e.touches&&e.touches.length===1)start(e.touches[0].clientX,e.touches[0].clientY)},{passive:true,capture:true});
+  hero.addEventListener('touchend',e=>{if(e.changedTouches&&e.changedTouches.length)finish(e.changedTouches[0].clientX,e.changedTouches[0].clientY)},{passive:true,capture:true});
+  hero.addEventListener('touchcancel',()=>{tracking=false},{passive:true,capture:true});
+  let mouseDown=false,mouseX=0,mouseY=0;
+  track.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'){mouseDown=true;mouseX=e.clientX;mouseY=e.clientY;}});
+  track.addEventListener('pointerup',e=>{if(!mouseDown)return;mouseDown=false;const dx=e.clientX-mouseX,dy=e.clientY-mouseY;if(Math.abs(dx)>25&&Math.abs(dx)>Math.abs(dy))go(index+(dx<0?1:-1))});
+  track.addEventListener('pointercancel',()=>{mouseDown=false});
+  restart();
+}
+async function loadProducts() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '<div class="empty">Memuat produk...</div>';
+  try {
+    const [data, variants, sizes, options] = await Promise.all([
+      sbFetch('/rest/v1/products?select=*&is_active=eq.true&order=created_at.desc'),
+      sbFetch('/rest/v1/product_variants?select=*&is_active=eq.true&order=created_at.asc'),
+      sbFetch('/rest/v1/product_sizes?select=*&is_active=eq.true&order=created_at.asc'),
+      sbFetch('/rest/v1/product_variant_options?select=*&is_active=eq.true&order=created_at.asc')
+    ]);
+    products = Array.isArray(data) ? data : [];
+    productVariants = Array.isArray(variants) ? variants : [];
+    productSizes = Array.isArray(sizes) ? sizes : [];
+    const productOptions = Array.isArray(options) ? options : [];
+    products.forEach(p=>{p.variants=productVariants.filter(v=>String(v.product_id)===String(p.id));p.sizes=productSizes.filter(x=>String(x.product_id)===String(p.id));p.options=productOptions.filter(o=>String(o.product_id)===String(p.id));p.reviewAverage=null;p.reviewCount=0;});
+    // Promo khusus produk; kegagalan membaca tabel promo tidak mengganggu katalog.
+    try {
+      const promos = await sbFetch('/rest/v1/product_promotions?select=*&is_active=eq.true&order=created_at.desc');
+      const now = Date.now();
+      productPromotions = (Array.isArray(promos)?promos:[]).filter(x=>
+        (!x.start_at || new Date(x.start_at).getTime()<=now) &&
+        (!x.end_at || new Date(x.end_at).getTime()>=now)
+      );
+    } catch(e) { productPromotions=[]; console.warn('Promo produk belum tersedia:',e.message); }
+    // Ambil rating dari ulasan terverifikasi; jangan tampilkan angka rating palsu.
+    await Promise.allSettled(products.map(async p=>{
+      const rows=await sbFetch('/rest/v1/rpc/get_product_reviews',{method:'POST',body:JSON.stringify({p_product_id:p.id})});
+      if(Array.isArray(rows)&&rows.length){p.reviewCount=rows.length;p.reviewAverage=rows.reduce((sum,r)=>sum+Number(r.rating||0),0)/rows.length;}
+    }));
+    renderProducts();
+    updateCartBadges();
+  } catch (e) {
+    console.error(e);
+    grid.innerHTML = `<div class="empty"><h3>Produk belum dapat dimuat</h3><p style="font-size:11px">${escapeHtml(e.message)}</p><button class="cta" onclick="loadProducts()">Coba Lagi</button></div>`;
+  }
+}
+
+function cartItemCount(){return cart.reduce((n,i)=>n+(Number(i.qty)||0),0)}
+function updateCartBadges(){const n=cartItemCount();['headerCartBadge','navCartBadge','detailCartBadge'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.textContent=n>99?'99+':String(n);el.style.display='flex'})}
+function closeAddModal(){const el=document.getElementById('addModal');if(el)el.remove()}
+function openAddModal(){
+  const st=window.detailState;if(!st)return;
+  const p=products.find(x=>String(x.id)===String(st.productId));if(!p)return;
+  const v=(p.variants||[]).find(x=>String(x.id)===String(st.variantId));
+  const o=selectedOption();
+  const stock=Number(o?.stock??v?.stock??p.stock)||0;
+  const html=`<div id="addModal" class="modalback" onclick="if(event.target===this)closeAddModal()"><div class="modal">
+    <div class="modalhead"><div class="modalthumb">${productImage(o?.image_url||v?.image_url?{...p,image_url:o?.image_url||v?.image_url}:p)}</div><div class="modaltitle"><b style="font-size:13px">${escapeHtml(p.name)}</b><div id="modalPrice" class="price" style="font-size:20px;margin-top:4px">${money(applyPromotion(Number(o?.price??v?.price??p.price)||0,p))}${promotionForProduct(p)?` <span class="old">${money(Number(o?.price??v?.price??p.price)||0)}</span>`:''}</div></div><button class="closebtn" onclick="closeAddModal()">×</button></div>
+    <div style="margin-top:14px"><b style="font-size:12px">Varian</b><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px">${(p.variants||[]).filter(x=>x.is_active!==false).map(x=>`<button type="button" class="optionbtn ${String(x.id)===String(st.variantId)?'selected':''}" onclick="closeAddModal();selectVariant('${x.id}');openAddModal()">${escapeHtml(x.name)}</button>`).join('')}</div></div>
+    ${(p.sizes||[]).length?`<div style="margin-top:14px"><b style="font-size:12px">Ukuran</b><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px">${(p.sizes||[]).filter(x=>x.is_active!==false).map(x=>{const szopt=(p.options||[]).find(q=>String(q.variant_id)===String(st.variantId)&&String(q.size_id)===String(x.id));const av=!p.options?.length||Number(szopt?.stock)>0;return `<button type="button" class="optionbtn ${String(x.name)===String(st.sizeName)?'selected':''}" ${av?'':'disabled'} onclick="closeAddModal();selectSize('${escapeHtml(x.name)}');openAddModal()">${escapeHtml(x.name)}</button>`}).join('')}</div></div>`:''}
+    <div style="margin-top:14px"><b style="font-size:12px">Jumlah</b><div class="qty"><button onclick="closeAddModal();detailQty(-1);openAddModal()">−</button><span>${st.qty}</span><button onclick="closeAddModal();detailQty(1);openAddModal()">+</button><span style="font-size:11px;color:#777">Stok tersedia: ${stock}</span></div></div>
+    <button type="button" class="cta" style="width:100%;margin-top:18px;padding:14px" onclick="confirmAddFromModal()">🛒 Masukkan Keranjang</button>
+  </div></div>`;
+  document.body.insertAdjacentHTML('beforeend',html);
+}
+function confirmAddFromModal(){const before=cartItemCount();addFromDetail();if(cartItemCount()>before){closeAddModal();showAddedSuccess()}}
+function showAddedSuccess(){const st=window.detailState;if(!st)return;const p=products.find(x=>String(x.id)===String(st.productId));const v=(p?.variants||[]).find(x=>String(x.id)===String(st.variantId));const o=selectedOption();const img=o?.image_url||v?.image_url||p?.image_url;document.body.insertAdjacentHTML('beforeend',`<div id="successModal" class="modalback successmodal"><div class="modal"><div class="successicon">✅</div><h2 style="margin:0 0 8px">Berhasil Ditambahkan</h2><div style="font-size:13px;color:#555">${escapeHtml(p?.name||'Produk')}</div><div style="font-size:12px;color:#777;margin-top:4px">${escapeHtml(v?.name||'')} ${st.sizeName?'• '+escapeHtml(st.sizeName):''} • Jumlah ${st.qty}</div><div class="successactions"><button style="background:#fff0f4;color:var(--pink)" onclick="document.getElementById('successModal').remove();show('detail')">Lanjut Belanja</button><button style="background:var(--pink);color:#fff" onclick="document.getElementById('successModal').remove();show('cart')">Lihat Keranjang</button></div></div></div>`)}
+
+function renderProducts() {
+  const input = document.getElementById('search');
+  const q = (input ? input.value : '').toLowerCase();
+  const list = products.filter(p =>
+    (currentFilter==='Semua' || (p.category||'')===currentFilter) &&
+    (`${p.name||''} ${p.brand||''} ${p.category||''}`.toLowerCase().includes(q))
+  );
+  document.getElementById('productGrid').innerHTML =
+    list.map(p => `<article class="product">
+      <div class="pic" onclick="detail('${p.id}')">
+        <button class="heart" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${getLocalList('wishlist').map(String).includes(String(p.id))?'♥':'♡'}</button>
+        ${productImage(p)}
+      </div>
+      <div class="pbody">
+        <div class="pname">${escapeHtml(p.name)}</div>
+        <div style="font-size:10px;color:#777">${escapeHtml(p.brand||p.category||'')}</div>
+        <div class="rating">${p.reviewCount ? `★ ${p.reviewAverage.toFixed(1)} · ${p.reviewCount} ulasan` : `Belum ada ulasan`} · Stok ${Number(p.stock)||0}</div>
+        <div class="price">${productPriceMarkup(p)}</div>
+        <button class="add" onclick="add('${p.id}')">+ Keranjang</button>
+      </div>
+    </article>`).join('') || '<div class="empty">Produk tidak ditemukan.</div>';
+}
+
+function filterCat(c) {
+  currentFilter=c;
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+  renderProducts();
+}
+
+function openProductImageZoom(src){
+ if(!src)return;
+ const old=document.getElementById('productImageZoom');if(old)old.remove();
+ const wrap=document.createElement('div');wrap.id='productImageZoom';wrap.className='imagezoomback';
+ wrap.innerHTML=`<button class="imagezoomclose" aria-label="Tutup" onclick="document.getElementById('productImageZoom')?.remove()">×</button><img src="${String(src).replace(/"/g,'&quot;')}" alt="Gambar produk diperbesar">`;
+ wrap.addEventListener('click',e=>{if(e.target===wrap)wrap.remove()});
+ document.body.appendChild(wrap);
+}
+document.addEventListener('click',function(e){
+ const img=e.target.closest('#detailGallery img, #detail .thumb img');
+ if(img){e.preventDefault();openProductImageZoom(img.currentSrc||img.src);}
+});
+async function shareProduct(id){
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+ const title=String(p.name||'Produk Givitshop');
+ const url=window.location.href;
+ const text=title+' — '+(p.brand||'Givitshop')+'\nHarga: '+productPriceLabel(p)+'\nLihat di Givitshop: '+url;
+ try{
+  // Android WebView menggunakan menu berbagi asli agar pengguna dapat memilih WhatsApp, Telegram, Bluetooth, dan aplikasi lain.
+  if(window.AndroidShare&&typeof window.AndroidShare.share==='function'){
+    window.AndroidShare.share(title,text,url);
+    return;
+  }
+  if(navigator.share){await navigator.share({title:'Givitshop - '+title,text,url});return;}
+  if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(text);}
+  else {window.prompt('Salin informasi produk ini untuk dibagikan:',text);}
+ }catch(e){if(e&&e.name!=='AbortError') {try{window.prompt('Salin informasi produk ini untuk dibagikan:',text);}catch(_){}}}
+}
+
+function detail(id){
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+ const vs=(p.variants||[]).filter(v=>v.is_active!==false),sizes=(p.sizes||[]).filter(x=>x.is_active!==false);
+ const defaultVariant=vs[0]||null;const defaultSize=sizes[0]?.name||'';
+ document.getElementById('detail').innerHTML=`<div class="detailhead"><button class="backbtn" onclick="show('home')">← Kembali</button><b style="font-family:Georgia,serif;color:var(--pink);font-size:21px">Givitshop</b><div class="detailhead-actions"><button class="detailsharebtn" onclick="shareProduct('${p.id}')" aria-label="Bagikan produk" title="Bagikan produk">↗</button><button class="detailcartbtn" onclick="show('cart')" aria-label="Keranjang"><span class="carticonwrap">🛒<span id="detailCartBadge" class="cartbadge" style="display:none">0</span></span></button></div></div><div class="detailpic" id="detailGallery">${renderProductGallery(p,defaultVariant?.id)}</div>${renderProductThumbs(p,defaultVariant?.id)}<div class="detail"><div style="font-size:11px;color:#777">${escapeHtml(p.brand||p.category||'')}</div><h1>${escapeHtml(p.name)}</h1><div class="rating">${p.reviewCount ? `★ ${p.reviewAverage.toFixed(1)} · ${p.reviewCount} ulasan` : `Belum ada ulasan`} · Stok ${Number(p.stock)||0}</div><div id="variantPrice" class="price" style="font-size:22px">${productPriceMarkup(p)}</div>${renderKahfDescriptions(p)}</div><section class="product-reviews" id="productReviews"><h2>Ulasan Pembeli</h2><div class="empty" style="padding:20px">Memuat ulasan...</div></section><div class="addfloat"><button onclick="openAddModal()">🛒 Masukkan Keranjang</button></div>`;
+ window.detailState={productId:p.id,variantId:defaultVariant?.id||'',sizeName:defaultSize,qty:1};updateDetailSelection();updateDetailCartBadge();show('detail');loadProductReviews(p.id)
+}
+function updateDetailCartBadge(){const el=document.getElementById('detailCartBadge');if(!el)return;const n=cartItemCount();el.textContent=n>99?'99+':n;el.style.display='flex'}
+
+function selectedOption(){const st=window.detailState;if(!st)return null;const p=products.find(x=>String(x.id)===String(st.productId));if(!p)return null;const size=(p.sizes||[]).find(x=>String(x.name).toLowerCase()===String(st.sizeName).toLowerCase());return (p.options||[]).find(o=>String(o.variant_id)===String(st.variantId)&&(!st.sizeName||String(o.size_id)===String(size?.id)))||null}
+function updateDetailSelection(){const st=window.detailState;if(!st)return;const p=products.find(x=>String(x.id)===String(st.productId));if(!p)return;const v=(p.variants||[]).find(x=>String(x.id)===String(st.variantId));const o=selectedOption();const price=Number(o?.price??v?.price??p.price)||0;document.querySelectorAll('#variantChoices .optionbtn').forEach(b=>b.classList.toggle('selected',b.getAttribute('onclick')?.includes(`'${st.variantId}'`)));document.querySelectorAll('#sizeChoices .optionbtn').forEach(b=>{const name=b.textContent.trim();const sz=(p.sizes||[]).find(x=>String(x.name)===name);const available=!p.options?.length||p.options.some(x=>String(x.variant_id)===String(st.variantId)&&String(x.size_id)===String(sz?.id)&&Number(x.stock)>0);b.disabled=!available;b.style.opacity=available?'1':'.45';b.classList.toggle('selected',name===st.sizeName)});const pe=document.getElementById('variantPrice'),pb=document.getElementById('detailBottomPrice');if(pe)pe.innerHTML=productPriceMarkup(p);if(pb)pb.innerHTML=productPriceMarkup(p);const stock=Number(o?.stock??v?.stock??p.stock)||0;const se=document.getElementById('detailStock');if(se)se.textContent=`tersedia ${stock} pcs`;const gallery=document.getElementById('detailGallery');if(gallery){const old=gallery.scrollLeft;const next=renderProductGallery(p,st.variantId);if(gallery.innerHTML!==next){gallery.innerHTML=next;gallery.scrollLeft=old}const thumbs=document.getElementById('detailThumbs');if(thumbs){const html=renderProductThumbs(p,st.variantId);thumbs.outerHTML=html||''}}}
+function selectVariant(variantId){if(!window.detailState)return;window.detailState.variantId=variantId;window.detailState.qty=1;const p=products.find(x=>String(x.id)===String(window.detailState.productId));const first=(p?.sizes||[]).find(s=>(p.options||[]).some(o=>String(o.variant_id)===String(variantId)&&String(o.size_id)===String(s.id)&&Number(o.stock)>0));if(first)window.detailState.sizeName=first.name;updateDetailSelection()}
+function selectSize(name){if(!window.detailState)return;window.detailState.sizeName=name;window.detailState.qty=1;updateDetailSelection()}
+function detailQty(d){const st=window.detailState;if(!st)return;const stock=Number(selectedOption()?.stock??variantForCart({product_id:st.productId,variant_id:st.variantId})?.stock??products.find(x=>String(x.id)===String(st.productId))?.stock)||0;st.qty=Math.max(1,Math.min(stock,st.qty+d));const el=document.getElementById('detailQty');if(el)el.textContent=st.qty}
+function addFromDetail(){const st=window.detailState;if(!st)return;const p=products.find(x=>String(x.id)===String(st.productId));const o=selectedOption();const v=(p?.variants||[]).find(x=>String(x.id)===String(st.variantId));const stock=Number(o?.stock??v?.stock??p?.stock)||0;if((p?.options||[]).length&&!o){alert('Pilih varian dan ukuran yang tersedia.');return}if(stock<=0){alert('Kombinasi ini sedang habis.');return}const key=cartLineKey(p.id,st.variantId,st.sizeName);let x=cart.find(i=>i.key===key);if(!x){x={key,product_id:p.id,variant_id:st.variantId||null,size_name:st.sizeName||'',qty:0};cart.push(x)}if(x.qty+st.qty>stock){alert('Jumlah melebihi stok kombinasi.');return}x.qty+=st.qty;renderCart();updateCartBadges();}
+
+function add(id) {
+  const p=products.find(x=>String(x.id)===String(id)); if(!p)return;
+  const vs=(p.variants||[]).filter(v=>v.is_active!==false);
+  if(vs.length){detail(id);return;}
+  if(Number(p.stock)<=0){alert('Stok produk sedang habis.');return;}
+  const key=cartLineKey(p.id,null,'');let x=cart.find(i=>i.key===key);if(x){if(x.qty>=Number(p.stock)){alert('Jumlah melebihi stok.');return;}x.qty++;}else cart.push({key,product_id:p.id,variant_id:null,size_name:'',qty:1});renderCart();
+}
+
+function renderCart() {
+  const c=document.getElementById('cart');
+  if(!cart.length){updateCartBadges();c.innerHTML='<div class="carthead"><button class="backbtn" onclick="show(\'home\')">←</button><b>Keranjang Belanja</b><button class="cartheadicon" onclick="show(\'home\')">⌂</button></div><div class="empty">🛒<h3>Keranjang masih kosong</h3><p>Yuk pilih produk favoritmu.</p><button class="cta" onclick="show(\'home\')">Mulai Belanja</button></div>';return;}
+  const total=cartSubtotal();
+  updateCartBadges();c.innerHTML='<div class="carthead"><button class="backbtn" onclick="show(\'home\')">←</button><b>Keranjang Belanja</b><button class="cartheadicon" onclick="show(\'home\')">⌂</button></div><div class="section">'+cart.map(i=>{const p=products.find(x=>String(x.id)===String(i.product_id));if(!p)return '';const v=variantForCart(i);const opts=[v?.name,i.size_name].filter(Boolean).join(' • ');return `<div class="cartrow"><div class="thumb">${productImage(v?.image_url?{...p,image_url:v.image_url}:p)}</div><div class="cartinfo"><b style="font-size:12px">${escapeHtml(p.name)}</b>${opts?`<div style="font-size:10px;color:#777;margin-top:3px">${escapeHtml(opts)}</div>`:''}<div class="price">${cartLineMarkup(i)}</div><div class="qty"><button onclick="changeQty('${i.key}',-1)">−</button><span>${i.qty}</span><button onclick="changeQty('${i.key}',1)">+</button></div></div></div>`}).join('')+'</div><div class="checkout"><div class="checkoutrow"><span>Subtotal</span><b>'+money(total)+'</b></div><div class="checkoutrow"><span>Ongkir</span><span>Dihitung saat checkout</span></div><hr><div class="checkoutrow"><b>Total Produk</b><span class="total">'+money(total)+'</span></div><button class="cta" style="width:100%;margin-top:10px" onclick="showCheckout()">Checkout</button></div>';
+}
+
+function changeQty(key,d) {
+  const x=cart.find(i=>i.key===key);if(!x)return;const stock=cartLineStock(x);x.qty+=d;if(x.qty>stock)x.qty=stock;if(x.qty<=0)cart=cart.filter(i=>i.key!==key);renderCart();updateCartBadges();updateDetailCartBadge();
+}
+
+function showCheckout() {
+  if(!cart.length) return;
+  appliedVoucher=null;
+  shippingState={destination:null,courier:'',service:'',cost:0,confirmed:false,options:[]};
+  document.getElementById('checkout').innerHTML=
+    `<div class="back" onclick="show('cart')">‹ Checkout</div>
+     <div class="checkout">
+       <b>Data Pengiriman</b>
+       <input id="custName" placeholder="Nama lengkap" style="width:100%;padding:12px;margin-top:10px;border:1px solid var(--line);border-radius:10px">
+       <input id="custPhone" placeholder="Nomor WhatsApp" style="width:100%;padding:12px;margin-top:8px;border:1px solid var(--line);border-radius:10px">
+       <textarea id="custAddress" placeholder="Alamat lengkap pengiriman" style="width:100%;height:90px;padding:12px;margin-top:8px;border:1px solid var(--line);border-radius:10px;resize:none"></textarea>
+       <hr><b>Tujuan Pengiriman</b>
+       <div style="display:flex;gap:7px;margin-top:8px"><input id="destinationSearch" placeholder="Contoh: Balikpapan, Tarakan, Karang Rejo, 77112" style="flex:1;padding:12px;border:1px solid var(--line);border-radius:10px"><button type="button" class="cta" onclick="searchDestination()">Cari</button></div>
+       <div id="destinationResults" style="margin-top:5px"></div>
+       <div id="selectedDestination" style="margin-top:8px;font-size:11px;color:#555"></div>
+       <hr><b>Pilih Ekspedisi</b>
+       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+         <button type="button" onclick="calculateCourier('jne')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🚚 JNE</b><br><span style="font-size:10px;color:#777">Ongkir otomatis</span></button>
+         <button type="button" onclick="calculateCourier('jnt')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🚚 J&T</b><br><span style="font-size:10px;color:#777">Ongkir otomatis</span></button>
+         <button type="button" onclick="calculateCourier('grabexpress')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🚗 GrabExpress</b><br><span style="font-size:10px;color:#777">Konfirmasi admin</span></button>
+         <button type="button" onclick="calculateCourier('maxim')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🛵 Maxim</b><br><span style="font-size:10px;color:#777">Konfirmasi admin</span></button>
+       </div>
+       <div id="serviceResults" style="margin-top:8px"><div style="font-size:11px;color:#777">Pilih ekspedisi.</div></div>
+       <div id="manualShippingNote" style="display:none"></div>
+       <div id="shippingSummary" style="margin-top:10px;padding:12px;border-radius:12px;background:#faf8f9"></div>
+       <hr><b>Kode Voucher</b>
+       <div style="display:flex;gap:8px;margin-top:8px"><input id="checkoutVoucherCode" placeholder="Masukkan kode voucher" style="flex:1;min-width:0;padding:12px;border:1px solid var(--line);border-radius:10px;text-transform:uppercase"><button type="button" class="cta" onclick="applyCheckoutVoucher()">Pakai</button></div>
+       <div id="voucherApplyMsg" style="font-size:11px;color:#777;margin-top:6px"></div><div id="voucherDiscountSummary" style="font-size:12px;color:var(--pink);margin-top:4px"></div>
+       <hr><b>Metode Pembayaran</b><div style="margin-top:8px;padding:12px;border:1px solid var(--pink);border-radius:12px;background:#fff7f9"><b>▣ QRIS GIVIT SHOP</b><div style="font-size:11px;color:#777;margin-top:4px">Bayar dengan aplikasi bank atau e-wallet yang mendukung QRIS.</div></div>
+       <div class="checkoutrow"><b>Total Pesanan</b><span id="checkoutTotal" class="total">${money(cartSubtotal())}</span></div>
+       <button id="orderBtn" type="button" class="cta" style="width:100%;margin-top:10px" onclick="placeOrder()">Buat Pesanan</button><div id="orderError" style="display:none;margin-top:10px;padding:10px;border-radius:10px;background:#fff0f0;color:#b42318;font-size:11px"></div>
+     </div>`;
+  renderShippingSummary();
+  // Isi otomatis data pengiriman dari alamat tersimpan di menu Akun > Alamat Saya.
+  try {
+    const savedAddresses = getLocalList('addresses');
+    if (Array.isArray(savedAddresses) && savedAddresses.length) {
+      const saved = savedAddresses[0];
+      const nameField = document.getElementById('custName');
+      const phoneField = document.getElementById('custPhone');
+      const addressField = document.getElementById('custAddress');
+      if (nameField && !nameField.value) nameField.value = saved.name || '';
+      if (phoneField && !phoneField.value) phoneField.value = saved.phone || '';
+      if (addressField && !addressField.value) {
+        addressField.value = [saved.address, saved.note].filter(Boolean).join(', ');
+      }
+    }
+  } catch (e) { console.warn('Alamat tersimpan belum dapat dimuat otomatis.', e); }
+  show('checkout');
+}
+
+async function placeOrder() {
+  const customer_name=document.getElementById('custName').value.trim();
+  const customer_phone=document.getElementById('custPhone').value.trim();
+  const customer_address=document.getElementById('custAddress').value.trim();
+  if(!customer_name || !customer_phone || !customer_address){alert('Lengkapi nama, nomor WhatsApp, dan alamat.');return;}
+  const btn=document.getElementById('orderBtn'); btn.disabled=true; btn.textContent='Menyimpan pesanan...';
+  try {
+    const items=cart.map(i=>({product_id:i.product_id,variant_id:i.variant_id||null,size_name:i.size_name||null,quantity:i.qty}));
+    const shippingIsManual = shippingState.courier==='grabexpress' || shippingState.courier==='maxim';
+    if(!shippingState.courier){throw new Error('Pilih ekspedisi terlebih dahulu.');}
+    if(!shippingState.destination){throw new Error('Pilih tujuan pengiriman terlebih dahulu.');}
+    if(!shippingIsManual && !shippingState.service){throw new Error('Pilih layanan pengiriman terlebih dahulu.');}
+    const shippingCost = shippingIsManual ? 0 : Number(shippingState.cost||0);
+    const total=items.reduce((s,i)=>s+i.subtotal,0)+shippingCost;
+    const token=paymentToken();
+    const order=await sbFetch('/rest/v1/rpc/place_order',{
+      method:'POST',
+      body:JSON.stringify({
+        p_customer_name:customer_name,
+        p_customer_phone:customer_phone,
+        p_customer_address:customer_address,
+        p_payment_token:token,
+        p_items:items,
+        p_shipping_courier:shippingState.courier,
+        p_shipping_service:shippingState.service || (shippingIsManual ? 'Ongkir dikonfirmasi admin' : 'Ongkir'),
+        p_shipping_cost:shippingCost,
+        p_voucher_code:appliedVoucher?.code || null
+      })
+    });
+    if(!order || !order.id) throw new Error('Order tidak mengembalikan ID.');
+
+    // Ambil kode akses 6 digit dari database setelah order berhasil dibuat.
+    try {
+      const codeResult=await sbFetch('/rest/v1/rpc/get_order_access_code',{
+        method:'POST',
+        body:JSON.stringify({p_order_id:order.id,p_payment_token:token})
+      });
+      const accessCode=typeof codeResult==='string'
+        ? codeResult
+        : (Array.isArray(codeResult) ? codeResult[0] : codeResult);
+      order.access_code=String(accessCode||'');
+    } catch(e) {
+      order.access_code='';
+    }
+
+    lastOrder=order;
+    lastCustomerPhone=customer_phone;
+    lastAccessCode=order.access_code||'';
+    cart=[];
+    renderCart();
+    if(!order.shipping_confirmed){
+      showShippingPending(order);
+    } else {
+      showPayment(order);
+    }
+
+  } catch(e) {
+    const msg='Pesanan gagal disimpan: '+(e && e.message ? e.message : e);
+    const err=document.getElementById('orderError');
+    if(err){err.style.display='block';err.textContent=msg;}
+    btn.disabled=false; btn.textContent='Buat Pesanan';
+  }
+}
+
+
+function showShippingPending(order){
+  const total=Number(order.total_amount)||0;
+  document.getElementById('orders').innerHTML=
+    `<div class="back" onclick="show('home')">‹ Kembali ke Beranda</div>
+     <div class="qriscard">
+       <div style="font-size:12px;color:#777">Pesanan #${order.id}</div>
+       <h2 style="margin:6px 0">Menunggu Konfirmasi Ongkir</h2>
+       <div style="font-size:34px;margin:12px">🚗 🛵</div>
+       <p style="font-size:12px;color:#6f6a70">Pesanan ${escapeHtml(shippingCourierLabel(order.shipping_courier))} sudah dibuat. Admin akan mengonfirmasi ongkir terlebih dahulu.</p>
+       <div style="padding:12px;border-radius:12px;background:#fff7e8;border:1px solid #f3dfb2;font-size:12px;text-align:left"><b>Nominal sementara:</b> ${money(total)}<br><span style="font-size:11px;color:#777">Total final akan berubah setelah ongkir dikonfirmasi admin.</span></div>
+       <div style="margin:12px 0;padding:12px;border:2px dashed var(--pink);border-radius:12px;background:#fff7f9;text-align:center"><div style="font-size:11px;color:#777">KODE AKSES PESANAN</div><div style="font-size:25px;font-weight:800;letter-spacing:4px;margin-top:3px">${escapeHtml(order.access_code||'-')}</div><div style="font-size:10px;color:#777;margin-top:4px">Simpan kode ini untuk melihat Pesanan Saya.</div></div>
+       <button class="paybtn" onclick="showMyOrders(lastCustomerPhone,lastAccessCode)">Cek Pesanan Saya</button>
+       <button class="secondarybtn" onclick="show('home')">Kembali ke Beranda</button>
+     </div>`;
+  show('orders');
+}
+
+function showPayment(order){
+  const total=Number(order.total_amount)||0;
+  document.getElementById('orders').innerHTML=
+    `<div class="back" onclick="show('home')">‹ Kembali ke Beranda</div>
+     <div class="qriscard">
+       <div style="font-size:12px;color:#777">Pesanan #${order.id}</div>
+       <h2 style="margin:6px 0">Pembayaran QRIS</h2>
+       <div class="qrisamount">${money(total)}</div>
+       <div style="margin:12px 0;padding:12px;border:2px dashed var(--pink);border-radius:12px;background:#fff7f9;text-align:center">
+         <div style="font-size:11px;color:#777">KODE AKSES PESANAN</div>
+         <div style="font-size:25px;font-weight:800;letter-spacing:4px;margin-top:3px">${escapeHtml(order.access_code||'-')}</div>
+         <div style="font-size:10px;color:#777;margin-top:4px">Simpan kode ini untuk melihat Pesanan Saya.</div>
+       </div>
+       <div class="qrisnote">Bayar tepat sebesar <b>${money(total)}</b> dengan scan QRIS di bawah.</div>
+       <img class="qrisimg" src="qris_givitshop.png" alt="QRIS GIVIT SHOP">
+       <div class="qrisnote">GIVIT SHOP • NMID ID1025372324331</div>
+       <div class="qrisstatus">
+         <b>Langkah pembayaran</b><br>
+         1. Buka aplikasi bank/e-wallet yang mendukung QRIS.<br>
+         2. Scan QRIS GIVIT SHOP.<br>
+         3. Masukkan nominal <b>${money(total)}</b>.<br>
+         4. Selesaikan pembayaran, lalu tekan tombol di bawah.
+       </div>
+       <button class="paybtn" onclick="confirmPayment(${order.id},'${escapeHtml(order.payment_token||'')}')">Saya sudah bayar</button>
+       <button class="secondarybtn" onclick="show('home')">Bayar nanti</button>
+     </div>`;
+  show('orders');
+}
+
+async function confirmPayment(orderId, token){
+  if(!token){alert('Token pembayaran tidak tersedia. Silakan buat pesanan baru.');return;}
+  try{
+    await sbFetch('/rest/v1/rpc/confirm_order_payment',{
+      method:'POST',
+      body:JSON.stringify({p_order_id:orderId,p_payment_token:token})
+    });
+    document.getElementById('orders').innerHTML=
+      `<div class="back" onclick="show('home')">‹ Kembali ke Beranda</div>
+       <div class="qriscard">
+         <div style="font-size:38px">✓</div>
+         <h2>Pembayaran dikonfirmasi</h2>
+         <p style="font-size:12px;color:#6f6a70">Pesanan #${orderId} sudah ditandai <b>Menunggu verifikasi</b>.</p>
+         <div style="margin:12px 0;padding:12px;border:2px dashed var(--pink);border-radius:12px;background:#fff7f9;text-align:center">
+           <div style="font-size:11px;color:#777">KODE AKSES PESANAN</div>
+           <div style="font-size:25px;font-weight:800;letter-spacing:4px;margin-top:3px">${escapeHtml(lastAccessCode||'-')}</div>
+           <div style="font-size:10px;color:#777;margin-top:4px">Simpan kode ini untuk melihat Pesanan Saya.</div>
+         </div>
+         <div class="qrisstatus">Admin Givitshop akan memeriksa pembayaran sebelum pesanan diproses.</div>
+         <button class="paybtn" onclick="showOrderStatus(${orderId},lastCustomerPhone)">Lihat Status Pesanan</button>
+          <button class="secondarybtn" onclick="show('home')">Kembali ke Beranda</button>
+       </div>`;
+  }catch(e){
+    alert('Konfirmasi pembayaran gagal: '+e.message);
+  }
+}
+
+function show(v){
+  const topHeader=document.querySelector('header.top');
+  if(topHeader) topHeader.style.display = (v==='detail') ? 'none' : '';
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.getElementById(v).classList.add('active');
+  document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.v===v));
+  updateCartBadges();if(v==='cart')renderCart();
+  if(v==='account')renderAccount();
+  scrollTo(0,0);
+}
+
+
+const orderStatusLabel = {
+  pending: 'Menunggu',
+  processing: 'Diproses',
+  shipped: 'Dikirim',
+  completed: 'Selesai',
+  cancelled: 'Dibatalkan'
+};
+
+const paymentStatusLabel = {
+  unpaid: 'Belum dibayar',
+  awaiting_verification: 'Menunggu verifikasi',
+  paid: 'Sudah dibayar'
+};
+
+
+async function showMyOrders(phone='', accessCode=''){
+  show('account');
+  const section=document.getElementById('account');
+  section.innerHTML='<div class="back" onclick="renderAccount()">‹ Kembali</div><div class="section"><div class="sectionhead"><h2>Pesanan Saya</h2></div><div class="checkout"><input id="ordersPhone" inputmode="tel" value="'+escapeHtml(phone||'')+'" placeholder="Nomor WhatsApp saat checkout" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px"><input id="ordersAccessCode" inputmode="numeric" maxlength="6" value="'+escapeHtml(accessCode||'')+'" placeholder="Kode akses 6 digit" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:8px"><button class="cta" style="width:100%;margin-top:10px" onclick="loadMyOrders()">Lihat Pesanan Saya</button><div id="myOrdersResult" style="margin-top:12px"></div></div></div>';
+}
+
+async function loadMyOrders(){
+  const phone=(document.getElementById('ordersPhone')?.value||'').trim();
+  const accessCode=(document.getElementById('ordersAccessCode')?.value||'').trim();
+  const result=document.getElementById('myOrdersResult');
+  lastCustomerPhone=phone;
+  lastAccessCode=accessCode;
+  if(!phone){result.innerHTML='<div class="empty">Masukkan nomor WhatsApp terlebih dahulu.</div>';return;}
+  if(!/^\d{6}$/.test(accessCode)){result.innerHTML='<div class="empty">Masukkan kode akses 6 digit.</div>';return;}
+  result.innerHTML='<div class="empty">Memuat pesanan...</div>';
+  try{
+    const rows=await sbFetch('/rest/v1/rpc/get_my_orders_secure',{
+      method:'POST',
+      body:JSON.stringify({p_customer_phone:phone,p_access_code:accessCode})
+    });
+    const orders=Array.isArray(rows)?rows:[];
+    if(!orders.length){
+      result.innerHTML='<div class="empty"><b>Pesanan tidak ditemukan.</b><br>Pastikan nomor WhatsApp dan kode akses sesuai saat checkout.</div>';
+      return;
+    }
+    result.innerHTML='<div style="display:grid;gap:10px">'+orders.map(o=>{
+      const st=orderStatusLabel[o.status]||o.status||'-';
+      const pay=paymentStatusLabel[o.payment_status]||o.payment_status||'-';
+      const courier=shippingCourierLabel(o.shipping_courier);
+      const confirmed=o.shipping_confirmed !== false;
+      let action='';
+      if(o.status==='cancelled'){
+        action='<button class="secondarybtn" style="width:100%;margin-top:10px" onclick="openMyOrder('+Number(o.id)+')">Lihat Status</button>';
+      }else if(o.payment_status==='unpaid' && !confirmed){
+        action='<button class="secondarybtn" style="width:100%;margin-top:10px" onclick="openMyOrder('+Number(o.id)+')">Menunggu Konfirmasi Ongkir</button>';
+      }else if(o.payment_status==='unpaid' && confirmed){
+        action='<button class="paybtn" style="width:100%;margin-top:10px" onclick="openMyOrder('+Number(o.id)+')">Bayar Sekarang</button>';
+      }else{
+        action='<button class="secondarybtn" style="width:100%;margin-top:10px" onclick="openMyOrder('+Number(o.id)+')">Lihat Status</button>';
+      }
+      return '<div style="padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff"><div style="font-size:12px;color:#777">Pesanan #'+escapeHtml(o.id)+'</div><div style="font-weight:700;margin:4px 0">'+money(o.total_amount)+'</div><div style="font-size:13px">Status: <b>'+escapeHtml(st)+'</b></div><div style="font-size:12px;color:#777">Pembayaran: '+escapeHtml(pay)+'</div><div style="font-size:12px;color:#777;margin-top:3px">Kurir: '+escapeHtml(courier)+'</div>'+action+'</div>';
+    }).join('')+'</div>';
+  }catch(e){
+    result.innerHTML='<div class="empty">Gagal memuat pesanan: '+escapeHtml(e.message||e)+'</div>';
+  }
+}
+
+async function openMyOrder(orderId){
+  const phone=(document.getElementById('ordersPhone')?.value||lastCustomerPhone||'').trim();
+  const accessCode=(document.getElementById('ordersAccessCode')?.value||lastAccessCode||'').trim();
+  if(!phone || !/^\d{6}$/.test(accessCode)){
+    alert('Nomor WhatsApp dan kode akses 6 digit diperlukan.');
+    return;
+  }
+  try{
+    const rows=await sbFetch('/rest/v1/rpc/get_my_order_secure_detail',{
+      method:'POST',
+      body:JSON.stringify({
+        p_order_id:Number(orderId),
+        p_customer_phone:phone,
+        p_access_code:accessCode
+      })
+    });
+    const order=Array.isArray(rows)?rows[0]:rows;
+    if(!order){alert('Pesanan tidak ditemukan atau akses tidak sesuai.');return;}
+    lastCustomerPhone=phone;
+    lastAccessCode=String(order.access_code||accessCode);
+    lastOrder=order;
+    if(order.status==='cancelled'){
+      showOrderStatus(order.id,phone);
+      return;
+    }
+    if(order.payment_status==='unpaid'){
+      if(order.shipping_confirmed===false){
+        showShippingPending(order);
+      }else if(order.payment_token){
+        showPayment(order);
+      }else{
+        alert('Token pembayaran tidak tersedia. Silakan hubungi admin Givitshop.');
+      }
+      return;
+    }
+    showOrderStatus(order.id,phone);
+  }catch(e){
+    alert('Gagal membuka pesanan: '+(e.message||e));
+  }
+}
+
+async function showOrderStatus(orderId, phone){
+  show('account');
+  const section=document.getElementById('account');
+  section.innerHTML='<div class="back" onclick="renderAccount()">‹ Kembali</div><div class="section"><div class="sectionhead"><h2>Status Pesanan</h2></div><div class="checkout"><input id="trackOrderId" inputmode="numeric" value="'+escapeHtml(orderId||'')+'" placeholder="Nomor pesanan, contoh 40" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px"><input id="trackPhone" inputmode="tel" value="'+escapeHtml(phone||'')+'" placeholder="Nomor WhatsApp saat checkout" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:10px"><button class="cta" style="width:100%;margin-top:10px" onclick="lookupMyOrder()">Cek Status Pesanan</button><div id="trackResult" style="margin-top:12px"></div></div></div>';
+}
+
+async function lookupMyOrder(){
+  const orderId=(document.getElementById('trackOrderId')?.value||'').trim();
+  const phone=(document.getElementById('trackPhone')?.value||'').trim();
+  const result=document.getElementById('trackResult');
+  if(!orderId || !phone){result.innerHTML='<div class="empty">Isi nomor pesanan dan nomor WhatsApp terlebih dahulu.</div>';return;}
+  result.innerHTML='<div class="empty">Memeriksa pesanan...</div>';
+  try{
+    const rows=await sbFetch('/rest/v1/rpc/get_my_order',{
+      method:'POST',
+      body:JSON.stringify({p_order_id:Number(orderId),p_customer_phone:phone})
+    });
+    const o=Array.isArray(rows)?rows[0]:rows;
+    if(!o){result.innerHTML='<div class="empty"><b>Pesanan tidak ditemukan.</b><br>Pastikan nomor pesanan dan nomor WhatsApp sesuai saat checkout.</div>';return;}
+    const status=orderStatusLabel[o.status]||o.status||'-';
+    const payment=paymentStatusLabel[o.payment_status]||o.payment_status||'-';
+    const statusClass=o.status==='cancelled'?'background:#fff0f0;color:#b42318':'background:#fff4f7;color:#c53e61';
+    const steps=[
+      ['🛒','Pesanan dibuat','pending'],
+      ['💳','Pembayaran','payment'],
+      ['📦','Diproses','processing'],
+      ['🚚','Dikirim','shipped'],
+      ['✅','Selesai','completed']
+    ];
+    const orderProgress={pending:1,processing:3,shipped:4,completed:5,cancelled:0};
+    const progress=orderProgress[o.status]||1;
+    const timeline=o.status==='cancelled'
+      ? '<div style="margin-top:14px;padding:14px;border-radius:14px;background:#fff0f0;color:#b42318"><b>❌ Pesanan dibatalkan</b><div style="font-size:11px;margin-top:4px">Pesanan ini tidak dilanjutkan ke proses berikutnya.</div></div>'
+      : '<div style="margin-top:16px;padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff"><b>Perjalanan Pesanan</b><div style="margin-top:12px">'+steps.map((st,i)=>{const active=(st[2]==='payment'?((o.payment_status==='awaiting_verification'||o.payment_status==='paid')?2:1):(i+1));const done=progress>=i+1;const isCurrent=(o.status==='pending'&&i===0)||(st[2]==='payment'&&o.status==='pending'&&o.payment_status!=='unpaid')||(st[2]===o.status);return '<div style="display:flex;align-items:center;gap:10px;padding:7px 0"><div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:'+(done?'#e85b7a':'#f3eef0')+';color:'+(done?'#fff':'#999')+'">'+st[0]+'</div><div style="font-size:12px;font-weight:'+(done||isCurrent?'700':'400')+';color:'+(done||isCurrent?'#26232a':'#999')+'">'+st[1]+'</div></div>'}).join('')+'</div></div>';
+    result.innerHTML='<div style="border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff"><div style="font-size:12px;color:#777">Pesanan #'+escapeHtml(o.id)+'</div><h3 style="margin:6px 0 14px">'+escapeHtml(o.customer_name||'')+'</h3><div style="padding:12px;border-radius:12px;'+statusClass+'"><b>Status pesanan: '+escapeHtml(status)+'</b></div>'+timeline+'<div style="margin-top:10px;padding:12px;border-radius:12px;background:#faf8f9">Status pembayaran: <b>'+escapeHtml(payment)+'</b><br>Total: <b>'+money(o.total_amount)+'</b></div><div style="font-size:11px;color:#777;margin-top:10px">Terakhir diperbarui dari sistem Givitshop.</div></div>';
+  }catch(e){
+    result.innerHTML='<div class="empty">Gagal memeriksa pesanan: '+escapeHtml(e.message||e)+'</div>';
+  }
+}
+
+function getLocalList(key){try{const v=JSON.parse(localStorage.getItem('givitshop_'+key)||'[]');return Array.isArray(v)?v:[]}catch(_){return []}}
+function setLocalList(key,value){localStorage.setItem('givitshop_'+key,JSON.stringify(value))}
+function accountBack(){renderAccount()}
+function accountPage(title,content){document.getElementById('account').innerHTML='<div class="back" onclick="accountBack()">‹ Kembali</div><div class="section"><div class="sectionhead"><h2>'+escapeHtml(title)+'</h2></div>'+content+'</div>';scrollTo(0,0)}
+function renderAddresses(){const rows=getLocalList('addresses');accountPage('Alamat Saya',`<div class="checkout"><p style="color:#777;font-size:13px">Alamat disimpan di perangkat ini.</p><button class="cta" style="width:100%;margin-bottom:12px" onclick="addAddress()">＋ Tambah Alamat</button>${rows.length?rows.map((a,i)=>`<div style="padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px"><b>${escapeHtml(a.name)}</b> · ${escapeHtml(a.phone)}<div style="margin-top:6px">${escapeHtml(a.address)}</div>${a.note?`<div style="color:#777;font-size:12px;margin-top:4px">${escapeHtml(a.note)}</div>`:''}<div style="display:flex;gap:8px;margin-top:10px"><button class="secondarybtn" onclick="editAddress(${i})">Ubah</button><button class="secondarybtn" onclick="deleteAddress(${i})">Hapus</button></div></div>`).join(''):'<div class="empty">Belum ada alamat tersimpan. Tekan Tambah Alamat untuk menyimpan alamat pengiriman.</div>'}</div>`)}
+function showAddressForm(index=null){
+ const rows=getLocalList('addresses');
+ const editing=index!==null, a=editing?(rows[index]||{}):{};
+ const overlay=document.createElement('div');
+ overlay.id='givitAddressModal';
+ overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box';
+ overlay.innerHTML=`<div style="width:100%;max-width:480px;background:#fff;border-radius:18px;padding:20px;box-sizing:border-box;box-shadow:0 12px 40px rgba(0,0,0,.2);max-height:90vh;overflow:auto">
+ <h3 style="margin:0 0 16px;color:#252525">${editing?'Ubah Alamat':'Tambah Alamat'}</h3>
+ <form id="givitAddressForm">
+ <label style="display:block;margin:10px 0 6px">Nama penerima</label><input name="name" required value="${escapeHtml(a.name||'')}" placeholder="Nama penerima" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:10px;font:inherit">
+ <label style="display:block;margin:10px 0 6px">Nomor WhatsApp</label><input name="phone" required inputmode="tel" value="${escapeHtml(a.phone||'')}" placeholder="08xxxxxxxxxx" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:10px;font:inherit">
+ <label style="display:block;margin:10px 0 6px">Alamat lengkap</label><textarea name="address" required rows="3" placeholder="Jalan, kelurahan, kecamatan, kota" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:10px;font:inherit">${escapeHtml(a.address||'')}</textarea>
+ <label style="display:block;margin:10px 0 6px">Catatan alamat (opsional)</label><input name="note" value="${escapeHtml(a.note||'')}" placeholder="Patokan rumah, dll." style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:10px;font:inherit">
+ <div id="givitAddressError" style="color:#c0395a;font-size:13px;margin-top:10px"></div>
+ <div style="display:flex;gap:10px;margin-top:18px"><button type="button" id="givitAddressCancel" style="flex:1;padding:12px;border:0;border-radius:10px;background:#f4f0f2;font:inherit">Batal</button><button type="submit" style="flex:1;padding:12px;border:0;border-radius:10px;background:#e9547b;color:white;font-weight:600;font:inherit">${editing?'Simpan Perubahan':'Simpan Alamat'}</button></div>
+ </form></div>`;
+ document.body.appendChild(overlay);
+ const close=()=>overlay.remove();
+ overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+ overlay.querySelector('#givitAddressCancel').addEventListener('click',close);
+ overlay.querySelector('#givitAddressForm').addEventListener('submit',e=>{
+  e.preventDefault();const f=new FormData(e.currentTarget);
+  const row={name:String(f.get('name')||'').trim(),phone:String(f.get('phone')||'').trim(),address:String(f.get('address')||'').trim(),note:String(f.get('note')||'').trim()};
+  if(!row.name||!row.phone||!row.address){overlay.querySelector('#givitAddressError').textContent='Nama, nomor WhatsApp, dan alamat wajib diisi.';return}
+  if(editing)rows[index]=row;else rows.push(row);
+  setLocalList('addresses',rows);close();renderAddresses();
+ });
+}
+function addAddress(){showAddressForm()}
+function editAddress(i){const rows=getLocalList('addresses');if(!rows[i])return;showAddressForm(i)}
+
+function deleteAddress(i){if(!confirm('Hapus alamat ini?'))return;const rows=getLocalList('addresses');rows.splice(i,1);setLocalList('addresses',rows);renderAddresses()}
+async function renderVouchers(){
+ accountPage('Voucher Saya','<div class="empty">Memuat voucher dari Givitshop...</div>');
+ const host=document.getElementById('account');
+ try{
+  const rows=await sbFetch('/rest/v1/vouchers?select=id,title,code,description,discount_type,discount_value,min_purchase,start_at,end_at,usage_limit,used_count,is_active&is_active=eq.true&order=created_at.desc');
+  const now=Date.now();
+  const active=(Array.isArray(rows)?rows:[]).filter(v=>(!v.start_at||new Date(v.start_at).getTime()<=now)&&(!v.end_at||new Date(v.end_at).getTime()>=now)&&(v.usage_limit==null||Number(v.used_count||0)<Number(v.usage_limit)));
+  const content=active.length?active.map(v=>{
+   const discount=v.discount_type==='percent'?`${Number(v.discount_value)||0}%`:v.discount_type==='fixed'?`Potongan ${moneyIDR(v.discount_value)}`:'Promo';
+   const min=Number(v.min_purchase)>0?`Minimum belanja ${moneyIDR(v.min_purchase)}`:'Tanpa minimum belanja';
+   const period=v.end_at?`Berlaku sampai ${new Date(v.end_at).toLocaleDateString('id-ID')}`:'Periode mengikuti ketersediaan voucher';
+   return `<div style="padding:15px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:#fff"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><b>${escapeHtml(v.title||'Voucher Givitshop')}</b><span style="background:#fff0f4;color:#d94d73;padding:5px 8px;border-radius:8px;font-weight:700;white-space:nowrap">${escapeHtml(discount)}</span></div><div style="margin-top:7px">${escapeHtml(v.description||'')}</div><div style="margin-top:9px;color:#777;font-size:13px">${escapeHtml(min)} · ${escapeHtml(period)}</div><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding:10px;background:#fff5f7;border-radius:10px"><span>Kode: <b>${escapeHtml(v.code)}</b></span><button class="secondarybtn" onclick="copyVoucherCode('${String(v.code||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">Salin kode</button></div></div>`;
+  }).join(''):'<div class="empty">Belum ada voucher aktif dari Givitshop saat ini.</div>';
+  if(host)host.innerHTML='<div class="back" onclick="accountBack()">‹ Kembali</div><div class="section"><div class="sectionhead"><h2>Voucher Saya</h2></div>'+content+'</div>';
+ }catch(e){if(host)host.innerHTML='<div class="back" onclick="accountBack()">‹ Kembali</div><div class="section"><div class="sectionhead"><h2>Voucher Saya</h2></div><div class="empty">Voucher belum dapat dimuat. Coba lagi beberapa saat lagi.</div><button class="secondarybtn" onclick="renderVouchers()">Muat ulang</button></div>';}
+ scrollTo(0,0);
+}
+function moneyIDR(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0)}
+function copyVoucherCode(code){
+ const showMsg=()=>{let el=document.getElementById('voucherCopyNotice');if(!el){el=document.createElement('div');el.id='voucherCopyNotice';el.style.cssText='position:fixed;left:50%;bottom:100px;transform:translateX(-50%);z-index:9999;background:#333;color:#fff;padding:11px 16px;border-radius:12px;font-size:13px;box-shadow:0 4px 16px #0002';document.body.appendChild(el)}el.textContent='Kode voucher: '+code+' (siap ditempel saat checkout)';el.style.display='block';clearTimeout(window.__voucherNoticeTimer);window.__voucherNoticeTimer=setTimeout(()=>el.style.display='none',2800)};
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(showMsg).catch(showMsg)}else showMsg()
+}
+let appliedVoucher=null;
+async function applyCheckoutVoucher(){
+ const input=document.getElementById('checkoutVoucherCode'),msg=document.getElementById('voucherApplyMsg');
+ if(!input||!msg)return;
+ const code=input.value.trim().toUpperCase();
+ if(!code){appliedVoucher=null;msg.textContent='Masukkan kode voucher terlebih dahulu.';updateCheckoutTotals();return}
+ msg.textContent='Memeriksa voucher...';
+ try{
+  const rows=await sbFetch('/rest/v1/vouchers?select=id,title,code,description,discount_type,discount_value,min_purchase,start_at,end_at,usage_limit,used_count,is_active&code=eq.'+encodeURIComponent(code)+'&limit=1');
+  const v=Array.isArray(rows)?rows[0]:null,now=Date.now();
+  if(!v||!v.is_active||(v.start_at&&new Date(v.start_at).getTime()>now)||(v.end_at&&new Date(v.end_at).getTime()<now)||(v.usage_limit!=null&&Number(v.used_count||0)>=Number(v.usage_limit)))throw new Error('Voucher tidak tersedia atau sudah kedaluwarsa.');
+  const subtotal=cartSubtotal();
+  if(subtotal<Number(v.min_purchase||0))throw new Error('Minimum belanja voucher '+moneyIDR(v.min_purchase)+'.');
+  appliedVoucher={code:v.code,title:v.title,discount_type:v.discount_type,discount_value:Number(v.discount_value),min_purchase:Number(v.min_purchase||0)};
+  msg.textContent='Voucher '+v.code+' berhasil dipasang. Potongan akan divalidasi kembali saat pesanan dibuat.';
+  updateCheckoutTotals();
+ }catch(e){appliedVoucher=null;msg.textContent=e.message||'Voucher tidak dapat digunakan.';updateCheckoutTotals()}
+}
+function updateCheckoutTotals(){
+ const el=document.getElementById('checkoutTotal');if(!el)return;
+ const subtotal=cartSubtotal();let discount=0;
+ if(appliedVoucher){discount=appliedVoucher.discount_type==='percent'?Math.round(subtotal*Math.min(100,appliedVoucher.discount_value)/100):Math.min(subtotal,appliedVoucher.discount_value)}
+ el.textContent=money(Math.max(0,subtotal-discount)+(shippingState.courier==='grabexpress'||shippingState.courier==='maxim'?0:Number(shippingState.cost||0)));
+ const summary=document.getElementById('voucherDiscountSummary');
+ if(summary)summary.textContent=discount>0?'Potongan voucher: −'+money(discount):'';
+}
+function moneyIDR(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0)}
+function renderWishlist(){const ids=getLocalList('wishlist').map(String);const rows=products.filter(p=>ids.includes(String(p.id)));accountPage('Wishlist',rows.length?`<div class="products">${rows.map(p=>`<article class="product"><div class="pic" onclick="detail('${String(p.id).replace(/'/g,'\\\\\'')}")">${productImage(p)}</div><div class="pbody"><div class="pname">${escapeHtml(p.name)}</div><div class="price">${productPriceLabel(p)}</div><button class="secondarybtn" style="width:100%" onclick="removeWishlist('${String(p.id).replace(/'/g,'\\\\\'')}')">Hapus dari Wishlist</button><button class="add" onclick="add('${String(p.id).replace(/'/g,'\\\\\'')}')">+ Keranjang</button></div></article>`).join('')}</div>`:'<div class="empty">Wishlist masih kosong. Tekan ikon ♡ pada foto produk untuk menyimpan produk favorit.</div>')}
+function toggleWishlist(id){const ids=getLocalList('wishlist').map(String),key=String(id);const exists=ids.includes(key);setLocalList('wishlist',exists?ids.filter(x=>x!==key):[...ids,key]);renderProducts();if(document.getElementById('account').classList.contains('active'))renderWishlist();if(!exists)alert('Produk ditambahkan ke Wishlist.');else alert('Produk dihapus dari Wishlist.')}
+function removeWishlist(id){setLocalList('wishlist',getLocalList('wishlist').map(String).filter(x=>x!==String(id)));renderWishlist()}
+function renderReviews(){
+ accountPage('Ulasan Saya',`<div class="checkout"><p style="font-size:13px;color:#777">Ulasan hanya dapat dibuat untuk produk dari pesanan berstatus <b>Selesai</b>.</p><label>Nomor WhatsApp saat checkout</label><input id="reviewPhone" inputmode="tel" placeholder="Nomor WhatsApp"><label style="display:block;margin-top:8px">Kode akses pesanan (6 digit)</label><input id="reviewAccessCode" inputmode="numeric" maxlength="6" placeholder="Kode akses 6 digit"><button class="cta" style="width:100%;margin-top:10px" onclick="loadReviewEligibleProducts()">Periksa Pesanan Selesai</button><div id="reviewEligibility" style="margin-top:12px"></div></div>`)
+}
+async function loadReviewEligibleProducts(){
+ const phone=(document.getElementById('reviewPhone')?.value||'').trim();
+ const code=(document.getElementById('reviewAccessCode')?.value||'').trim();
+ const box=document.getElementById('reviewEligibility');
+ if(!phone||!/^\d{6}$/.test(code)){box.innerHTML='<div class="empty" style="padding:20px">Masukkan nomor WhatsApp dan kode akses 6 digit yang benar.</div>';return}
+ box.innerHTML='<div class="empty" style="padding:20px">Memeriksa pesanan selesai...</div>';
+ try{
+  const items=await sbFetch('/rest/v1/rpc/get_my_reviewable_products',{method:'POST',body:JSON.stringify({p_customer_phone:phone,p_access_code:code})});
+  if(!Array.isArray(items)||!items.length){box.innerHTML='<div class="empty" style="padding:20px">Belum ada produk yang bisa diulas. Ulasan hanya tersedia setelah status pesanan menjadi Selesai.</div>';return}
+  box.innerHTML=`<div class="review-form"><label>Produk dari pesanan selesai</label><select id="reviewOrderProduct">${items.map(x=>`<option value="${escapeHtml(String(x.order_id))}|${escapeHtml(String(x.product_id))}">Pesanan #${escapeHtml(String(x.order_id))} — ${escapeHtml(x.product_name||'Produk')}</option>`).join('')}</select><label>Rating</label><select id="reviewRating"><option value="5">★★★★★ - 5</option><option value="4">★★★★ - 4</option><option value="3">★★★ - 3</option><option value="2">★★ - 2</option><option value="1">★ - 1</option></select><label>Ulasan</label><textarea id="reviewText" placeholder="Tulis pengalamanmu menggunakan produk..." rows="4"></textarea><button class="cta" style="width:100%;margin-top:8px" onclick="saveVerifiedReview()">Kirim Ulasan</button><div id="reviewSaveMessage" style="font-size:12px;color:#777;margin-top:8px"></div></div>`;
+ }catch(e){box.innerHTML=`<div class="empty" style="padding:20px">Gagal memeriksa pesanan: ${escapeHtml(e.message||String(e))}</div>`}
+}
+async function saveVerifiedReview(){
+ const phone=(document.getElementById('reviewPhone')?.value||'').trim();
+ const code=(document.getElementById('reviewAccessCode')?.value||'').trim();
+ const choice=(document.getElementById('reviewOrderProduct')?.value||'').split('|');
+ const orderId=Number(choice[0]), productId=choice[1];
+ const rating=Number(document.getElementById('reviewRating')?.value||5);
+ const review=(document.getElementById('reviewText')?.value||'').trim();
+ const msg=document.getElementById('reviewSaveMessage');
+ if(!Number.isFinite(orderId)||!productId||!review){if(msg)msg.textContent='Pilih produk dan tulis ulasan terlebih dahulu.';return}
+ if(msg)msg.textContent='Menyimpan ulasan...';
+ try{
+  await sbFetch('/rest/v1/rpc/submit_verified_product_review',{method:'POST',body:JSON.stringify({p_order_id:orderId,p_customer_phone:phone,p_access_code:code,p_product_id:productId,p_rating:rating,p_review_text:review})});
+  if(msg)msg.textContent='Ulasan berhasil dikirim. Terima kasih!';
+  document.getElementById('reviewText').value='';
+ }catch(e){if(msg)msg.textContent=e.message||'Ulasan gagal disimpan.'}
+}
+async function loadProductReviews(productId){
+ const box=document.getElementById('productReviews');if(!box)return;
+ try{
+  const rows=await sbFetch('/rest/v1/rpc/get_product_reviews',{method:'POST',body:JSON.stringify({p_product_id:productId})});
+  if(!Array.isArray(rows)||!rows.length){box.innerHTML='<h2>Ulasan Pembeli</h2><div style="color:#777;font-size:13px">Belum ada ulasan untuk produk ini.</div>';return}
+  const avg=rows.reduce((s,r)=>s+Number(r.rating||0),0)/rows.length;
+  box.innerHTML=`<h2>Ulasan Pembeli</h2><div class="review-summary">★ ${avg.toFixed(1)} dari 5 · ${rows.length} ulasan terverifikasi</div>${rows.map(r=>`<article class="review-card"><div class="review-stars">${'★'.repeat(Number(r.rating)||0)}${'☆'.repeat(5-(Number(r.rating)||0))}</div><div style="font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere">${escapeHtml(r.review_text||'')}</div><div class="review-meta">Pembeli terverifikasi · ${r.created_at?new Date(r.created_at).toLocaleDateString('id-ID'):' '}</div></article>`).join('')}`;
+ }catch(e){box.innerHTML='<h2>Ulasan Pembeli</h2><div style="color:#777;font-size:13px">Ulasan belum dapat dimuat. Pastikan SQL ulasan sudah diterapkan di Supabase.</div>'}
+}
+function renderHelp(){accountPage('Pusat Bantuan',`<div style="display:grid;gap:10px"><details open style="padding:14px;border:1px solid var(--line);border-radius:12px"><summary style="font-weight:600">Bagaimana melihat pesanan?</summary><p style="color:#666">Buka Pesanan Saya, lalu masukkan nomor WhatsApp dan kode akses 6 digit yang diberikan setelah checkout.</p></details><details style="padding:14px;border:1px solid var(--line);border-radius:12px"><summary style="font-weight:600">Bagaimana pembayaran QRIS?</summary><p style="color:#666">Ikuti instruksi pembayaran pada halaman pesanan. Status akan diperbarui setelah pembayaran diverifikasi.</p></details><details style="padding:14px;border:1px solid var(--line);border-radius:12px"><summary style="font-weight:600">Bagaimana jika alamat atau ongkir salah?</summary><p style="color:#666">Hubungi admin Givitshop sebelum pesanan diproses atau dikirim.</p></details><div class="empty">Untuk bantuan pesanan tertentu, siapkan nomor pesanan dan hubungi admin Givitshop melalui kanal kontak toko yang resmi.</div></div>`)}
+function renderAccount(){
+  document.getElementById('account').innerHTML='<div class="back">Akun Saya</div><div class="section"><div class="admin" style="background:linear-gradient(135deg,#e85b7a,#c53e61)"><h2>Givitshop</h2><div>Belanja dan pesananmu tersimpan di sistem.</div></div><div class="sectionhead"><h2>Menu</h2></div><div style="display:grid;gap:10px"><button onclick="showMyOrders(lastCustomerPhone, lastAccessCode)" style="padding:15px;text-align:left;border:1px solid var(--line);border-radius:14px;background:#fff">📦 Pesanan Saya <span style="float:right">›</span></button><button onclick="renderAddresses()" style="padding:15px;text-align:left;border:1px solid var(--line);border-radius:14px;background:#fff">📍 Alamat Saya <span style="float:right">›</span></button><button onclick="renderVouchers()" style="padding:15px;text-align:left;border:1px solid var(--line);border-radius:14px;background:#fff">🎟️ Voucher Saya <span style="float:right">›</span></button><button onclick="renderReviews()" style="padding:15px;text-align:left;border:1px solid var(--line);border-radius:14px;background:#fff">⭐ Ulasan Saya <span style="float:right">›</span></button><button onclick="openCustomerChat()" style="padding:15px;text-align:left;border:1px solid var(--line);border-radius:14px;background:#fff">💬 Chat Admin <span style="float:right">›</span></button><button onclick="renderHelp()" style="padding:15px;text-align:left;border:1px solid var(--line);border-radius:14px;background:#fff">💬 Pusat Bantuan <span style="float:right">›</span></button></div></div>';
+}
+
+
+// Chat pembeli-admin: akses riwayat menggunakan nomor WhatsApp + kode akses pesanan.
+let activeChatCredentials = null;
+async function chatRpc(fn, body){
+  const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+fn,{
+    method:'POST',
+    headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  const txt=await res.text(); let data=null; try{data=txt?JSON.parse(txt):null}catch(_){}
+  if(!res.ok) throw new Error(data?.message||data?.hint||txt||'Gagal mengakses chat');
+  return data;
+}
+function openCustomerChat(){
+  const phone=lastCustomerPhone||'';
+  const code=lastAccessCode||'';
+  accountPage('Chat Admin',`<div class="checkout"><p style="color:#777;font-size:13px;margin-top:0">Masukkan data pesanan untuk membuka percakapan dengan admin.</p><label for="chatAccessPhone">Nomor WhatsApp saat checkout</label><input id="chatAccessPhone" inputmode="tel" autocomplete="tel" value="${escapeHtml(phone)}" placeholder="Nomor WhatsApp" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box"><label for="chatAccessCode" style="display:block;margin-top:12px">Kode akses pesanan (6 digit)</label><input id="chatAccessCode" inputmode="numeric" maxlength="6" value="${escapeHtml(code)}" placeholder="Kode akses 6 digit" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box"><label for="chatAccessOrder" style="display:block;margin-top:12px">Nomor pesanan</label><input id="chatAccessOrder" inputmode="numeric" placeholder="Contoh: 41" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box"><button class="cta" style="width:100%;margin-top:14px" onclick="submitCustomerChatAccess()">Buka Chat</button><button class="secondarybtn" style="width:100%;margin-top:8px" onclick="renderAccount()">Kembali ke Akun</button><p id="chatAccessError" style="color:#b42345;font-size:12px"></p></div>`);
+}
+function submitCustomerChatAccess(){
+  const phone=(document.getElementById('chatAccessPhone')?.value||'').trim();
+  const code=(document.getElementById('chatAccessCode')?.value||'').trim();
+  const orderId=(document.getElementById('chatAccessOrder')?.value||'').trim();
+  const error=document.getElementById('chatAccessError');
+  if(!phone||!/^\d{6}$/.test(code)||!/^\d+$/.test(orderId)){
+    if(error)error.textContent='Isi nomor WhatsApp, kode akses 6 digit, dan nomor pesanan dengan benar.';
+    return;
+  }
+  lastCustomerPhone=phone;lastAccessCode=code;
+  activeChatCredentials={p_order_id:Number(orderId),p_phone:phone,p_access_code:code};
+  renderCustomerChat();
+}
+async function renderCustomerChat(){
+  const c=activeChatCredentials;if(!c)return;
+  accountPage('Chat Admin',`<div class="checkout"><p style="color:#777;font-size:13px">Chat dengan admin Givitshop untuk pesanan #${c.p_order_id}. Riwayat tersimpan di sistem.</p><div id="customerChatMessages" style="height:42vh;min-height:220px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff"></div><div style="display:flex;gap:8px;margin-top:10px;align-items:end"><textarea id="customerChatInput" rows="2" placeholder="Tulis pesan untuk admin..." style="flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:12px"></textarea><button class="cta" onclick="sendCustomerChatMessage()">Kirim</button></div><p id="customerChatStatus" style="font-size:12px;color:#777"></p><button class="secondarybtn" onclick="renderAccount()">Kembali ke Akun</button></div>`);
+  await loadCustomerChatMessages();
+}
+async function loadCustomerChatMessages(){
+  const c=activeChatCredentials,box=document.getElementById('customerChatMessages');if(!c||!box)return;
+  try{
+    const rows=await chatRpc('customer_get_chat_messages',c);
+    box.innerHTML=(rows||[]).map(m=>`<div style="display:flex;justify-content:${m.sender_role==='customer'?'flex-end':'flex-start'};margin:8px 0"><div style="max-width:85%;padding:10px 12px;border-radius:14px;background:${m.sender_role==='customer'?'#e85b7a':'#f4eef1'};color:${m.sender_role==='customer'?'#fff':'#28242a'};white-space:pre-wrap;overflow-wrap:anywhere">${escapeHtml(m.message)}<div style="font-size:10px;opacity:.75;margin-top:5px">${new Date(m.created_at).toLocaleString('id-ID')}</div></div></div>`).join('')||'<div class="empty">Belum ada pesan. Silakan kirim pesan kepada admin.</div>';
+    box.scrollTop=box.scrollHeight;
+    const s=document.getElementById('customerChatStatus');if(s)s.textContent='Riwayat chat diperbarui.';
+  }catch(e){box.innerHTML='<div class="empty">Chat belum dapat dibuka. Pastikan nomor WhatsApp, kode akses, dan nomor pesanan benar, serta SQL chat sudah dipasang di Supabase.</div>';const s=document.getElementById('customerChatStatus');if(s)s.textContent=e.message;}
+}
+setInterval(()=>{if(activeChatCredentials&&document.getElementById('customerChatMessages'))loadCustomerChatMessages();},5000);
+async function sendCustomerChatMessage(){
+  const c=activeChatCredentials,input=document.getElementById('customerChatInput'),status=document.getElementById('customerChatStatus');
+  const message=(input?.value||'').trim();if(!c||!message)return;
+  if(message.length>2000){alert('Pesan maksimal 2.000 karakter.');return;}
+  try{if(status)status.textContent='Mengirim...';await chatRpc('customer_send_chat_message',{...c,p_message:message});input.value='';await loadCustomerChatMessages();}
+  catch(e){if(status)status.textContent='Pesan gagal dikirim: '+e.message;}
+}
+
+loadHomeBanner();
+loadProducts();
+
+// Robust horizontal gallery swipe for Android WebView and mobile browsers.
+(function enableProductGallerySwipe(){
+  let startX=0,startY=0,startLeft=0,dragging=false;
+  document.addEventListener('touchstart',function(e){const g=e.target.closest&&e.target.closest('#detailGallery');if(!g||!e.touches||e.touches.length!==1)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY;startLeft=g.scrollLeft;dragging=true;},{passive:true});
+  document.addEventListener('touchmove',function(e){const g=e.target.closest&&e.target.closest('#detailGallery');if(!g||!dragging||!e.touches||e.touches.length!==1)return;const dx=e.touches[0].clientX-startX,dy=e.touches[0].clientY-startY;if(Math.abs(dx)>Math.abs(dy)+4){g.scrollLeft=startLeft-dx;}},{passive:true});
+  document.addEventListener('touchend',function(){dragging=false;},{passive:true});
+  document.addEventListener('touchcancel',function(){dragging=false;},{passive:true});
+  document.addEventListener('pointerdown',function(e){const g=e.target.closest&&e.target.closest('#detailGallery');if(!g||e.pointerType!=='mouse')return;startX=e.clientX;startLeft=g.scrollLeft;dragging=true;});
+  document.addEventListener('pointermove',function(e){const g=document.getElementById('detailGallery');if(!g||!dragging||e.pointerType!=='mouse'||!(e.buttons&1))return;g.scrollLeft=startLeft-(e.clientX-startX);});
+  document.addEventListener('pointerup',function(){dragging=false;});
+})();
+
+</script></body></html>
