@@ -132,20 +132,101 @@
 .home-banner-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:30px;height:30px;border:0;border-radius:50%;background:#ffffffc9;color:#b83d60;font-size:20px;display:flex;align-items:center;justify-content:center}
 .home-banner-prev{left:7px}.home-banner-next{right:7px}
 
-/* Shopee-inspired responsive layout for Givitshop */
-html, body { margin:0 !important; padding:0 !important; width:100% !important; max-width:none !important; overflow-x:hidden; }
-.app { width:100% !important; max-width:1200px !important; margin:0 auto !important; box-shadow:0 0 24px rgba(0,0,0,.06) !important; border-radius:0 !important; }
-.pic { height:145px !important; min-height:145px !important; max-height:145px !important; padding:0 !important; overflow:hidden !important; background:#fff !important; }
-.pic .productimg { display:block !important; width:100% !important; height:100% !important; max-width:100% !important; max-height:100% !important; min-width:0 !important; min-height:0 !important; margin:0 auto !important; padding:3px !important; object-fit:contain !important; object-position:center !important; }
-.product, .product-card, .product-item { min-width:0 !important; border-radius:8px !important; }
-.product-grid, .products, #products, .product-list { gap:8px !important; }
+/* Givitshop: banner lebih ringkas, grid kategori/produk rapat */
+html, body {
+  margin:0 !important;
+  padding:0 !important;
+  width:100% !important;
+  max-width:none !important;
+  overflow-x:hidden;
+}
+.app {
+  width:100% !important;
+  max-width:1200px !important;
+  margin:0 auto !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+  box-shadow:0 0 24px rgba(0,0,0,.05) !important;
+  border-radius:0 !important;
+}
+/* Kurangi tinggi banner tanpa mengubah gambarnya */
+.hero, .banner, .hero-banner, .carousel {
+  max-height:300px !important;
+  overflow:hidden;
+}
+.hero img, .banner img, .hero-banner img, .carousel img {
+  max-height:300px !important;
+  object-fit:cover;
+  object-position:center;
+}
+/* Kartu kategori dan produk melebar sampai tepi area konten */
+.cats, .categories, .category-grid, #categories {
+  width:100% !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+  gap:8px !important;
+}
+.cat, .category-card, .category-item {
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+.product-grid, .products, #products, .product-list {
+  width:100% !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+  gap:8px !important;
+}
+.product, .product-card, .product-item {
+  min-width:0 !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  border-radius:8px !important;
+}
+.pic {
+  height:145px !important;
+  min-height:145px !important;
+  max-height:145px !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#fff !important;
+}
+.pic .productimg {
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  padding:3px !important;
+  margin:0 auto !important;
+  object-fit:contain !important;
+  object-position:center !important;
+}
 @media (min-width:768px) {
- .app { width:100% !important; max-width:1200px !important; margin-left:auto !important; margin-right:auto !important; }
- .pic { height:145px !important; min-height:145px !important; max-height:145px !important; }
+  .app { max-width:1200px !important; margin:0 auto !important; }
+  .hero, .banner, .hero-banner, .carousel,
+  .hero img, .banner img, .hero-banner img, .carousel img {
+    max-height:300px !important;
+  }
 }
 @media (max-width:767px) {
- .app { width:100% !important; max-width:none !important; margin:0 !important; padding-left:0 !important; padding-right:0 !important; box-shadow:none !important; }
- .product-grid, .products, #products, .product-list { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:6px !important; }
+  .app {
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-shadow:none !important;
+  }
+  .product-grid, .products, #products, .product-list {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:6px !important;
+  }
 }
 
 </style></head><body><div class="app">
