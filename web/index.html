@@ -132,60 +132,20 @@
 .home-banner-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:30px;height:30px;border:0;border-radius:50%;background:#ffffffc9;color:#b83d60;font-size:20px;display:flex;align-items:center;justify-content:center}
 .home-banner-prev{left:7px}.home-banner-next{right:7px}
 
-/* Givitshop responsive full-width layout */
-html, body { width:100%; max-width:none; margin:0; padding:0; }
-.app {
-  width:100% !important;
-  max-width:none !important;
-  margin:0 !important;
-  border-radius:0 !important;
-  box-shadow:none !important;
-}
-.hero, .banner, .hero img, .banner img {
-  max-height:260px;
-}
-.hero img, .banner img {
-  width:100%;
-  height:260px;
-  object-fit:cover;
-}
-.product-grid, .products, #products, .product-list {
-  gap:8px !important;
-}
-.product, .product-card, .product-item {
-  min-width:0 !important;
-  border-radius:8px !important;
-}
-.pic {
-  height:150px !important;
-  min-height:150px !important;
-  max-height:150px !important;
-  padding:0 !important;
-  overflow:hidden !important;
-  background:#fff !important;
-}
-.pic .productimg {
-  width:100% !important;
-  height:100% !important;
-  max-width:100% !important;
-  max-height:100% !important;
-  min-width:0 !important;
-  min-height:0 !important;
-  padding:3px !important;
-  margin:0 auto !important;
-  object-fit:contain !important;
-  object-position:center !important;
-}
+/* Shopee-inspired responsive layout for Givitshop */
+html, body { margin:0 !important; padding:0 !important; width:100% !important; max-width:none !important; overflow-x:hidden; }
+.app { width:100% !important; max-width:1200px !important; margin:0 auto !important; box-shadow:0 0 24px rgba(0,0,0,.06) !important; border-radius:0 !important; }
+.pic { height:145px !important; min-height:145px !important; max-height:145px !important; padding:0 !important; overflow:hidden !important; background:#fff !important; }
+.pic .productimg { display:block !important; width:100% !important; height:100% !important; max-width:100% !important; max-height:100% !important; min-width:0 !important; min-height:0 !important; margin:0 auto !important; padding:3px !important; object-fit:contain !important; object-position:center !important; }
+.product, .product-card, .product-item { min-width:0 !important; border-radius:8px !important; }
+.product-grid, .products, #products, .product-list { gap:8px !important; }
 @media (min-width:768px) {
-  .app { max-width:none !important; }
-  .pic { height:145px !important; min-height:145px !important; max-height:145px !important; }
+ .app { width:100% !important; max-width:1200px !important; margin-left:auto !important; margin-right:auto !important; }
+ .pic { height:145px !important; min-height:145px !important; max-height:145px !important; }
 }
 @media (max-width:767px) {
-  .app { width:100% !important; padding-left:0 !important; padding-right:0 !important; }
-  .product-grid, .products, #products, .product-list {
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-    gap:6px !important;
-  }
+ .app { width:100% !important; max-width:none !important; margin:0 !important; padding-left:0 !important; padding-right:0 !important; box-shadow:none !important; }
+ .product-grid, .products, #products, .product-list { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:6px !important; }
 }
 
 </style></head><body><div class="app">
