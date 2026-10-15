@@ -76,7 +76,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 </div>
 <p id="bulkExcelMsg" class="muted" role="status"></p>
 <div id="bulkExcelPreview" style="overflow:auto;max-height:360px;margin-top:8px"></div>
-<p class="muted" style="font-size:12px;margin-bottom:0">Kolom wajib: <b>name, price, stock</b>. Kolom lain: brand, category, description, weight_grams, is_active, image_url. Foto pada Excel harus berupa URL gambar publik; file gambar tidak bisa disematkan langsung ke sel Excel. Berat produk 1–1000 gram.</p>
+<p class="muted" style="font-size:12px;margin-bottom:0">Kolom wajib: <b>name, price, stock</b>. Kolom lain: brand, category, description, weight_grams, is_active, image_url, variant_name, variant_price, size. Foto pada Excel harus berupa URL gambar publik; file gambar tidak bisa disematkan langsung ke sel Excel. Berat produk 1–1000 gram.</p>
 </div>
 <div class="card">
 <h2>Tambah / Edit Produk</h2>
@@ -257,10 +257,10 @@ let bulkProductRows = [];
 function downloadProductExcelTemplate(){
  if(typeof XLSX==='undefined'){alert('Library Excel belum termuat. Periksa koneksi internet lalu muat ulang halaman admin.');return;}
  const rows=[
-  {name:'Contoh Face Wash',brand:'Contoh Brand',category:'Skincare',price:31000,stock:20,weight_grams:1000,is_active:true,description:'Deskripsi produk',image_url:''},
-  {name:'Contoh Lip Cream',brand:'Contoh Brand',category:'Makeup',price:25000,stock:15,weight_grams:100,is_active:true,description:'Deskripsi produk kedua',image_url:''}
+  {name:'Contoh Face Wash',brand:'Contoh Brand',category:'Skincare',price:31000,stock:20,weight_grams:1000,is_active:true,description:'Deskripsi produk',image_url:'',variant_name:'',variant_price:'',size:''},
+  {name:'Contoh Lip Cream',brand:'Contoh Brand',category:'Makeup',price:25000,stock:15,weight_grams:100,is_active:true,description:'Deskripsi produk kedua',image_url:'',variant_name:'Warna Pink',variant_price:27000,size:'3.5 g'}
  ];
- const ws=XLSX.utils.json_to_sheet(rows,{header:['name','brand','category','price','stock','weight_grams','is_active','description','image_url']});
+ const ws=XLSX.utils.json_to_sheet(rows,{header:['name','brand','category','price','stock','weight_grams','is_active','description','image_url','variant_name','variant_price','size']});
  ws['!cols']=[{wch:28},{wch:22},{wch:18},{wch:14},{wch:12},{wch:16},{wch:12},{wch:42},{wch:48}];
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Produk');
  const guide=[
@@ -269,7 +269,10 @@ function downloadProductExcelTemplate(){
   {kolom:'category',keterangan:'Opsional. Kategori produk.'},{kolom:'description',keterangan:'Opsional. Deskripsi produk.'},
   {kolom:'weight_grams',keterangan:'Opsional. Berat 1–1000 gram; default 1000.'},
   {kolom:'is_active',keterangan:'Opsional. TRUE aktif, FALSE nonaktif; default TRUE.'},
-  {kolom:'image_url',keterangan:'Opsional. URL gambar publik; foto tidak diunggah langsung dari Excel.'}
+  {kolom:'image_url',keterangan:'Opsional. URL gambar publik; foto tidak diunggah langsung dari Excel.'},
+  {kolom:'variant_name',keterangan:'Opsional. Nama varian, misalnya Pink atau 01 Natural.'},
+  {kolom:'variant_price',keterangan:'Opsional. Harga khusus kombinasi varian/ukuran; kosong memakai harga produk.'},
+  {kolom:'size',keterangan:'Opsional. Ukuran, misalnya M, XL, 3.5 g, atau 100 ml. Satu kombinasi varian dan ukuran per baris produk.'}
  ];
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(guide),'Panduan');
  XLSX.writeFile(wb,'Template_Produk_Massal_Givitshop.xlsx');
@@ -302,7 +305,8 @@ function previewBulkProductExcel(){
     if(!Number.isFinite(stock)||stock<0||!Number.isInteger(stock))errors.push('Baris '+rowNum+': stok harus bilangan bulat 0 atau lebih.');
     if(!Number.isFinite(weight)||!Number.isInteger(weight)||weight<1||weight>1000)errors.push('Baris '+rowNum+': berat harus 1–1000 gram.');
     let active=true;try{active=normalizeBulkBool(r.is_active)}catch(err){errors.push('Baris '+rowNum+': '+err.message);}
-    return {name,brand:String(r.brand||'').trim(),category:String(r.category||'').trim(),description:String(r.description||'').trim(),price,stock,weight_grams:weight,is_active:active,image_url:String(r.image_url||'').trim()||null,_row:rowNum};
+    const variantName=String(r.variant_name||'').trim(), sizeName=String(r.size||'').trim();const variantPrice=String(r.variant_price??'').trim()===''?price:Number(r.variant_price);if(!Number.isFinite(variantPrice)||variantPrice<0)errors.push('Baris '+rowNum+': variant_price harus angka 0 atau lebih.');
+    return {name,brand:String(r.brand||'').trim(),category:String(r.category||'').trim(),description:String(r.description||'').trim(),price,stock,weight_grams:weight,is_active:active,image_url:String(r.image_url||'').trim()||null,variant_name:variantName,variant_price:variantPrice,size:sizeName,_row:rowNum};
    }).filter(r=>r.name||String(r.price??'').trim()!==''||String(r.stock??'').trim()!=='');
    if(errors.length){bulkProductRows=[];msg.textContent='Ditemukan '+errors.length+' kesalahan. Perbaiki Excel lalu pratinjau lagi. '+errors.slice(0,8).join(' ');return;}
    if(!bulkProductRows.length)throw Error('Tidak ada baris produk yang dapat diimpor.');
@@ -320,12 +324,20 @@ async function importBulkProducts(){
  if(!confirm('Impor '+bulkProductRows.length+' produk baru ke Givitshop? Produk ditambahkan, bukan mengganti produk lama.'))return;
  btn.disabled=true;msg.textContent='Mengimpor produk...';let success=0,failed=[];
  try{
-  const rows=bulkProductRows.map(r=>({id:crypto.randomUUID(),name:r.name,brand:r.brand,category:r.category,description:r.description,price:r.price,stock:r.stock,weight_grams:r.weight_grams,is_active:r.is_active,image_url:r.image_url}));
-  for(let i=0;i<rows.length;i+=50){
-   const batch=rows.slice(i,i+50);
-   try{await api('/rest/v1/products',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(batch)});success+=batch.length;}
-   catch(err){for(const row of batch){try{await api('/rest/v1/products',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(row)});success++;}catch(rowErr){failed.push({name:row.name,error:rowErr.message});}}}
-   msg.textContent='Memproses... '+Math.min(i+50,rows.length)+'/'+rows.length+' baris.';
+  const rows=bulkProductRows.map(r=>({...r,id:crypto.randomUUID()}));
+  for(let i=0;i<rows.length;i++){
+   const r=rows[i];const row={id:r.id,name:r.name,brand:r.brand,category:r.category,description:r.description,price:r.price,stock:r.stock,weight_grams:r.weight_grams,is_active:r.is_active,image_url:r.image_url};
+   try{
+    await api('/rest/v1/products',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(row)});
+    if(r.variant_name || r.size){
+     const variantId=crypto.randomUUID(), sizeId=crypto.randomUUID();
+     if(r.variant_name) await api('/rest/v1/product_variants',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({id:variantId,product_id:r.id,name:r.variant_name,price:r.variant_price,stock:0,weight_grams:r.weight_grams,image_url:null,is_active:true})});
+     if(r.size) await api('/rest/v1/product_sizes',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({id:sizeId,product_id:r.id,name:r.size,is_active:true})});
+     if(r.variant_name && r.size) await api('/rest/v1/product_variant_options',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({id:crypto.randomUUID(),product_id:r.id,variant_id:variantId,size_id:sizeId,price:r.variant_price,stock:r.stock,weight_grams:r.weight_grams,image_url:null,is_active:true})});
+    }
+    success++;
+   }catch(rowErr){failed.push({name:r.name,error:rowErr.message});}
+   msg.textContent='Memproses... '+(i+1)+'/'+rows.length+' baris.';
   }
   msg.textContent='Selesai: '+success+' produk berhasil ditambahkan.'+(failed.length?' '+failed.length+' gagal. Contoh: '+failed.slice(0,3).map(x=>x.name+' ('+x.error+')').join('; '):'');
   if(failed.length){const dl=document.createElement('button');dl.type='button';dl.className='btn secondary';dl.style.marginTop='8px';dl.textContent='Unduh laporan gagal (CSV)';dl.onclick=()=>{const csv='nama_produk,kesalahan\n'+failed.map(x=>'"'+String(x.name).replace(/"/g,'""')+'","'+String(x.error).replace(/"/g,'""')+'"').join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='Laporan_Import_Gagal_Givitshop.csv';a.click();URL.revokeObjectURL(a.href);};document.getElementById('bulkExcelPreview').appendChild(dl);}
