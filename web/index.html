@@ -238,6 +238,52 @@ html, body {
 .cart-confirm-card h3{margin:0 0 9px;font-size:17px}.cart-confirm-card p{font-size:14px;line-height:1.5;color:#666;margin:0 0 20px;overflow-wrap:anywhere}
 .cart-confirm-actions{display:flex;justify-content:flex-end;gap:10px}.cart-confirm-actions button{border:0;border-radius:10px;padding:10px 16px;font-weight:600}.cart-confirm-cancel{background:#f4f0f2;color:#555}.cart-confirm-delete{background:#e85b7a;color:white}
 
+
+/* V54: beri ruang tepi yang nyaman dan besarkan foto produk pada kartu */
+#productGrid, .product-grid, .products, .product-list {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  box-sizing: border-box !important;
+}
+.section, .sectionhead, .product-section, #featuredProducts, .featured-products {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.pic {
+  width: 100% !important;
+  height: 175px !important;
+  min-height: 175px !important;
+  max-height: 175px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  background: #fff !important;
+}
+.pic .productimg, .pic img.productimg, .pic img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+.product, .product-card, .product-item {
+  overflow: hidden !important;
+}
+@media (max-width: 767px) {
+  #productGrid, .product-grid, .products, .product-list {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    gap: 7px !important;
+  }
+  .pic { height: 165px !important; min-height: 165px !important; max-height: 165px !important; }
+}
+
 </style></head><body><div class="app">
 <header class="top"><div class="brand">Givitshop</div><div class="tag">Skincare • Makeup • Fashion • Hijab • Accessories</div><div class="search"><input id="search" placeholder="Cari produk, brand, atau kategori..." oninput="renderProducts()"><button class="icon" onclick="show('cart')"><span class="carticonwrap">🛒<span id="headerCartBadge" class="cartbadge" style="display:none">0</span></span></button></div></header>
 <main id="home" class="view active"><div class="hero" id="homeHero"><img id="homeHeroPhoto" class="hero-photo" alt="Foto banner Givitshop"><div class="hero-copy"><h1>Kulit sehat,<br>cantik setiap hari</h1><p>Temukan skincare favoritmu dengan pilihan produk yang praktis.</p><button class="cta" onclick="document.getElementById('products').scrollIntoView()">Belanja Sekarang</button></div><div class="blob"></div></div>
