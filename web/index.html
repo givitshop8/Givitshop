@@ -564,6 +564,7 @@ async function loadProducts() {
     }));
     renderProducts();
     updateCartBadges();
+    openSharedProductFromUrl();
   } catch (e) {
     console.error(e);
     grid.innerHTML = `<div class="empty"><h3>Produk belum dapat dimuat</h3><p style="font-size:11px">${escapeHtml(e.message)}</p><button class="cta" onclick="loadProducts()">Coba Lagi</button></div>`;
@@ -632,21 +633,37 @@ document.addEventListener('click',function(e){
  const img=e.target.closest('#detailGallery img, #detailThumbs img, #detail .thumb img');
  if(img){e.preventDefault();openProductImageZoom(img.currentSrc||img.src);}
 });
+function productShareUrl(id){
+  // Selalu bagikan URL publik website, bukan URL lokal file:// atau android_asset.
+  const url=new URL('https://givitshop8.github.io/Givitshop/');
+  url.searchParams.set('product',String(id));
+  return url.toString();
+}
 async function shareProduct(id){
  const p=products.find(x=>String(x.id)===String(id));if(!p)return;
  const title=String(p.name||'Produk Givitshop');
- const url=window.location.href;
- const text=title+' — '+(p.brand||'Givitshop')+'\nHarga: '+productPriceLabel(p)+'\nLihat di Givitshop: '+url;
+ const url=productShareUrl(p.id);
+ const text=title+' — '+(p.brand||'Givitshop')+'\nHarga: '+productPriceLabel(p)+'\nLihat produk ini di Givitshop: '+url;
  try{
-  // Android WebView menggunakan menu berbagi asli agar pengguna dapat memilih WhatsApp, Telegram, Bluetooth, dan aplikasi lain.
   if(window.AndroidShare&&typeof window.AndroidShare.share==='function'){
     window.AndroidShare.share(title,text,url);
     return;
   }
   if(navigator.share){await navigator.share({title:'Givitshop - '+title,text,url});return;}
-  if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(text);}
-  else {window.prompt('Salin informasi produk ini untuk dibagikan:',text);}
- }catch(e){if(e&&e.name!=='AbortError') {try{window.prompt('Salin informasi produk ini untuk dibagikan:',text);}catch(_){}}}
+  if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(url);alert('Tautan produk berhasil disalin. Silakan tempel dan kirim.');}
+  else {window.prompt('Salin tautan produk ini untuk dibagikan:',url);}
+ }catch(e){if(e&&e.name!=='AbortError') {try{window.prompt('Salin tautan produk ini untuk dibagikan:',url);}catch(_){}}}
+}
+function openSharedProductFromUrl(){
+ const params=new URLSearchParams(window.location.search);
+ const productId=params.get('product')||params.get('productId')||params.get('id');
+ if(!productId)return;
+ const p=products.find(x=>String(x.id)===String(productId));
+ if(p){detail(p.id);}
+ else {
+   const grid=document.getElementById('productGrid');
+   if(grid)grid.insertAdjacentHTML('beforebegin','<div class="empty" style="margin:12px">Produk dari tautan ini tidak ditemukan atau sudah tidak aktif.</div>');
+ }
 }
 
 function detail(id){
