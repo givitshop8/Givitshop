@@ -1,4 +1,4 @@
-name: Build Givitshop APK
+name: Build Givitshop APK V51
 
 on:
   workflow_dispatch:
@@ -12,11 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract V49 customer project
+      - name: Extract V51 shared-source project
         run: |
-          unzip -o Givitshop_Siap_Build_Zoom_Foto_Hapus_Keranjang_V49.zip -d /tmp/givitshop
+          unzip -o Givitshop_Satu_Sumber_Web_dan_APK_V51.zip -d /tmp/givitshop
           cp -R /tmp/givitshop/android/. android/
-          cp -R /tmp/givitshop/web/. web/ || true
+          cp -R /tmp/givitshop/web/. web/
 
       - name: Setup Java 17
         uses: actions/setup-java@v4
