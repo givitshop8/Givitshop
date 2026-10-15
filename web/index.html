@@ -54,7 +54,7 @@
 
 /* V22: zoom gambar produk dan ruang aman untuk deskripsi */
 .imagezoomback{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top,12px) 0 env(safe-area-inset-bottom,12px);box-sizing:border-box}
-.imagezoomback img{display:block;width:100%;height:100%;max-height:100%;object-fit:contain;touch-action:pinch-zoom}
+.imagezoomback img{display:block;width:100%;height:100%;max-height:100%;object-fit:contain;touch-action:pinch-zoom;pointer-events:auto;cursor:zoom-out}
 .imagezoomclose{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:16px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#222;font-size:26px;z-index:2}
 .cart-remove{margin-top:7px;padding:6px 10px;border:1px solid #f3c4d0;border-radius:9px;background:#fff3f6;color:#c83e62;font-size:11px;font-weight:600;cursor:pointer}
 .zoom-hint{text-align:center;font-size:11px;color:#777;padding:7px 12px;background:#fff9fb}
@@ -231,6 +231,12 @@ html, body {
     gap:6px !important;
   }
 }
+
+
+.cart-confirm-backdrop{position:fixed;inset:0;z-index:10000;background:rgba(25,20,23,.55);display:flex;align-items:center;justify-content:center;padding:22px;box-sizing:border-box}
+.cart-confirm-card{width:100%;max-width:360px;background:#fff;border-radius:18px;padding:20px;box-shadow:0 15px 45px #0003;color:#28242a}
+.cart-confirm-card h3{margin:0 0 9px;font-size:17px}.cart-confirm-card p{font-size:14px;line-height:1.5;color:#666;margin:0 0 20px;overflow-wrap:anywhere}
+.cart-confirm-actions{display:flex;justify-content:flex-end;gap:10px}.cart-confirm-actions button{border:0;border-radius:10px;padding:10px 16px;font-weight:600}.cart-confirm-cancel{background:#f4f0f2;color:#555}.cart-confirm-delete{background:#e85b7a;color:white}
 
 </style></head><body><div class="app">
 <header class="top"><div class="brand">Givitshop</div><div class="tag">Skincare • Makeup • Fashion • Hijab • Accessories</div><div class="search"><input id="search" placeholder="Cari produk, brand, atau kategori..." oninput="renderProducts()"><button class="icon" onclick="show('cart')"><span class="carticonwrap">🛒<span id="headerCartBadge" class="cartbadge" style="display:none">0</span></span></button></div></header>
@@ -448,9 +454,9 @@ function renderKahfDescriptions(p){
 function renderProductGallery(p, selectedVariantId){
   const urls=productGalleryImages(p,selectedVariantId);
   if(!urls.length)return `<div class="galleryslide">${productImage(p)}</div>`;
-  return urls.map((url,i)=>`<div class="galleryslide"><img class="productimg" src="${escapeHtml(url)}" alt="${escapeHtml(p.name)} - foto ${i+1}" loading="${i?'lazy':'eager'}" onerror="this.style.display='none'"></div>`).join('');
+  return urls.map((url,i)=>`<div class="galleryslide"><img class="productimg" src="${escapeHtml(url)}" alt="${escapeHtml(p.name)} - foto ${i+1}" loading="${i?'lazy':'eager'}" onclick="event.stopPropagation();openProductImageZoom(this.currentSrc||this.src)" style="cursor:zoom-in;pointer-events:auto;touch-action:manipulation" onerror="this.style.display='none'"></div>`).join('');
 }
-function renderProductThumbs(p, selectedVariantId){const urls=productGalleryImages(p,selectedVariantId);if(urls.length<2)return '';return `<div class="detailThumbs" id="detailThumbs">${urls.map((u,i)=>`<button class="detailThumb ${i===0?'active':''}" onclick="goProductPhoto(${i})" aria-label="Foto ${i+1}"><img src="${escapeHtml(u)}" alt="Foto ${i+1}" loading="lazy"></button>`).join('')}</div>`}
+function renderProductThumbs(p, selectedVariantId){const urls=productGalleryImages(p,selectedVariantId);if(urls.length<2)return '';return `<div class="detailThumbs" id="detailThumbs">${urls.map((u,i)=>`<button class="detailThumb ${i===0?'active':''}" onclick="goProductPhoto(${i})" aria-label="Foto ${i+1}"><img src="${escapeHtml(u)}" alt="Foto ${i+1}" loading="lazy" onclick="event.stopPropagation();openProductImageZoom(this.currentSrc||this.src)" style="cursor:zoom-in;pointer-events:auto"></button>`).join('')}</div>`}
 function goProductPhoto(i){const g=document.getElementById('detailGallery');if(g)g.scrollTo({left:i*g.clientWidth,behavior:'smooth'});document.querySelectorAll('#detailThumbs .detailThumb').forEach((b,j)=>b.classList.toggle('active',i===j));}
 
 function productPriceLabel(p){
@@ -674,7 +680,18 @@ function renderCart() {
   updateCartBadges();c.innerHTML='<div class="carthead"><button class="backbtn" onclick="show(\'home\')">←</button><b>Keranjang Belanja</b><button class="cartheadicon" onclick="show(\'home\')">⌂</button></div><div class="section">'+cart.map(i=>{const p=products.find(x=>String(x.id)===String(i.product_id));if(!p)return '';const v=variantForCart(i);const opts=[v?.name,i.size_name].filter(Boolean).join(' • ');return `<div class="cartrow"><div class="thumb">${productImage(v?.image_url?{...p,image_url:v.image_url}:p)}</div><div class="cartinfo"><b style="font-size:12px">${escapeHtml(p.name)}</b>${opts?`<div style="font-size:10px;color:#777;margin-top:3px">${escapeHtml(opts)}</div>`:''}<div class="price">${cartLineMarkup(i)}</div><div class="qty"><button onclick="changeQty('${i.key}',-1)">−</button><span>${i.qty}</span><button onclick="changeQty('${i.key}',1)">+</button></div><button class="cart-remove" type="button" onclick="removeCartItem('${i.key}')">🗑 Hapus</button></div></div>`}).join('')+'</div><div class="checkout"><div class="checkoutrow"><span>Subtotal</span><b>'+money(total)+'</b></div><div class="checkoutrow"><span>Ongkir</span><span>Dihitung saat checkout</span></div><hr><div class="checkoutrow"><b>Total Produk</b><span class="total">'+money(total)+'</span></div><button class="cta" style="width:100%;margin-top:10px" onclick="showCheckout()">Checkout</button></div>';
 }
 
-function removeCartItem(key){const item=cart.find(i=>String(i.key)===String(key));if(!item)return;const p=products.find(x=>String(x.id)===String(item.product_id));const label=p?.name||'produk ini';if(!confirm('Hapus '+label+' dari keranjang?'))return;cart=cart.filter(i=>String(i.key)!==String(key));renderCart();updateCartBadges();updateDetailCartBadge();}
+function removeCartItem(key){
+ const item=cart.find(i=>String(i.key)===String(key));if(!item)return;
+ const p=products.find(x=>String(x.id)===String(item.product_id));
+ const label=p?.name||'produk ini';
+ document.getElementById('cartRemoveConfirm')?.remove();
+ const modal=document.createElement('div');modal.id='cartRemoveConfirm';modal.className='cart-confirm-backdrop';
+ modal.innerHTML=`<div class="cart-confirm-card" role="dialog" aria-modal="true" aria-labelledby="cartRemoveTitle"><h3 id="cartRemoveTitle">Hapus produk?</h3><p>Hapus ${escapeHtml(label)} dari keranjang belanja?</p><div class="cart-confirm-actions"><button type="button" class="cart-confirm-cancel" id="cartRemoveCancel">Batal</button><button type="button" class="cart-confirm-delete" id="cartRemoveYes">Hapus</button></div></div>`;
+ modal.addEventListener('click',e=>{if(e.target===modal)modal.remove()});
+ document.body.appendChild(modal);
+ document.getElementById('cartRemoveCancel').onclick=()=>modal.remove();
+ document.getElementById('cartRemoveYes').onclick=()=>{cart=cart.filter(i=>String(i.key)!==String(key));modal.remove();renderCart();updateCartBadges();updateDetailCartBadge()};
+}
 
 function changeQty(key,d) {
   const x=cart.find(i=>i.key===key);if(!x)return;const stock=cartLineStock(x);x.qty+=d;if(x.qty>stock)x.qty=stock;if(x.qty<=0)cart=cart.filter(i=>i.key!==key);renderCart();updateCartBadges();updateDetailCartBadge();
