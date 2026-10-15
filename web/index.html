@@ -308,7 +308,7 @@ function roundedShippingWeight(){
   return Math.max(1000, Math.ceil(cartWeight()/1000)*1000);
 }
 function shippingCourierLabel(c){
-  return ({jne:'JNE',jnt:'J&T',grabexpress:'GrabExpress',maxim:'Maxim'})[c] || c || '-';
+  return ({jne:'JNE',jnt:'J&T',grabexpress:'GrabExpress'})[c] || c || '-';
 }
 
 async function searchDestination(){
@@ -339,7 +339,7 @@ async function calculateCourier(courier){
   shippingState.courier=courier;
   shippingState.service=''; shippingState.cost=0; shippingState.options=[]; shippingState.confirmed=false;
   renderShippingOptions();
-  if(courier==='grabexpress' || courier==='maxim') return;
+  if(courier==='grabexpress') return;
   if(!shippingState.destination){alert('Pilih tujuan pengiriman terlebih dahulu.');return;}
   const box=document.getElementById('serviceResults'); if(box) box.innerHTML='<div style="font-size:11px;color:#777">Menghitung ongkir '+shippingCourierLabel(courier)+'...</div>';
   try{
@@ -364,7 +364,7 @@ function renderShippingOptions(){
   const service=document.getElementById('serviceResults');
   const manual=document.getElementById('manualShippingNote');
   if(!service) return;
-  if(shippingState.courier==='grabexpress' || shippingState.courier==='maxim'){
+  if(shippingState.courier==='grabexpress'){
     shippingState.service='Ongkir dikonfirmasi admin'; shippingState.cost=0; shippingState.confirmed=false;
     service.innerHTML='<div style="margin-top:8px;padding:12px;border-radius:12px;background:#fff7e8;border:1px solid #f3dfb2;font-size:11px">💬 Ongkir akan dikonfirmasi admin setelah pesanan dibuat.</div>';
   } else if(shippingState.courier){
@@ -372,7 +372,7 @@ function renderShippingOptions(){
   } else {
     service.innerHTML='<div style="font-size:11px;color:#777">Pilih ekspedisi.</div>';
   }
-  if(manual) manual.style.display=(shippingState.courier==='grabexpress'||shippingState.courier==='maxim')?'block':'none';
+  if(manual) manual.style.display=(shippingState.courier==='grabexpress')?'block':'none';
   renderShippingSummary();
 }
 
@@ -381,8 +381,8 @@ function renderShippingSummary(){
   const weight=roundedShippingWeight();
   const label=shippingState.courier ? shippingCourierLabel(shippingState.courier) : 'Belum dipilih';
   const service=shippingState.service || '-';
-  const cost=shippingState.courier==='grabexpress'||shippingState.courier==='maxim' ? 0 : shippingState.cost;
-  el.innerHTML=`<div class="checkoutrow"><span>Berat kirim</span><b>${money(weight).replace('Rp','').trim()} g</b></div><div class="checkoutrow"><span>Ekspedisi</span><b>${escapeHtml(label)}</b></div><div class="checkoutrow"><span>Layanan</span><b>${escapeHtml(service)}</b></div><div class="checkoutrow"><span>Ongkir</span><b>${shippingState.courier==='grabexpress'||shippingState.courier==='maxim'?'Menunggu konfirmasi':money(cost)}</b></div>`;
+  const cost=shippingState.courier==='grabexpress' ? 0 : shippingState.cost;
+  el.innerHTML=`<div class="checkoutrow"><span>Berat kirim</span><b>${money(weight).replace('Rp','').trim()} g</b></div><div class="checkoutrow"><span>Ekspedisi</span><b>${escapeHtml(label)}</b></div><div class="checkoutrow"><span>Layanan</span><b>${escapeHtml(service)}</b></div><div class="checkoutrow"><span>Ongkir</span><b>${shippingState.courier==='grabexpress'?'Menunggu konfirmasi':money(cost)}</b></div>`;
   const totalEl=document.getElementById('checkoutTotal');
   if(totalEl) updateCheckoutTotals();
 }
@@ -734,7 +734,6 @@ function showCheckout() {
          <button type="button" onclick="calculateCourier('jne')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🚚 JNE</b><br><span style="font-size:10px;color:#777">Ongkir otomatis</span></button>
          <button type="button" onclick="calculateCourier('jnt')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🚚 J&T</b><br><span style="font-size:10px;color:#777">Ongkir otomatis</span></button>
          <button type="button" onclick="calculateCourier('grabexpress')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🚗 GrabExpress</b><br><span style="font-size:10px;color:#777">Konfirmasi admin</span></button>
-         <button type="button" onclick="calculateCourier('maxim')" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left"><b>🛵 Maxim</b><br><span style="font-size:10px;color:#777">Konfirmasi admin</span></button>
        </div>
        <div id="serviceResults" style="margin-top:8px"><div style="font-size:11px;color:#777">Pilih ekspedisi.</div></div>
        <div id="manualShippingNote" style="display:none"></div>
@@ -773,7 +772,7 @@ async function placeOrder() {
   const btn=document.getElementById('orderBtn'); btn.disabled=true; btn.textContent='Menyimpan pesanan...';
   try {
     const items=cart.map(i=>({product_id:i.product_id,variant_id:i.variant_id||null,size_name:i.size_name||null,quantity:i.qty}));
-    const shippingIsManual = shippingState.courier==='grabexpress' || shippingState.courier==='maxim';
+    const shippingIsManual = shippingState.courier==='grabexpress';
     if(!shippingState.courier){throw new Error('Pilih ekspedisi terlebih dahulu.');}
     if(!shippingState.destination){throw new Error('Pilih tujuan pengiriman terlebih dahulu.');}
     if(!shippingIsManual && !shippingState.service){throw new Error('Pilih layanan pengiriman terlebih dahulu.');}
@@ -1139,7 +1138,7 @@ function updateCheckoutTotals(){
  const el=document.getElementById('checkoutTotal');if(!el)return;
  const subtotal=cartSubtotal();let discount=0;
  if(appliedVoucher){discount=appliedVoucher.discount_type==='percent'?Math.round(subtotal*Math.min(100,appliedVoucher.discount_value)/100):Math.min(subtotal,appliedVoucher.discount_value)}
- el.textContent=money(Math.max(0,subtotal-discount)+(shippingState.courier==='grabexpress'||shippingState.courier==='maxim'?0:Number(shippingState.cost||0)));
+ el.textContent=money(Math.max(0,subtotal-discount)+(shippingState.courier==='grabexpress'?0:Number(shippingState.cost||0)));
  const summary=document.getElementById('voucherDiscountSummary');
  if(summary)summary.textContent=discount>0?'Potongan voucher: −'+money(discount):'';
 }
