@@ -475,9 +475,13 @@ async function deleteOrder(id){
   }
   if((conversations||[]).length)await api('/rest/v1/chat_conversations?order_id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});
   await api('/rest/v1/order_items?order_id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});
-  await api('/rest/v1/orders?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});
-  orders=orders.filter(o=>String(o.id)!==String(id));renderOrders();renderStats();renderNewOrderAlert();alert('Pesanan #'+id+' berhasil dihapus.');
- }catch(e){alert('Gagal menghapus pesanan: '+(e.message||e)+'. Data belum tentu terhapus seluruhnya. Periksa relasi database jika masih gagal.')}
+  const deleted=await api('/rest/v1/orders?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=representation'}});
+  if(!Array.isArray(deleted)||deleted.length===0){throw Error('Pesanan tidak terhapus. Kemungkinan kebijakan RLS Supabase tidak mengizinkan DELETE pada tabel orders. Periksa policy DELETE untuk akun admin.')}
+  orders=orders.filter(o=>String(o.id)!==String(id));renderOrders();renderStats();renderNewOrderAlert();
+  await loadOrders();
+  if(orders.some(o=>String(o.id)===String(id)))throw Error('Pesanan masih terbaca dari database setelah dihapus. Periksa trigger atau policy Supabase.');
+  alert('Pesanan #'+id+' berhasil dihapus permanen.');
+ }catch(e){try{await loadOrders()}catch(_){}alert('Gagal menghapus pesanan: '+(e.message||e)+'. Pesanan tidak akan disembunyikan hanya dari tampilan; periksa policy DELETE/relasi Supabase jika masih gagal.')}
 }
 let currentOrderForWhatsApp=null;
 function chatWhatsApp(){
@@ -587,9 +591,21 @@ async function loadChatConversations(){
   const box=document.getElementById('chatRows');if(!box)return;
   try{
     const rows=await api('/rest/v1/chat_conversations?select=*&order=last_message_at.desc.nullslast');
-    box.innerHTML=rows.length?rows.map(c=>`<tr><td>#${c.order_id}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><button class="btn primary" onclick="openAdminChat('${c.id}','${c.order_id}')">Buka Chat</button></td></tr>`).join(''):'<tr><td colspan="5">Belum ada percakapan.</td></tr>';
+    box.innerHTML=rows.length?rows.map(c=>`<tr><td>#${c.order_id}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${c.id}','${c.order_id}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${c.id}','${c.order_id}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="5">Belum ada percakapan.</td></tr>';
   }catch(e){box.innerHTML=`<tr><td colspan="5">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
 }
+async function deleteChatConversation(id,orderId){
+ if(!confirm('Hapus seluruh percakapan chat untuk pesanan #'+orderId+'? Pesan dalam percakapan ini juga akan dihapus permanen.'))return;
+ try{
+  await api('/rest/v1/chat_messages?conversation_id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});
+  const deleted=await api('/rest/v1/chat_conversations?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=representation'}});
+  if(!Array.isArray(deleted)||deleted.length===0)throw Error('Percakapan tidak terhapus. Periksa policy DELETE Supabase untuk chat_conversations.');
+  if(activeAdminConversation&&String(activeAdminConversation.id)===String(id))closeAdminChat();
+  await loadChatConversations();
+  alert('Chat pesanan #'+orderId+' berhasil dihapus.');
+ }catch(e){alert('Gagal menghapus chat: '+(e.message||e)+'. Periksa policy DELETE Supabase untuk chat_messages dan chat_conversations.')}
+}
+
 async function openAdminChat(id,orderId){
   activeAdminConversation={id,orderId};
   document.getElementById('adminChatTitle').textContent='Chat Pesanan #'+orderId;
