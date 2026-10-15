@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Givitshop Admin</title>
+<style>
+:root{--pink:#e85b7a;--soft:#fff1f5;--ink:#28242a;--muted:#77727a;--line:#eee7ea}
+*{box-sizing:border-box}body{margin:0;background:#faf8f9;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1100px;margin:auto;padding:24px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font:700 30px Georgia;color:var(--pink)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:18px;box-shadow:0 4px 18px #00000008}
+h2{margin:0 0 14px}h3{margin:0 0 10px}.muted{color:var(--muted);font-size:13px}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+label{display:block;font-size:12px;font-weight:700;margin:10px 0 5px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700}.primary{background:var(--pink);color:#fff}.secondary{background:#f4eef1}.danger{background:#ffe5eb;color:#b52245}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}th{background:#fff8fa}
+.thumb{width:52px;height:52px;object-fit:contain;border-radius:9px;background:#fff3f6}.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.login{max-width:430px;margin:70px auto}.hidden{display:none}.topstats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.dashboard-stats .stat{min-height:112px}.dashboard-stats .stat strong{margin:4px 0 2px}.new-order-alert{display:none;margin:14px 0;padding:14px 16px;border:1px solid #f2c2cf;background:#fff5f8;border-radius:14px;align-items:center;justify-content:space-between;gap:12px}.new-order-alert.show{display:flex}.new-order-alert b{color:var(--pink)}.order-badge{display:inline-flex;min-width:20px;height:20px;padding:0 6px;align-items:center;justify-content:center;border-radius:999px;background:#e9567b;color:#fff;font-size:12px;font-weight:700;margin-left:6px}.stat strong{font-size:24px;display:block;color:var(--pink)}
+.tabs{display:flex;gap:8px;margin-bottom:18px}.tab{background:#f4eef1;border:0;border-radius:20px;padding:9px 14px}.tab.active{background:var(--pink);color:#fff}
+.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}.modal.hidden{display:none}.modal-card{width:min(620px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 60px #0004}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.detail-box{background:#fff8fa;border:1px solid var(--line);border-radius:12px;padding:12px}.detail-label{font-size:11px;color:var(--muted);margin-bottom:4px}.detail-value{font-weight:600;white-space:pre-wrap;word-break:break-word}.item-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.item-name{font-weight:600}.summary-row{display:flex;justify-content:space-between;padding:7px 0}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-wait{background:#fff3cd;color:#8a5a00}.badge-ok{background:#e8f7ee;color:#18794e}.badge-pay{background:#ffeaf0;color:#b52245}.stock-ok{background:#e8f7ee;color:#18794e}.stock-low{background:#fff3cd;color:#8a5a00}.stock-out{background:#ffe5eb;color:#b52245}.summary-total{font-size:18px;font-weight:800;border-top:1px solid var(--line);margin-top:5px;padding-top:12px}
+@media(max-width:900px){.topstats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.detail-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.wrap{padding:14px}.grid,.topstats{grid-template-columns:1fr}table{display:block;overflow:auto;white-space:nowrap}}
+.variant-editor{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:8px;background:#fff9fb}.variant-line{display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr 1.2fr auto;gap:7px;align-items:end;margin-bottom:8px}.size-line{display:flex;gap:7px;align-items:center;margin-bottom:7px}.mini{font-size:11px;padding:7px 8px}.variant-editor .muted{margin-bottom:6px}@media(max-width:900px){.variant-line{grid-template-columns:1fr 1fr}.variant-line .wide{grid-column:1/-1}}
+/* Product picker layout fix */
+.product-picker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;max-height:280px;overflow:auto;padding:10px;border:1px solid var(--line);border-radius:12px;margin-top:8px;align-items:stretch}
+.product-picker-card{display:flex!important;align-items:center!important;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;min-width:0;margin:0!important;font-size:13px!important;font-weight:400!important;line-height:1.35}
+.product-picker-card input[type=checkbox]{width:17px!important;height:17px!important;min-width:17px;flex:0 0 17px;margin:0;accent-color:var(--pink)}
+.product-picker-card img{display:block;width:64px!important;height:64px!important;max-width:64px;min-width:64px;object-fit:contain!important;flex:0 0 64px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.product-picker-card .picker-copy{display:block;min-width:0;overflow-wrap:anywhere;word-break:normal}
+.product-picker-card .picker-copy b{display:block;font-size:12px;line-height:1.35;font-weight:650}
+.product-picker-card .picker-copy small{display:block;margin-top:3px}
+@media(max-width:600px){.product-picker-grid{grid-template-columns:1fr}.product-picker-card img{width:56px!important;height:56px!important;min-width:56px;flex-basis:56px}}
+
+</style>
+</head>
+<body>
+<div id="login" class="login card">
+  <div class="brand">Givitshop</div>
+  <p class="muted">Admin Panel</p>
+  <label>Email admin</label><input id="email" type="email" placeholder="admin@givitshop.com">
+  <label>Password</label><input id="password" type="password" placeholder="••••••••">
+  <button class="btn primary" style="width:100%;margin-top:14px" onclick="login()">Masuk</button>
+  <p id="loginMsg" class="muted"></p>
+</div>
+
+<div id="app" class="wrap hidden">
+<header><div><div class="brand">Givitshop</div><div class="muted">Admin Panel</div></div><button class="btn secondary" onclick="logout()">Keluar</button></header>
+<div id="newOrderAlert" class="new-order-alert"><div>🔔 <b id="newOrderCount">0 pesanan baru</b><div class="muted" style="margin-top:3px">Ada pesanan baru yang perlu diperiksa.</div></div><button class="btn primary" onclick="showNewOrders()">Lihat Pesanan</button></div>
+<div class="topstats dashboard-stats">
+  <div class="card stat"><span class="muted">📦 Produk aktif</span><strong id="statProducts">0</strong><span class="muted">produk</span></div>
+  <div class="card stat"><span class="muted">🛒 Pesanan hari ini</span><strong id="statToday">0</strong><span class="muted">pesanan</span></div>
+  <div class="card stat"><span class="muted">💳 Belum bayar</span><strong id="statUnpaid">0</strong><span class="muted">pesanan</span></div>
+  <div class="card stat"><span class="muted">🔵 Perlu diproses</span><strong id="statProcessing">0</strong><span class="muted">pesanan</span></div>
+  <div class="card stat"><span class="muted">⚠️ Stok menipis</span><strong id="statLowStock">0</strong><span class="muted">produk (1–10 pcs)</span></div>
+</div>
+<div class="tabs">
+ <button class="tab active" id="tabProducts" onclick="showTab('products')">Produk</button>
+ <button class="tab" id="tabOrders" onclick="showTab('orders')">Pesanan <span id="newOrderBadge" class="order-badge" style="display:none">0</span></button>
+ <button class="tab" id="tabChat" onclick="showTab('chat')">Chat Pembeli</button>
+ <button class="tab" id="tabVouchers" onclick="showTab('vouchers')">Voucher</button>
+ <button class="tab" id="tabProductPromos" onclick="showTab('productPromos')">Promo Produk</button>
+ <button class="tab" id="tabHomeBanner" onclick="showTab('homeBanner')">Foto Beranda</button>
+</div>
+
+<section id="productsTab">
+<div class="card" id="bulkExcelCard">
+<h2>Upload Produk Massal (Excel)</h2>
+<p class="muted">Tambahkan banyak produk sekaligus melalui file Excel (.xlsx). Unduh template, isi satu produk per baris, lalu pratinjau sebelum diimpor.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end">
+  <button type="button" class="btn secondary" onclick="downloadProductExcelTemplate()">Unduh Template Excel</button>
+  <div style="min-width:240px;flex:1"><label style="margin-top:0">Pilih file Excel</label><input id="bulkProductExcel" type="file" accept=".xlsx,.xls,.csv"></div>
+  <button type="button" class="btn secondary" onclick="previewBulkProductExcel()">Pratinjau File</button>
+  <button type="button" class="btn primary" id="bulkImportBtn" onclick="importBulkProducts()" disabled>Import Produk</button>
+</div>
+<p id="bulkExcelMsg" class="muted" role="status"></p>
+<div id="bulkExcelPreview" style="overflow:auto;max-height:360px;margin-top:8px"></div>
+<p class="muted" style="font-size:12px;margin-bottom:0">Kolom wajib: <b>name, price, stock</b>. Kolom lain: brand, category, description, weight_grams, is_active, image_url. Foto pada Excel harus berupa URL gambar publik; file gambar tidak bisa disematkan langsung ke sel Excel. Berat produk 1–1000 gram.</p>
+</div>
+<div class="card">
+<h2>Tambah / Edit Produk</h2>
+<input type="hidden" id="pid">
+<div class="grid">
+<div><label>Nama produk</label><input id="pname"></div>
+<div><label>Brand</label><input id="pbrand"></div>
+<div><label>Kategori</label><input id="pcat" placeholder="Skincare"></div>
+<div><label>Harga</label><input id="pprice" type="number" min="0"></div>
+<div><label>Stok</label><input id="pstock" type="number" min="0"></div>
+<div><label>Berat (gram)</label><input id="pweight" type="number" min="1" max="1000" step="1" value="1000"></div>
+<div><label>Status</label><select id="pactive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select></div>
+</div>
+<label>Deskripsi</label><textarea id="pdesc" rows="3"></textarea>
+<label>Varian & Harga</label>
+<div class="variant-editor"><div class="muted">Harga, stok, dan berat dapat diatur berbeda untuk setiap kombinasi varian + ukuran. Gambar varian di-upload langsung dari perangkat, tanpa URL.</div><div id="variantEditor"></div><button type="button" class="btn secondary mini" onclick="addVariantRow()">＋ Tambah Varian</button></div>
+<label>Ukuran</label>
+<div class="variant-editor"><div class="muted">Tambahkan ukuran terlebih dahulu. Setiap ukuran akan membuat kolom Harga, Stok, dan Berat pada tabel varian.</div><div id="sizeEditor"></div><button type="button" class="btn secondary mini" onclick="addSizeRow()">＋ Tambah Ukuran</button></div>
+<label>Foto produk (bisa pilih lebih dari 1)</label><input id="pimage" type="file" accept="image/*" multiple><div id="productImagePreview" class="muted" style="margin-top:6px">Pilih beberapa foto untuk membuat slide foto produk.</div>
+<div style="margin-top:12px;display:flex;gap:8px"><button class="btn primary" onclick="saveProduct()">Simpan Produk</button><button class="btn secondary" onclick="resetProduct()">Batal</button></div>
+<p id="productMsg" class="muted"></p>
+</div>
+<div class="card">
+<h2>Daftar Produk</h2>
+<div class="muted" style="margin:-6px 0 12px">Stok: 🟢 Aman &nbsp; 🟡 Menipis (1–10) &nbsp; 🔴 Habis (0)</div>
+<div style="margin-bottom:12px"><input id="productSearch" type="search" placeholder="Cari nama produk, brand, atau kategori..." oninput="renderProducts()"></div>
+<div style="overflow:auto"><table><thead><tr><th>Foto</th><th>Produk</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Berat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="productRows"></tbody></table></div>
+</div>
+</section>
+
+<section id="ordersTab" class="hidden">
+<div class="card">
+<h2>Pesanan</h2>
+<div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:14px">
+  <div style="min-width:260px;flex:1"><label style="margin-top:0">Filter pesanan</label><select id="orderFilter" onchange="renderOrders()">
+    <option value="all">Semua pesanan</option>
+    <option value="shipping_pending">⏳ Menunggu konfirmasi ongkir</option>
+    <option value="payment_pending">💳 Menunggu pembayaran</option>
+    <option value="pending">🟠 Menunggu</option>
+    <option value="processing">🔵 Diproses</option>
+    <option value="shipped">🚚 Dikirim</option>
+    <option value="completed">🟢 Selesai</option>
+    <option value="cancelled">🔴 Dibatalkan</option>
+  </select></div>
+  <div id="orderFilterInfo" class="muted"></div>
+  <div style="min-width:240px;flex:1"><label style="margin-top:0">Cari pesanan</label><input id="orderSearch" type="search" placeholder="ID, nama, WhatsApp, atau alamat..." oninput="renderOrders()"></div>
+</div>
+<div style="overflow:auto"><table><thead><tr><th>ID</th><th>Pelanggan</th><th>Total</th><th>Pembayaran</th><th>Status</th><th>Tanggal</th><th>Aksi</th></tr></thead><tbody id="orderRows"></tbody></table></div>
+</div>
+</section>
+<section id="chatTab" class="hidden">
+ <div class="card">
+  <h2>Chat Pembeli</h2>
+  <p class="muted">Balas pesan pelanggan dari aplikasi Givitshop. Riwayat disimpan di Supabase.</p>
+  <div style="overflow:auto"><table><thead><tr><th>Pesanan</th><th>WhatsApp</th><th>Pesan terakhir</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody id="chatRows"><tr><td colspan="5">Buka tab ini untuk memuat percakapan.</td></tr></tbody></table></div>
+  <button class="btn secondary" style="margin-top:12px" onclick="loadChatConversations()">Muat ulang chat</button>
+ </div>
+</section>
+<section id="productPromosTab" class="hidden">
+ <div class="card">
+  <h2>Promo Diskon Produk</h2>
+  <p class="muted">Diskon langsung terlihat di katalog, detail produk, keranjang, dan dihitung ulang di database saat pesanan dibuat. Satu promo aktif per produk.</p>
+  <input type="hidden" id="productPromoId">
+  <div class="grid">
+   <div style="grid-column:1/-1"><label>Cari produk</label><input id="productPromoSearch" type="search" placeholder="Ketik nama produk, brand, atau kategori..." oninput="renderProductPromoPicker()"><label style="margin-top:8px">Pilih produk (centang satu atau beberapa)</label><div id="productPromoPicker" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;max-height:260px;overflow:auto;padding:10px;border:1px solid #eadfe3;border-radius:12px;margin-top:8px"><span class="muted">Memuat produk...</span></div><small id="productPromoSelectHint" class="muted">Centang semua produk yang ingin diberi promo. Pencarian tidak menghapus pilihan yang sudah dibuat.</small></div>
+   <div><label>Nama promo</label><input id="productPromoTitle" placeholder="Contoh: Promo Oktober"></div>
+   <div><label>Jenis diskon</label><select id="productPromoType"><option value="percent">Persentase (%)</option><option value="fixed">Potongan rupiah (Rp)</option></select></div>
+   <div><label>Nilai diskon</label><input id="productPromoValue" type="number" min="1" step="1" placeholder="20"></div>
+   <div><label>Batas penggunaan promo (jumlah pesanan)</label><input id="productPromoLimit" type="number" min="1" step="1" placeholder="Kosong = tanpa batas"></div>
+   <div><label>Status</label><select id="productPromoActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select></div>
+   <div><label>Mulai berlaku</label><input id="productPromoStart" type="datetime-local"></div>
+   <div><label>Akhir berlaku</label><input id="productPromoEnd" type="datetime-local"></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn primary" onclick="saveProductPromo()">Simpan Promo</button><button class="btn secondary" onclick="resetProductPromoForm()">Promo Baru / Batal</button><button class="btn secondary" onclick="loadProductPromos()">Muat Ulang</button></div>
+  <p id="productPromoMsg" class="muted"></p>
+ </div>
+ <div class="card"><h2>Daftar Promo Produk</h2><div style="overflow:auto"><table><thead><tr><th>Produk</th><th>Diskon</th><th>Periode</th><th>Penggunaan</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="productPromoRows"><tr><td colspan="6">Buka tab untuk memuat promo.</td></tr></tbody></table></div></div>
+</section>
+
+<section id="vouchersTab" class="hidden">
+ <div class="card">
+  <h2>Voucher Givitshop</h2><p class="muted">Buat dan publikasikan voucher untuk ditampilkan di menu Voucher Saya pada aplikasi pembeli.</p>
+  <input type="hidden" id="voucherId"><div class="grid">
+   <div><label>Nama voucher</label><input id="voucherTitle" placeholder="Contoh: Promo Givitshop"></div><div><label>Kode voucher</label><input id="voucherCode" placeholder="Contoh: GIVIT10"></div>
+   <div><label>Jenis diskon</label><select id="voucherType"><option value="percent">Persentase (%)</option><option value="fixed">Potongan rupiah (Rp)</option></select></div><div><label>Nilai diskon</label><input id="voucherValue" type="number" min="1" step="1" placeholder="10"></div>
+   <div><label>Minimum belanja (Rp)</label><input id="voucherMin" type="number" min="0" step="1000" value="0"></div><div><label>Batas penggunaan (kosong = tanpa batas)</label><input id="voucherLimit" type="number" min="1" step="1" placeholder="100"></div>
+   <div><label>Mulai berlaku</label><input id="voucherStart" type="datetime-local"></div><div><label>Akhir berlaku</label><input id="voucherEnd" type="datetime-local"></div>
+   <div style="grid-column:1/-1"><label>Keterangan / syarat</label><textarea id="voucherDescription" rows="2" placeholder="Syarat atau informasi voucher"></textarea></div>
+   <div style="grid-column:1/-1"><label>Produk yang berlaku (pilih satu atau beberapa)</label><input id="voucherProductSearch" type="search" placeholder="Cari nama produk atau brand..." oninput="renderVoucherProductPicker()"><div id="voucherProductPicker" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;max-height:240px;overflow:auto;padding:10px;border:1px solid #eadfe3;border-radius:12px;margin-top:8px"><span class="muted">Memuat daftar produk...</span></div><small class="muted">Voucher hanya berlaku untuk produk yang dicentang. Pilih minimal satu produk.</small></div>
+   <div><label>Status publikasi</label><select id="voucherActive"><option value="true">Aktif — tampil ke pembeli</option><option value="false">Nonaktif — disembunyikan</option></select></div>
+  </div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn primary" onclick="saveVoucher()">Simpan Voucher</button><button class="btn secondary" onclick="resetVoucherForm()">Batal / Voucher Baru</button><button class="btn secondary" onclick="loadVouchers()">Muat Ulang</button></div><p id="voucherMsg" class="muted"></p>
+ </div><div class="card"><h2>Daftar Voucher</h2><div style="overflow:auto"><table><thead><tr><th>Nama / Kode</th><th>Diskon</th><th>Periode</th><th>Penggunaan</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="voucherRows"><tr><td colspan="6">Buka tab untuk memuat voucher.</td></tr></tbody></table></div></div>
+</section>
+</div>
+
+<div id="adminChatModal" class="modal hidden" onclick="if(event.target===this)closeAdminChat()">
+ <div class="modal-card" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px"><div><h2 id="adminChatTitle">Chat Pembeli</h2><div class="muted">Balasan dikirim ke chat pelanggan</div></div><button class="btn secondary" onclick="closeAdminChat()">Tutup</button></div>
+  <div id="adminChatMessages" style="height:50vh;min-height:240px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff"></div>
+  <div style="display:flex;gap:8px;margin-top:10px;align-items:end"><textarea id="adminChatInput" rows="2" placeholder="Tulis balasan..." style="flex:1;min-width:0"></textarea><button class="btn primary" onclick="sendAdminChatMessage()">Kirim</button></div>
+ </div>
+</div>
+
+<div id="detailModal" class="modal hidden" onclick="closeDetail(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px">
+      <div><h2 style="margin:0">Detail Pesanan</h2><div id="detailOrderId" class="muted"></div></div>
+      <button class="btn secondary" onclick="closeDetail()">Tutup</button>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-box"><div class="detail-label">Nama pelanggan</div><div id="detailName" class="detail-value"></div></div>
+      <div class="detail-box"><div class="detail-label">WhatsApp</div><div id="detailPhone" class="detail-value"></div></div>
+      <div class="detail-box" style="grid-column:1/-1"><div class="detail-label">Alamat</div><div id="detailAddress" class="detail-value"></div></div>
+      <div class="detail-box"><div class="detail-label">Status pembayaran</div><div id="detailPayment" class="detail-value"></div></div>
+      <div class="detail-box"><div class="detail-label">Status pesanan</div><div id="detailStatus" class="detail-value"></div></div>
+    </div>
+    <div style="margin-top:18px"><h3>Produk yang dibeli</h3><div id="detailItems"></div></div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="waBtn" onclick="chatWhatsApp()">💬 Chat WhatsApp</button>
+    </div>
+    <div style="margin-top:16px" class="detail-box">
+      <h3 style="margin-top:0">Pengiriman</h3>
+      <div class="detail-grid">
+        <div class="detail-box"><div class="detail-label">Ekspedisi</div><div id="detailCourier" class="detail-value"></div></div>
+        <div class="detail-box"><div class="detail-label">Layanan</div><div id="detailService" class="detail-value"></div></div>
+        <div class="detail-box"><div class="detail-label">Berat kirim</div><div id="detailWeight" class="detail-value"></div></div>
+        <div class="detail-box"><div class="detail-label">Status ongkir</div><div id="detailShippingStatus" class="detail-value"></div></div>
+      </div>
+      <div id="manualShippingBox" style="margin-top:12px;display:none">
+        <div class="detail-label">Konfirmasi ongkir GrabExpress / Maxim</div>
+        <div class="detail-grid">
+          <div><label>Ekspedisi</label><select id="shippingCourier"><option value="grabexpress">GrabExpress</option><option value="maxim">Maxim</option></select></div>
+          <div><label>Layanan</label><input id="shippingService" value="Instant"></div>
+          <div><label>Ongkir (Rp)</label><input id="shippingCost" type="number" min="0" step="1000" placeholder="Contoh 15000"></div>
+        </div>
+        <button class="btn primary" style="margin-top:10px" onclick="confirmShipping()">Konfirmasi Ongkir</button>
+      </div>
+    </div>
+    <div style="margin-top:12px">
+      <div class="summary-row"><span>Subtotal produk</span><b id="detailSubtotal"></b></div>
+      <div class="summary-row"><span>Ongkir</span><b id="detailShipping"></b></div>
+      <div class="summary-row summary-total"><span>Total</span><b id="detailTotal"></b></div>
+    </div>
+  </div>
+</div>
+
+<section id="homeBannerTab" class="hidden">
+ <div class="card">
+  <h2>Foto Banner Halaman Utama</h2>
+  <p class="muted">Ganti foto banner yang tampil di halaman Beranda aplikasi pembeli. Desain, tulisan, dan bagian lain aplikasi tidak diubah.</p>
+  <label>Pilih foto banner</label><input id="homeBannerFile" type="file" accept="image/*" onchange="previewHomeBanner(event)">
+  <div style="margin-top:12px"><img id="homeBannerPreview" alt="Pratinjau foto banner" style="display:none;width:100%;max-width:520px;max-height:240px;object-fit:contain;border:1px solid var(--line);border-radius:14px;background:#fff"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn primary" onclick="saveHomeBanner()">Simpan Foto Beranda</button><button class="btn secondary" onclick="loadHomeBanner()">Muat Ulang</button><button class="btn danger" onclick="removeHomeBanner()">Hapus Foto / Pakai Tampilan Lama</button></div>
+  <p id="homeBannerMsg" class="muted"></p>
+ </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+const SUPABASE_URL='https://oaojkkhvscbufpakunrs.supabase.co';
+const SUPABASE_KEY='sb_publishable_jeoQMVZMgtnJeUR9tsq8tg_owYrhU-S';
+let token=null, products=[], orders=[];
+let editingVariants=[], editingSizes=[];
+const SEEN_ORDER_KEY='givit_admin_seen_order_ids_v1';
+let seenOrderIds=new Set();
+function loadSeenOrderIds(){try{seenOrderIds=new Set(JSON.parse(localStorage.getItem(SEEN_ORDER_KEY)||'[]').map(String))}catch(e){seenOrderIds=new Set()}}
+function saveSeenOrderIds(){localStorage.setItem(SEEN_ORDER_KEY,JSON.stringify([...seenOrderIds].slice(-500)))}
+function markOrderSeen(id){seenOrderIds.add(String(id));saveSeenOrderIds();renderNewOrderAlert()}
+function renderNewOrderAlert(){const fresh=orders.filter(o=>!seenOrderIds.has(String(o.id)));const alert=document.getElementById('newOrderAlert'),count=document.getElementById('newOrderCount'),badge=document.getElementById('newOrderBadge');if(!alert)return;count.textContent=`${fresh.length} pesanan baru`;alert.classList.toggle('show',fresh.length>0);badge.textContent=fresh.length;badge.style.display=fresh.length?'inline-flex':'none'}
+function showNewOrders(){showTab('orders');const f=document.getElementById('orderFilter');if(f)f.value='all';renderOrders();document.getElementById('ordersTab')?.scrollIntoView({behavior:'smooth',block:'start'})}
+
+const headers=()=>({'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':'application/json'});
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0);
+async function api(path,opt={}){let r=await fetch(SUPABASE_URL+path,{...opt,headers:{...headers(),...(opt.headers||{})}});let t=await r.text();let d=t?JSON.parse(t):null;if(!r.ok)throw Error(d?.message||d?.hint||t||r.status);return d}
+
+let bulkProductRows = [];
+function downloadProductExcelTemplate(){
+ if(typeof XLSX==='undefined'){alert('Library Excel belum termuat. Periksa koneksi internet lalu muat ulang halaman admin.');return;}
+ const rows=[
+  {name:'Contoh Face Wash',brand:'Contoh Brand',category:'Skincare',price:31000,stock:20,weight_grams:1000,is_active:true,description:'Deskripsi produk',image_url:''},
+  {name:'Contoh Lip Cream',brand:'Contoh Brand',category:'Makeup',price:25000,stock:15,weight_grams:100,is_active:true,description:'Deskripsi produk kedua',image_url:''}
+ ];
+ const ws=XLSX.utils.json_to_sheet(rows,{header:['name','brand','category','price','stock','weight_grams','is_active','description','image_url']});
+ ws['!cols']=[{wch:28},{wch:22},{wch:18},{wch:14},{wch:12},{wch:16},{wch:12},{wch:42},{wch:48}];
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Produk');
+ const guide=[
+  {kolom:'name',keterangan:'Wajib. Nama produk.'},{kolom:'price',keterangan:'Wajib. Harga angka tanpa Rp atau titik.'},
+  {kolom:'stock',keterangan:'Wajib. Stok bilangan bulat.'},{kolom:'brand',keterangan:'Opsional. Nama brand.'},
+  {kolom:'category',keterangan:'Opsional. Kategori produk.'},{kolom:'description',keterangan:'Opsional. Deskripsi produk.'},
+  {kolom:'weight_grams',keterangan:'Opsional. Berat 1–1000 gram; default 1000.'},
+  {kolom:'is_active',keterangan:'Opsional. TRUE aktif, FALSE nonaktif; default TRUE.'},
+  {kolom:'image_url',keterangan:'Opsional. URL gambar publik; foto tidak diunggah langsung dari Excel.'}
+ ];
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(guide),'Panduan');
+ XLSX.writeFile(wb,'Template_Produk_Massal_Givitshop.xlsx');
+}
+function normalizeBulkBool(v){
+ if(v===undefined||v===null||String(v).trim()==='')return true;
+ const s=String(v).trim().toLowerCase();
+ if(['true','1','ya','yes','aktif'].includes(s))return true;
+ if(['false','0','tidak','no','nonaktif'].includes(s))return false;
+ throw Error('is_active harus TRUE/FALSE.');
+}
+function previewBulkProductExcel(){
+ const msg=document.getElementById('bulkExcelMsg'), preview=document.getElementById('bulkExcelPreview'), file=document.getElementById('bulkProductExcel').files[0];
+ bulkProductRows=[];document.getElementById('bulkImportBtn').disabled=true;preview.innerHTML='';
+ if(!file){msg.textContent='Pilih file Excel terlebih dahulu.';return;}
+ if(typeof XLSX==='undefined'){msg.textContent='Library Excel belum termuat. Periksa koneksi internet lalu muat ulang halaman admin.';return;}
+ const reader=new FileReader();
+ reader.onload=e=>{
+  try{
+   const wb=XLSX.read(e.target.result,{type:'array'}), sheet=wb.Sheets[wb.SheetNames[0]], raw=XLSX.utils.sheet_to_json(sheet,{defval:'',raw:true});
+   if(!raw.length)throw Error('File tidak memiliki baris produk.');
+   const headers=Object.keys(raw[0]).map(x=>String(x).trim()), missing=['name','price','stock'].filter(x=>!headers.includes(x));
+   if(missing.length)throw Error('Kolom wajib tidak ditemukan: '+missing.join(', ')+'. Gunakan template.');
+   const errors=[];
+   bulkProductRows=raw.map((r,i)=>{
+    const rowNum=i+2, name=String(r.name||'').trim(), price=Number(r.price), stock=Number(r.stock);
+    const weight=String(r.weight_grams??'').trim()===''?1000:Number(r.weight_grams);
+    if(!name)errors.push('Baris '+rowNum+': nama produk kosong.');
+    if(!Number.isFinite(price)||price<0)errors.push('Baris '+rowNum+': harga harus angka 0 atau lebih.');
+    if(!Number.isFinite(stock)||stock<0||!Number.isInteger(stock))errors.push('Baris '+rowNum+': stok harus bilangan bulat 0 atau lebih.');
+    if(!Number.isFinite(weight)||!Number.isInteger(weight)||weight<1||weight>1000)errors.push('Baris '+rowNum+': berat harus 1–1000 gram.');
+    let active=true;try{active=normalizeBulkBool(r.is_active)}catch(err){errors.push('Baris '+rowNum+': '+err.message);}
+    return {name,brand:String(r.brand||'').trim(),category:String(r.category||'').trim(),description:String(r.description||'').trim(),price,stock,weight_grams:weight,is_active:active,image_url:String(r.image_url||'').trim()||null,_row:rowNum};
+   }).filter(r=>r.name||String(r.price??'').trim()!==''||String(r.stock??'').trim()!=='');
+   if(errors.length){bulkProductRows=[];msg.textContent='Ditemukan '+errors.length+' kesalahan. Perbaiki Excel lalu pratinjau lagi. '+errors.slice(0,8).join(' ');return;}
+   if(!bulkProductRows.length)throw Error('Tidak ada baris produk yang dapat diimpor.');
+   preview.innerHTML='<table style="width:100%;border-collapse:collapse"><thead><tr><th>Baris</th><th>Nama</th><th>Brand</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Berat</th><th>Status</th></tr></thead><tbody>'+bulkProductRows.slice(0,100).map(r=>'<tr><td>'+r._row+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.brand)+'</td><td>'+esc(r.category)+'</td><td>'+money(r.price)+'</td><td>'+r.stock+'</td><td>'+r.weight_grams+' g</td><td>'+(r.is_active?'Aktif':'Nonaktif')+'</td></tr>').join('')+'</tbody></table>'+(bulkProductRows.length>100?'<p class="muted">Pratinjau 100 dari '+bulkProductRows.length+' produk.</p>':'');
+   msg.textContent='Valid ✓ '+bulkProductRows.length+' produk siap diimpor. Periksa data sebelum menekan Import Produk.';
+   document.getElementById('bulkImportBtn').disabled=false;
+  }catch(err){bulkProductRows=[];msg.textContent='Gagal membaca Excel: '+err.message;}
+ };
+ reader.onerror=()=>{msg.textContent='File tidak dapat dibaca.'};reader.readAsArrayBuffer(file);
+}
+async function importBulkProducts(){
+ const msg=document.getElementById('bulkExcelMsg'),btn=document.getElementById('bulkImportBtn');
+ if(!token){msg.textContent='Silakan login admin terlebih dahulu.';return;}
+ if(!bulkProductRows.length){msg.textContent='Pratinjau file terlebih dahulu.';return;}
+ if(!confirm('Impor '+bulkProductRows.length+' produk baru ke Givitshop? Produk ditambahkan, bukan mengganti produk lama.'))return;
+ btn.disabled=true;msg.textContent='Mengimpor produk...';let success=0,failed=[];
+ try{
+  const rows=bulkProductRows.map(r=>({id:crypto.randomUUID(),name:r.name,brand:r.brand,category:r.category,description:r.description,price:r.price,stock:r.stock,weight_grams:r.weight_grams,is_active:r.is_active,image_url:r.image_url}));
+  for(let i=0;i<rows.length;i+=50){
+   const batch=rows.slice(i,i+50);
+   try{await api('/rest/v1/products',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(batch)});success+=batch.length;}
+   catch(err){for(const row of batch){try{await api('/rest/v1/products',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(row)});success++;}catch(rowErr){failed.push({name:row.name,error:rowErr.message});}}}
+   msg.textContent='Memproses... '+Math.min(i+50,rows.length)+'/'+rows.length+' baris.';
+  }
+  msg.textContent='Selesai: '+success+' produk berhasil ditambahkan.'+(failed.length?' '+failed.length+' gagal. Contoh: '+failed.slice(0,3).map(x=>x.name+' ('+x.error+')').join('; '):'');
+  if(failed.length){const dl=document.createElement('button');dl.type='button';dl.className='btn secondary';dl.style.marginTop='8px';dl.textContent='Unduh laporan gagal (CSV)';dl.onclick=()=>{const csv='nama_produk,kesalahan\n'+failed.map(x=>'"'+String(x.name).replace(/"/g,'""')+'","'+String(x.error).replace(/"/g,'""')+'"').join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='Laporan_Import_Gagal_Givitshop.csv';a.click();URL.revokeObjectURL(a.href);};document.getElementById('bulkExcelPreview').appendChild(dl);}
+  bulkProductRows=[];document.getElementById('bulkProductExcel').value='';await loadProducts();renderStats();
+ }catch(err){msg.textContent='Import gagal: '+err.message;}
+ finally{btn.disabled=!bulkProductRows.length;}
+}
+
+async function login(){
+ const msg=document.getElementById('loginMsg');msg.textContent='Memproses...';
+ try{const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({email:email.value,password:password.value})});
+ const d=await r.json();if(!r.ok)throw Error(d.error_description||d.msg||'Login gagal');token=d.access_token;sessionStorage.setItem('givit_admin_token',token);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');await refresh()}catch(e){msg.textContent=e.message}}
+function logout(){sessionStorage.removeItem('givit_admin_token');location.reload()}
+async function refresh(){await Promise.all([loadProducts(),loadOrders()]);renderStats();renderNewOrderAlert()}
+async function pollOrders(){try{await loadOrders();renderStats();renderNewOrderAlert()}catch(e){}}
+setInterval(()=>{if(token)pollOrders()},30000)
+async function loadProducts(){
+ const [ps,vs,ss,os,imgs]=await Promise.all([api('/rest/v1/products?select=*&order=created_at.desc'),api('/rest/v1/product_variants?select=*&order=created_at.asc'),api('/rest/v1/product_sizes?select=*&order=created_at.asc'),api('/rest/v1/product_variant_options?select=*&order=created_at.asc'),api('/rest/v1/product_images?select=*&order=sort_order.asc')]);
+ products=ps.map(p=>({...p,images:imgs.filter(x=>String(x.product_id)===String(p.id)).sort((a,b)=>Number(a.sort_order||0)-Number(b.sort_order||0)),variants:vs.filter(v=>String(v.product_id)===String(p.id)),sizes:ss.filter(x=>String(x.product_id)===String(p.id)),options:os.filter(o=>String(o.product_id)===String(p.id))}));
+ renderProducts();renderVoucherProductPicker();renderProductPromoPicker();
+}
+async function loadOrders(){const firstLoad=orders.length===0;orders=await api('/rest/v1/orders?select=*&order=created_at.desc');if(firstLoad && seenOrderIds.size===0 && orders.length){orders.forEach(o=>seenOrderIds.add(String(o.id)));saveSeenOrderIds()}renderOrders();renderNewOrderAlert()}
+function renderStats(){
+ const now=new Date();
+ const todayKey=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Makassar',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+ const todayOrders=orders.filter(o=>{const d=new Date(o.created_at);const key=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Makassar',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);return key===todayKey}).length;
+ const unpaid=orders.filter(o=>o.payment_status==='unpaid' && o.status!=='cancelled').length;
+ const pendingProcess=orders.filter(o=>o.status==='pending' && o.shipping_confirmed!==false && o.payment_status!=='unpaid').length;
+ const lowStock=products.filter(p=>p.is_active && Number(p.stock)>0 && Number(p.stock)<=10).length;
+ statProducts.textContent=products.filter(x=>x.is_active).length;
+ statToday.textContent=todayOrders;
+ statUnpaid.textContent=unpaid;
+ statProcessing.textContent=pendingProcess;
+ statLowStock.textContent=lowStock;
+}
+function renderProducts(){const q=(document.getElementById('productSearch')?.value||'').trim().toLocaleLowerCase('id-ID');const shown=products.filter(p=>[p.name,p.brand,p.category].some(v=>String(v||'').toLocaleLowerCase('id-ID').includes(q)));productRows.innerHTML=shown.map(p=>{const stock=Number(p.stock)||0;const cls=stock===0?'stock-out':(stock<=10?'stock-low':'stock-ok');const label=stock===0?'🔴 Habis':(stock<=10?'🟡 Menipis':'🟢 Aman');return `<tr><td>${p.image_url?`<img class="thumb" src="${esc(p.image_url)}">`:''}</td><td><b>${esc(p.name)}</b><br><span class="muted">${esc(p.brand||'')}${p.variants?.length?` · ${p.variants.length} varian`:''}${p.sizes?.length?` · ${p.sizes.length} ukuran`:''}</span></td><td>${esc(p.category)}</td><td>${money(p.price)}</td><td><span class="badge ${cls}">${label}</span><br><span class="muted">${stock} pcs</span></td><td>${Number(p.weight_grams||1000).toLocaleString('id-ID')} g</td><td>${p.is_active?'Aktif':'Nonaktif'}</td><td><div class="row-actions"><button class="btn secondary" onclick="editProduct('${p.id}')">Edit</button><button class="btn danger" onclick="deleteProduct('${p.id}')">Hapus</button></div></td></tr>`}).join('')}
+function editProduct(id){
+ let p=products.find(x=>x.id===id);if(!p)return;
+ pid.value=p.id;pname.value=p.name||'';pbrand.value=p.brand||'';pcat.value=p.category||'';pprice.value=p.price||0;pstock.value=p.stock||0;pweight.value=p.weight_grams||100;pactive.value=String(!!p.is_active);pdesc.value=p.description||'';
+ editingVariants=(p.variants||[]).map(v=>{const options={};(p.options||[]).filter(o=>String(o.variant_id)===String(v.id)).forEach(o=>options[String(o.size_id)]={...o});return {...v,options}});
+ editingSizes=(p.sizes||[]).map(x=>({...x}));document.getElementById('productImagePreview').innerHTML=(p.images||[]).length?`Foto tersimpan: ${(p.images||[]).length} foto`:'Belum ada foto tambahan.';renderVariantEditor();renderSizeEditor();scrollTo(0,0)
+}
+function resetProduct(){['pid','pname','pbrand','pcat','pprice','pstock','pweight','pdesc'].forEach(id=>document.getElementById(id).value='');pactive.value='true';pimage.value='';document.getElementById('productImagePreview').textContent='Pilih beberapa foto untuk membuat slide foto produk.';editingVariants=[];editingSizes=[];renderVariantEditor();renderSizeEditor()}
+function addVariantRow(){editingVariants.push({id:null,name:'',image_url:'',is_active:true,options:{}});renderVariantEditor()}
+function removeVariantRow(i){editingVariants.splice(i,1);renderVariantEditor()}
+function addSizeRow(){editingSizes.push({id:null,name:'',is_active:true});renderSizeEditor();renderVariantEditor()}
+function removeSizeRow(i){editingSizes.splice(i,1);renderSizeEditor();renderVariantEditor()}
+function optionFor(v,sizeId){return (v.options||{})[String(sizeId)]||{price:'',stock:0,weight_grams:100}}
+function renderVariantEditor(){
+ const el=document.getElementById('variantEditor');if(!el)return;
+ const sizes=editingSizes.filter(x=>String(x.name||'').trim());
+ if(!editingVariants.length){el.innerHTML='<div class="muted">Belum ada varian.</div>';return}
+ let head=`<div style="overflow:auto"><table style="width:100%;min-width:${Math.max(760,420+sizes.length*270)}px;border-collapse:collapse"><thead><tr><th style="padding:8px;border-bottom:1px solid var(--line)">No</th><th style="padding:8px;border-bottom:1px solid var(--line)">Nama Varian</th><th style="padding:8px;border-bottom:1px solid var(--line)">Gambar</th>`;
+ sizes.forEach(z=>{head+=`<th colspan="3" style="padding:8px;border-bottom:1px solid var(--line);text-align:center">${esc(z.name)}<div style="font-size:10px;color:#777;font-weight:400">Harga · Stok · Berat</div></th>`});
+ head+='<th style="padding:8px;border-bottom:1px solid var(--line)">Aksi</th></tr></thead><tbody>';
+ let rows=editingVariants.map((v,i)=>{
+   let r=`<tr><td style="padding:8px;border-bottom:1px solid var(--line)">${i+1}</td><td style="padding:8px;border-bottom:1px solid var(--line);min-width:150px"><input class="vname" data-i="${i}" value="${esc(v.name||'')}" placeholder="Daily Bright"></td><td style="padding:8px;border-bottom:1px solid var(--line);min-width:150px"><div style="display:flex;align-items:center;gap:7px">${v.image_url?`<img src="${esc(v.image_url)}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">`:''}<input class="vfile" data-i="${i}" type="file" accept="image/*" style="max-width:140px"></div></td>`;
+   sizes.forEach(z=>{const o=optionFor(v,z.id);r+=`<td style="padding:8px;border-bottom:1px solid var(--line);min-width:95px"><input class="oprice" data-i="${i}" data-sid="${z.id}" type="number" min="0" value="${o.price??''}" placeholder="Harga"></td><td style="padding:8px;border-bottom:1px solid var(--line);min-width:75px"><input class="ostock" data-i="${i}" data-sid="${z.id}" type="number" min="0" value="${o.stock??0}" placeholder="Stok"></td><td style="padding:8px;border-bottom:1px solid var(--line);min-width:80px"><input class="oweight" data-i="${i}" data-sid="${z.id}" type="number" min="1" max="1000" value="${o.weight_grams||100}" placeholder="g"></td>`});
+   r+=`<td style="padding:8px;border-bottom:1px solid var(--line)"><button type="button" class="btn danger mini" onclick="removeVariantRow(${i})">Hapus</button></td></tr>`;return r;
+ }).join('');
+ el.innerHTML=head+rows+'</tbody></table></div>';
+ el.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{
+   const i=Number(inp.dataset.i);if(inp.classList.contains('vname')) editingVariants[i].name=inp.value;
+   if(inp.classList.contains('oprice')||inp.classList.contains('ostock')||inp.classList.contains('oweight')){const sid=String(inp.dataset.sid);editingVariants[i].options=editingVariants[i].options||{};editingVariants[i].options[sid]=editingVariants[i].options[sid]||{};if(inp.classList.contains('oprice'))editingVariants[i].options[sid].price=inp.value;if(inp.classList.contains('ostock'))editingVariants[i].options[sid].stock=Number(inp.value||0);if(inp.classList.contains('oweight'))editingVariants[i].options[sid].weight_grams=Number(inp.value||100)}
+ }));
+ el.querySelectorAll('.vfile').forEach(inp=>inp.addEventListener('change',()=>{const i=Number(inp.dataset.i);editingVariants[i].file=inp.files[0]||null}));
+}
+function renderSizeEditor(){const el=document.getElementById('sizeEditor');if(!el)return;el.innerHTML=editingSizes.map((v,i)=>`<div class="size-line"><input data-i="${i}" class="sname" value="${esc(v.name||'')}" placeholder="100ml"><button type="button" class="btn danger mini" onclick="removeSizeRow(${i})">Hapus</button></div>`).join('')||'<div class="muted">Belum ada ukuran.</div>';el.querySelectorAll('.sname').forEach(inp=>inp.addEventListener('input',()=>{editingSizes[Number(inp.dataset.i)].name=inp.value;renderVariantEditor()}))}
+
+async function uploadVariantImage(id,file,oldUrl){if(!file)return oldUrl||null;const ext=(file.name.split('.').pop()||'jpg').toLowerCase();const path=`variants/${id}.${ext}`;const r=await fetch(SUPABASE_URL+'/storage/v1/object/product-images/'+path,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':file.type,'x-upsert':'true'},body:file});if(!r.ok)throw Error(await r.text());return SUPABASE_URL+'/storage/v1/object/public/product-images/'+path}
+async function uploadProductImage(id,file,index){const ext=(file.name.split('.').pop()||'jpg').toLowerCase();const path=`products/${id}-${index}.${ext}`;const r=await fetch(SUPABASE_URL+'/storage/v1/object/product-images/'+path,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':file.type,'x-upsert':'true'},body:file});if(!r.ok)throw Error(await r.text());return SUPABASE_URL+'/storage/v1/object/public/product-images/'+path}
+async function saveProduct(){
+ productMsg.textContent='Menyimpan...';try{
+  let id=pid.value||crypto.randomUUID(), image_url=products.find(x=>x.id===id)?.image_url||null;const files=Array.from(pimage.files||[]);
+  if(files.length){image_url=await uploadProductImage(id,files[0],0)}
+  const weight=Math.round(Number(pweight.value||100));if(weight<1||weight>1000){alert('Berat produk harus 1–1000 gram.');return;}
+  const old=products.find(x=>x.id===id);const oldVariants=old?.variants||[];const oldSizes=old?.sizes||[];
+  const cleanSizes=editingSizes.filter(v=>String(v.name||'').trim()).map(v=>({id:v.id||crypto.randomUUID(),product_id:id,name:String(v.name).trim(),is_active:true}));
+  const sizeIds=new Set(cleanSizes.map(x=>String(x.id)));
+  const cleanVariants=[];
+  for(const v of editingVariants.filter(v=>String(v.name||'').trim())){const vid=v.id||crypto.randomUUID();v.id=vid;const img=await uploadVariantImage(vid,v.file,v.image_url);v.image_url=img;cleanVariants.push({id:vid,product_id:id,name:String(v.name).trim(),price:Number(pprice.value||0),stock:0,weight_grams:weight,image_url:img,is_active:true});}
+  // preserve old records but deactivate removed ones
+  for(const oldV of oldVariants.filter(oldV=>!cleanVariants.some(newV=>String(newV.id)===String(oldV.id)))) await api('/rest/v1/product_variants?id=eq.'+encodeURIComponent(oldV.id),{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify({is_active:false})});
+  for(const oldS of oldSizes.filter(oldS=>!cleanSizes.some(newS=>String(newS.id)===String(oldS.id)))) await api('/rest/v1/product_sizes?id=eq.'+encodeURIComponent(oldS.id),{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify({is_active:false})});
+  const options=[];let aggregateStock=0, minPrice=null;
+  cleanVariants.forEach(v=>{v.stock=0;cleanSizes.forEach(z=>{const o=optionFor(editingVariants.find(x=>String(x.id||'')===String(v.id))||{},z.id);const price=Number(o.price||0);const stock=Number(o.stock||0);const wg=Math.max(1,Math.min(1000,Number(o.weight_grams||weight)));options.push({id:crypto.randomUUID(),product_id:id,variant_id:v.id,size_id:z.id,price,stock,weight_grams:wg,image_url:v.image_url,is_active:true});aggregateStock+=stock;if(minPrice===null||price<minPrice)minPrice=price;});});
+  const body={name:pname.value,brand:pbrand.value,category:pcat.value,description:pdesc.value,price:minPrice??Number(pprice.value||0),stock:cleanVariants.length&&cleanSizes.length?aggregateStock:Number(pstock.value||0),weight_grams:weight,is_active:pactive.value==='true',image_url};
+  await api('/rest/v1/products'+(pid.value?`?id=eq.${encodeURIComponent(id)}`:''),{method:pid.value?'PATCH':'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(pid.value?body:{id,...body})});
+  if(cleanVariants.length) await api('/rest/v1/product_variants',{method:'POST',headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(cleanVariants)});
+  if(cleanSizes.length) await api('/rest/v1/product_sizes',{method:'POST',headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(cleanSizes)});
+  await api('/rest/v1/product_variant_options?product_id=eq.'+encodeURIComponent(id),{method:'DELETE'});
+  if(options.length) await api('/rest/v1/product_variant_options',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(options)});
+  if(files.length){
+    await api('/rest/v1/product_images?product_id=eq.'+encodeURIComponent(id),{method:'DELETE'});
+    const rows=[];
+    for(let i=0;i<files.length;i++){const url=i===0?image_url:await uploadProductImage(id,files[i],i);rows.push({id:crypto.randomUUID(),product_id:id,image_url:url,sort_order:i,is_active:true});}
+    await api('/rest/v1/product_images',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(rows)});
+  }
+  productMsg.textContent='Tersimpan ✓';resetProduct();await loadProducts();renderStats();
+ }catch(e){productMsg.textContent='Gagal: '+e.message;console.error(e)}
+}
+async function deleteProduct(id){if(!confirm('Hapus produk ini?'))return;try{await api('/rest/v1/products?id=eq.'+encodeURIComponent(id),{method:'DELETE'});await loadProducts();renderStats()}catch(e){alert(e.message)}}
+const statusLabel={pending:'Menunggu',processing:'Diproses',shipped:'Dikirim',completed:'Selesai',cancelled:'Dibatalkan'};
+const paymentLabel={unpaid:'Belum dibayar',awaiting_verification:'Menunggu verifikasi',paid:'Sudah dibayar'};
+function renderOrders(){
+ const f=document.getElementById('orderFilter')?.value||'all';
+ const q=(document.getElementById('orderSearch')?.value||'').trim().toLocaleLowerCase('id-ID');
+ let list=orders.filter(o=>(f==='all'||(f==='shipping_pending'&&o.shipping_confirmed===false)||(f==='payment_pending'&&o.payment_status==='unpaid')||(['pending','processing','shipped','completed','cancelled'].includes(f)&&o.status===f)) && (!q||[o.id,o.customer_name,o.customer_phone,o.customer_address,o.shipping_courier].some(v=>String(v??'').toLocaleLowerCase('id-ID').includes(q))));
+ list.sort((a,b)=>{const ap=a.shipping_confirmed===false?0:(a.payment_status==='unpaid'?1:2);const bp=b.shipping_confirmed===false?0:(b.payment_status==='unpaid'?1:2);return ap-bp||new Date(b.created_at)-new Date(a.created_at)});
+ const info=document.getElementById('orderFilterInfo');if(info)info.textContent=`Menampilkan ${list.length} dari ${orders.length} pesanan`;
+ orderRows.innerHTML=list.map(o=>{const shippingPending=o.shipping_confirmed===false;const payPending=o.payment_status==='unpaid';const courier=String(o.shipping_courier||'').toLowerCase();let actionBadge='';if(shippingPending)actionBadge='<span class="badge badge-wait">⏳ Konfirmasi ongkir</span>';else if(payPending)actionBadge='<span class="badge badge-pay">💳 Menunggu pembayaran</span>';else actionBadge='<span class="badge badge-ok">✓ Tidak ada tindakan</span>';return `<tr><td>#${o.id}</td><td><b>${esc(o.customer_name)}</b><br>${esc(o.customer_phone)}<br><span class="muted">${esc(o.customer_address)}</span></td><td>${money(o.total_amount)}<br><span class="muted">${esc(o.shipping_courier||'-')}</span></td><td>${esc(paymentLabel[o.payment_status]||o.payment_status||'-')}<br>${actionBadge}</td><td><select onchange="updateStatus(${o.id},this.value)">${['pending','processing','shipped','completed','cancelled'].map(s=>`<option ${o.status===s?'selected':''} value="${s}">${statusLabel[s]}</option>`).join('')}</select></td><td>${new Date(o.created_at).toLocaleString('id-ID')}</td><td><div class="row-actions"><button class="btn secondary" onclick="loadOrderItems(${o.id})">Detail</button><button class="btn danger" onclick="deleteOrder(${o.id})">Hapus</button></div></td></tr>`}).join('');
+}
+async function updateStatus(id,status){try{await api('/rest/v1/orders?id=eq.'+id,{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify({status})});await loadOrders();renderStats()}catch(e){alert(e.message)}}
+async function deleteOrder(id){if(!confirm('Hapus pesanan #'+id+'? Tindakan ini tidak dapat dibatalkan.'))return;try{await api('/rest/v1/order_items?order_id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});await api('/rest/v1/orders?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});orders=orders.filter(o=>String(o.id)!==String(id));renderOrders();renderStats();renderNewOrderAlert();alert('Pesanan #'+id+' berhasil dihapus.')}catch(e){alert('Gagal menghapus pesanan: '+(e.message||e)+'. Jika pesanan memiliki riwayat chat atau data terkait, hapus relasi terkait terlebih dahulu.')}}
+let currentOrderForWhatsApp=null;
+function chatWhatsApp(){
+  const o=currentOrderForWhatsApp;
+  if(!o || !o.customer_phone){alert('Nomor WhatsApp pelanggan tidak tersedia.');return;}
+  let phone=String(o.customer_phone).replace(/\D/g,'');
+  if(phone.startsWith('0')) phone='62'+phone.slice(1);
+  const status=statusLabel[o.status]||o.status||'-';
+  const payment=paymentLabel[o.payment_status]||o.payment_status||'-';
+  const total=money(o.total_amount);
+  const msg=`Halo Kak ${o.customer_name||''},\n\nPesanan #${o.id} di Givitshop sudah kami terima.\nTotal: ${total}\nStatus pembayaran: ${payment}\nStatus pesanan: ${status}\n\nTerima kasih dan mohon menunggu ya kak \u{1F60A}`;
+  window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(msg),'_blank');
+}
+async function loadOrderItems(id){try{markOrderSeen(id);const o=orders.find(x=>String(x.id)===String(id));currentOrderForWhatsApp=o;const d=await api('/rest/v1/order_items?select=*&order_id=eq.'+id);document.getElementById('detailOrderId').textContent='Pesanan #'+id;document.getElementById('detailName').textContent=o?.customer_name||'-';document.getElementById('detailPhone').textContent=o?.customer_phone||'-';document.getElementById('detailAddress').textContent=o?.customer_address||'-';document.getElementById('detailPayment').textContent=paymentLabel[o?.payment_status]||o?.payment_status||'-';document.getElementById('detailStatus').textContent=statusLabel[o?.status]||o?.status||'-';document.getElementById('detailItems').innerHTML=d.length?d.map(x=>`<div class="item-row"><div><div class="item-name">${esc(x.product_name)}</div><div class="muted">${x.quantity} × ${money(x.price)}</div></div><b>${money(x.subtotal)}</b></div>`).join(''):'<div class="muted">Tidak ada item</div>';const subtotal=d.reduce((s,x)=>s+Number(x.subtotal||0),0);const total=Number(o?.total_amount||0);const shipping=Number(o?.shipping_cost||0);document.getElementById('detailSubtotal').textContent=money(subtotal);document.getElementById('detailShipping').textContent=money(shipping);document.getElementById('detailTotal').textContent=money(total);document.getElementById('detailCourier').textContent=o?.shipping_courier||'-';document.getElementById('detailService').textContent=o?.shipping_service||'-';document.getElementById('detailWeight').textContent=o?.shipping_weight_grams?Number(o.shipping_weight_grams).toLocaleString('id-ID')+' g':'-';document.getElementById('detailShippingStatus').textContent=o?.shipping_confirmed===false?'⏳ Menunggu konfirmasi':'✅ Terkonfirmasi';const manual=['grabexpress','maxim'].includes(String(o?.shipping_courier||'').toLowerCase())&&o?.shipping_confirmed===false;document.getElementById('manualShippingBox').style.display=manual?'block':'none';if(manual){document.getElementById('shippingCourier').value=String(o.shipping_courier).toLowerCase();document.getElementById('shippingService').value=o.shipping_service||'Instant';document.getElementById('shippingCost').value='';}document.getElementById('detailModal').classList.remove('hidden')}catch(e){alert(e.message)}}
+async function confirmShipping(){try{if(!currentOrderForWhatsApp)return;const courier=shippingCourier.value;const service=shippingService.value.trim()||'Instant';const cost=Number(shippingCost.value||0);if(cost<0){alert('Ongkir tidak valid.');return;}await api('/rest/v1/rpc/confirm_shipping',{method:'POST',body:JSON.stringify({p_order_id:Number(currentOrderForWhatsApp.id),p_shipping_courier:courier,p_shipping_service:service,p_shipping_cost:cost})});await loadOrders();renderStats();await loadOrderItems(currentOrderForWhatsApp.id);alert('Ongkir berhasil dikonfirmasi.');}catch(e){alert(e.message)}}
+
+
+
+let productPromoSelectedIds=[];
+function renderProductPromoPicker(){
+ const box=document.getElementById('productPromoPicker');if(!box)return;
+ box.classList.add('product-picker-grid');
+ const q=(document.getElementById('productPromoSearch')?.value||'').trim().toLocaleLowerCase('id-ID');
+ const list=(products||[]).filter(p=>`${p.name||p.title||''} ${p.brand||''} ${p.category||''}`.toLocaleLowerCase('id-ID').includes(q));
+ box.innerHTML=list.length?list.map(p=>{const id=String(p.id),checked=productPromoSelectedIds.includes(id),img=p.image_url||(p.images||[]).find(x=>x.image_url)?.image_url;return `<label class="product-picker-card" style="border-color:${checked?'#e95b80':'#eee'};background:${checked?'#fff5f8':'#fff'}"><input type="checkbox" ${checked?'checked':''} onchange="toggleProductPromoProduct('${id}',this.checked)"><img src="${esc(img||'')}" onerror="this.onerror=null;this.style.visibility='hidden'" alt=""><span class="picker-copy"><b>${esc(p.name||p.title||'Produk')}</b><small class="muted">${esc(p.brand||p.category||'')}</small></span></label>`}).join(''):'<span class="muted">Produk tidak ditemukan.</span>';
+}
+function toggleProductPromoProduct(id,checked){id=String(id);productPromoSelectedIds=checked?[...new Set([...productPromoSelectedIds,id])]:productPromoSelectedIds.filter(x=>x!==id);renderProductPromoPicker();}
+function resetProductPromoForm(){
+ ['productPromoId','productPromoTitle','productPromoValue','productPromoStart','productPromoEnd','productPromoLimit','productPromoSearch'].forEach(id=>document.getElementById(id).value='');
+ productPromoSelectedIds=[];renderProductPromoPicker();document.getElementById('productPromoType').value='percent';document.getElementById('productPromoActive').value='true';document.getElementById('productPromoMsg').textContent='';
+}
+function filterProductPromoOptions(){renderProductPromoPicker();}
+function promoLocalDate(value){if(!value)return '';const d=new Date(value);if(Number.isNaN(d.getTime()))return '';return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16)}
+async function loadProductPromos(){
+ const body=document.getElementById('productPromoRows');if(!body)return;
+ body.innerHTML='<tr><td colspan="6">Memuat promo...</td></tr>';
+ try{
+  const [ps,promos]=await Promise.all([api('/rest/v1/products?select=*&order=name.asc'),api('/rest/v1/product_promotions?select=*&order=created_at.desc')]);
+  const previous=productPromoSelectedIds.slice();productPromoSelectedIds=previous.filter(id=>ps.some(p=>String(p.id)===id));renderProductPromoPicker();
+  window.givitProductPromos=promos;window.givitPromoProducts=ps;
+  const grouped=new Map();promos.forEach(p=>{const key=String(p.title||'Promo Givitshop').trim().toLocaleLowerCase('id-ID');if(!grouped.has(key))grouped.set(key,{title:p.title||'Promo Givitshop',items:[]});grouped.get(key).items.push(p)});
+  const groups=Array.from(grouped.values());
+  body.innerHTML=groups.length?groups.map(g=>{const p=g.items[0],names=g.items.map(x=>ps.find(y=>String(y.id)===String(x.product_id))?.name||'Produk tidak ditemukan'),used=g.items.reduce((n,x)=>n+Number(x.used_count||0),0),active=g.items.every(x=>!!x.is_active),sameLimit=g.items.every(x=>String(x.usage_limit??'')===String(p.usage_limit??''));return `<tr><td><b>${names.map(esc).join('<br>')}</b><br><span class="muted">${esc(g.title)} · ${g.items.length} produk</span></td><td>${p.discount_type==='percent'?Number(p.discount_value)+'%':money(p.discount_value)}</td><td>${p.start_at?new Date(p.start_at).toLocaleString('id-ID'):'Sekarang'} — ${p.end_at?new Date(p.end_at).toLocaleString('id-ID'):'Tanpa batas akhir'}</td><td>${used}${sameLimit&&p.usage_limit!=null?' / '+Number(p.usage_limit)+' per produk':''}</td><td>${active?'<span style="color:#16804a">Aktif</span>':g.items.some(x=>x.is_active)?'Sebagian aktif':'Nonaktif'}</td><td><button class="btn secondary" onclick="editProductPromo('${p.id}')">Edit</button> <button class="btn secondary" onclick="setProductPromoActive('${p.id}',${!active})">${active?'Nonaktifkan semua':'Aktifkan semua'}</button> <button class="btn danger" onclick="deleteProductPromo('${p.id}')">Hapus semua</button></td></tr>`}).join(''):'<tr><td colspan="6">Belum ada promo produk.</td></tr>';
+ }catch(e){body.innerHTML=`<tr><td colspan="6">Gagal memuat promo: ${esc(e.message||e)}. Jalankan PRODUCT_PROMOTIONS_V34.sql di Supabase terlebih dahulu.</td></tr>`}
+}
+function editProductPromo(id){
+ const p=(window.givitProductPromos||[]).find(x=>String(x.id)===String(id));if(!p)return;
+ document.getElementById('productPromoId').value=p.id;productPromoSelectedIds=[String(p.product_id)];document.getElementById('productPromoSearch').value='';renderProductPromoPicker();document.getElementById('productPromoTitle').value=p.title||'';document.getElementById('productPromoType').value=p.discount_type;document.getElementById('productPromoValue').value=p.discount_value;document.getElementById('productPromoLimit').value=p.usage_limit??'';document.getElementById('productPromoStart').value=promoLocalDate(p.start_at);document.getElementById('productPromoEnd').value=promoLocalDate(p.end_at);document.getElementById('productPromoActive').value=String(!!p.is_active);document.getElementById('productPromoMsg').textContent='Mengedit promo produk.';document.getElementById('productPromosTab').scrollIntoView({behavior:'smooth',block:'start'});
+}
+async function saveProductPromo(){
+ const msg=document.getElementById('productPromoMsg');msg.textContent='Menyimpan promo...';
+ const id=document.getElementById('productPromoId').value,product_ids=productPromoSelectedIds.slice(),title=document.getElementById('productPromoTitle').value.trim()||'Promo Givitshop',discount_type=document.getElementById('productPromoType').value,discount_value=Number(document.getElementById('productPromoValue').value),limitText=document.getElementById('productPromoLimit').value.trim(),start=document.getElementById('productPromoStart').value,end=document.getElementById('productPromoEnd').value,is_active=document.getElementById('productPromoActive').value==='true';
+ if(!product_ids.length){msg.textContent='Pilih minimal satu produk. Kamu bisa memilih beberapa produk sekaligus.';return}
+ if(!Number.isFinite(discount_value)||discount_value<=0||(discount_type==='percent'&&discount_value>100)){msg.textContent='Nilai diskon tidak valid. Persentase maksimal 100%.';return}
+ if(limitText&&(!Number.isInteger(Number(limitText))||Number(limitText)<1)){msg.textContent='Batas penggunaan harus bilangan bulat minimal 1.';return}
+ if(start&&end&&new Date(end)<=new Date(start)){msg.textContent='Waktu akhir harus setelah waktu mulai.';return}
+ const basePayload={title,discount_type,discount_value,usage_limit:limitText?Number(limitText):null,start_at:start?new Date(start).toISOString():null,end_at:end?new Date(end).toISOString():null,is_active,updated_at:new Date().toISOString()};
+ try{
+  const existingPromos=window.givitProductPromos||[];
+  for(let i=0;i<product_ids.length;i++){
+   const product_id=product_ids[i];
+   let existing=existingPromos.find(x=>String(x.product_id)===String(product_id));
+   if(id&&String(existing?.id)!==String(id)&&i===0){existing=existingPromos.find(x=>String(x.id)===String(id))||existing;}
+   const payload={...basePayload,product_id};
+   if(existing){await api('/rest/v1/product_promotions?id=eq.'+encodeURIComponent(existing.id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify(payload)})}
+   else{await api('/rest/v1/product_promotions',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify(payload)})}
+  }
+  msg.textContent=`Promo berhasil disimpan untuk ${product_ids.length} produk.`;resetProductPromoForm();await loadProductPromos();
+ }catch(e){msg.textContent='Gagal menyimpan promo: '+(e.message||e)+'. Pastikan SQL sudah dijalankan dan akun admin memiliki akses.'}
+}
+function getPromoGroupTitle(id){const p=(window.givitProductPromos||[]).find(x=>String(x.id)===String(id));return p?String(p.title||'Promo Givitshop').trim():'Promo Givitshop'}
+async function setProductPromoActive(id,active){
+ const title=getPromoGroupTitle(id);if(!confirm((active?'Aktifkan':'Nonaktifkan')+' semua produk dengan nama promo “'+title+'”?'))return;
+ try{await api('/rest/v1/product_promotions?title=eq.'+encodeURIComponent(title),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({is_active:active,updated_at:new Date().toISOString()})});await loadProductPromos()}
+ catch(e){alert('Gagal mengubah status semua promo dengan nama tersebut: '+(e.message||e))}
+}
+async function deleteProductPromo(id){const title=getPromoGroupTitle(id);if(!confirm('Hapus semua promo dengan nama “'+title+'” beserta seluruh produk yang terkait? Tindakan ini tidak dapat dibatalkan.'))return;try{await api('/rest/v1/product_promotions?title=eq.'+encodeURIComponent(title),{method:'DELETE',headers:{Prefer:'return=minimal'}});await loadProductPromos();alert('Semua promo bernama “'+title+'” berhasil dihapus.')}catch(e){alert('Gagal menghapus promo: '+(e.message||e))}}
+
+let voucherSelectedProductIds=[];
+function renderVoucherProductPicker(){
+ const box=document.getElementById('voucherProductPicker');if(!box)return;box.classList.add('product-picker-grid');
+ const q=(document.getElementById('voucherProductSearch')?.value||'').trim().toLocaleLowerCase('id-ID');
+ const list=(products||[]).filter(p=>`${p.name||p.title||''} ${p.brand||''} ${p.category||''}`.toLocaleLowerCase('id-ID').includes(q));
+ box.innerHTML=list.length?list.map(p=>{const id=String(p.id),checked=voucherSelectedProductIds.includes(id),img=p.image_url||(p.images||[]).find(x=>x.image_url)?.image_url;return `<label class="product-picker-card" style="border-color:${checked?'#e95b80':'#eee'};background:${checked?'#fff5f8':'#fff'}"><input type="checkbox" ${checked?'checked':''} onchange="toggleVoucherProduct('${id}',this.checked)"><img src="${esc(img||'')}" onerror="this.onerror=null;this.style.visibility='hidden'" alt=""><span class="picker-copy"><b>${esc(p.name||p.title||'Produk')}</b><small class="muted">${esc(p.brand||p.category||'')}</small></span></label>`}).join(''):'<span class="muted">Produk tidak ditemukan.</span>';
+}
+function toggleVoucherProduct(id,checked){id=String(id);voucherSelectedProductIds=checked?[...new Set([...voucherSelectedProductIds,id])]:voucherSelectedProductIds.filter(x=>x!==id);}
+function resetVoucherForm(){['voucherId','voucherTitle','voucherCode','voucherValue','voucherLimit','voucherStart','voucherEnd','voucherDescription'].forEach(id=>document.getElementById(id).value='');document.getElementById('voucherType').value='percent';document.getElementById('voucherMin').value='0';document.getElementById('voucherActive').value='true';document.getElementById('voucherProductSearch').value='';voucherSelectedProductIds=[];renderVoucherProductPicker();document.getElementById('voucherMsg').textContent=''}
+function localDateInput(value){if(!value)return '';const d=new Date(value);if(Number.isNaN(d.getTime()))return '';return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16)}
+function voucherPeriod(v){const f=d=>d?new Date(d).toLocaleString('id-ID'):'-';return f(v.start_at)+' — '+f(v.end_at)}
+async function loadVouchers(){const body=document.getElementById('voucherRows');if(!body)return;body.innerHTML='<tr><td colspan="6">Memuat voucher...</td></tr>';try{const rows=await api('/rest/v1/vouchers?select=*&order=created_at.desc');window.givitVouchers=rows;body.innerHTML=rows.length?rows.map(v=>`<tr><td><b>${esc(v.title)}</b><br><span class="muted">${esc(v.code)}</span><br><small class="muted">Produk: ${esc((Array.isArray(v.product_ids)?v.product_ids:[]).map(id=>{const p=(products||[]).find(x=>String(x.id)===String(id));return p?(p.name||p.title):''}).filter(Boolean).join(', ')||'Tidak ada data produk')}</small></td><td>${v.discount_type==='percent'?Number(v.discount_value)+'%':money(v.discount_value)}<br><span class="muted">Min. ${money(v.min_purchase||0)}</span></td><td>${esc(voucherPeriod(v))}</td><td>${Number(v.used_count||0)}${v.usage_limit==null?'':' / '+Number(v.usage_limit)}</td><td>${v.is_active?'<span style="color:#16804a">Aktif</span>':'Nonaktif'}</td><td><button class="btn secondary" onclick="editVoucher('${v.id}')">Edit</button> <button class="btn secondary" onclick="toggleVoucher('${v.id}',${!v.is_active})">${v.is_active?'Nonaktifkan':'Aktifkan'}</button> <button class="btn danger" onclick="deleteVoucher('${v.id}')">Hapus</button></td></tr>`).join(''):'<tr><td colspan="6">Belum ada voucher. Buat voucher melalui formulir di atas.</td></tr>'}catch(e){body.innerHTML=`<tr><td colspan="6">Gagal memuat voucher: ${esc(e.message||e)}. Pastikan SQL voucher sudah dijalankan.</td></tr>`}}
+function editVoucher(id){const v=(window.givitVouchers||[]).find(x=>String(x.id)===String(id));if(!v)return;document.getElementById('voucherId').value=v.id;document.getElementById('voucherTitle').value=v.title||'';document.getElementById('voucherCode').value=v.code||'';document.getElementById('voucherType').value=v.discount_type||'percent';document.getElementById('voucherValue').value=v.discount_value||'';document.getElementById('voucherMin').value=v.min_purchase||0;document.getElementById('voucherLimit').value=v.usage_limit??'';document.getElementById('voucherStart').value=localDateInput(v.start_at);document.getElementById('voucherEnd').value=localDateInput(v.end_at);document.getElementById('voucherDescription').value=v.description||'';document.getElementById('voucherActive').value=String(!!v.is_active);voucherSelectedProductIds=Array.isArray(v.product_ids)?v.product_ids.map(String):[];renderVoucherProductPicker();document.getElementById('voucherMsg').textContent='Mengedit '+v.code;document.getElementById('vouchersTab').scrollIntoView({behavior:'smooth',block:'start'})}
+async function saveVoucher(){const msg=document.getElementById('voucherMsg');msg.textContent='Menyimpan...';const title=document.getElementById('voucherTitle').value.trim(),code=document.getElementById('voucherCode').value.trim().toUpperCase(),type=document.getElementById('voucherType').value,value=Number(document.getElementById('voucherValue').value),min=Number(document.getElementById('voucherMin').value||0),limitText=document.getElementById('voucherLimit').value.trim(),start=document.getElementById('voucherStart').value,end=document.getElementById('voucherEnd').value;if(!title||!code||!Number.isFinite(value)||value<=0){msg.textContent='Nama, kode, dan nilai diskon wajib diisi dengan benar.';return}if(!voucherSelectedProductIds.length){msg.textContent='Pilih minimal satu produk yang berlaku untuk voucher ini.';return}if(type==='percent'&&value>100){msg.textContent='Diskon persentase maksimal 100%.';return}if(min<0||(limitText&&Number(limitText)<1)){msg.textContent='Minimum belanja atau batas penggunaan tidak valid.';return}if(start&&end&&new Date(end)<=new Date(start)){msg.textContent='Waktu akhir harus setelah waktu mulai.';return}const payload={title,code,discount_type:type,discount_value:value,min_purchase:min,usage_limit:limitText?Number(limitText):null,start_at:start?new Date(start).toISOString():null,end_at:end?new Date(end).toISOString():null,description:document.getElementById('voucherDescription').value.trim(),product_ids:voucherSelectedProductIds,is_active:document.getElementById('voucherActive').value==='true'};const id=document.getElementById('voucherId').value;try{if(id){await api('/rest/v1/vouchers?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify(payload)})}else{payload.used_count=0;await api('/rest/v1/vouchers',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify(payload)})}msg.textContent='Voucher berhasil disimpan.';resetVoucherForm();await loadVouchers()}catch(e){msg.textContent='Gagal menyimpan: '+(e.message||e)+'. Pastikan kode voucher unik dan SQL voucher sudah dijalankan.'}}
+async function toggleVoucher(id,active){if(!confirm((active?'Aktifkan':'Nonaktifkan')+' voucher ini?'))return;try{await api('/rest/v1/vouchers?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({is_active:active})});await loadVouchers()}catch(e){alert('Gagal mengubah status voucher: '+(e.message||e))}}
+async function deleteVoucher(id){const v=(window.givitVouchers||[]).find(x=>String(x.id)===String(id));if(!confirm('Hapus voucher '+(v?.code||'ini')+'? Tindakan ini tidak dapat dibatalkan.'))return;try{await api('/rest/v1/vouchers?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{Prefer:'return=minimal'}});await loadVouchers();alert('Voucher berhasil dihapus.')}catch(e){alert('Gagal menghapus voucher: '+(e.message||e))}}
+
+let currentHomeBannerUrl=null;
+function previewHomeBanner(e){const file=e.target.files?.[0],img=document.getElementById('homeBannerPreview');if(!file){return}if(!file.type.startsWith('image/')){document.getElementById('homeBannerMsg').textContent='Pilih file gambar.';e.target.value='';return}if(file.size>8*1024*1024){document.getElementById('homeBannerMsg').textContent='Ukuran gambar maksimal 8 MB.';e.target.value='';return}img.src=URL.createObjectURL(file);img.style.display='block';document.getElementById('homeBannerMsg').textContent='Pratinjau foto baru. Tekan Simpan Foto Beranda untuk menerapkan.'}
+async function loadHomeBanner(){const msg=document.getElementById('homeBannerMsg'),img=document.getElementById('homeBannerPreview');msg.textContent='Memuat foto...';try{const rows=await api('/rest/v1/homepage_settings?select=*&id=eq.main&limit=1');currentHomeBannerUrl=rows?.[0]?.hero_image_url||null;if(currentHomeBannerUrl){img.src=currentHomeBannerUrl;img.style.display='block';msg.textContent='Foto banner saat ini berhasil dimuat.'}else{img.removeAttribute('src');img.style.display='none';msg.textContent='Belum ada foto khusus. Aplikasi memakai tampilan banner bawaan.'}}catch(e){msg.textContent='Gagal memuat pengaturan foto. Jalankan SQL HOME_BANNER_SETTINGS.sql terlebih dahulu. '+e.message}}
+async function saveHomeBanner(){const msg=document.getElementById('homeBannerMsg'),file=document.getElementById('homeBannerFile').files?.[0];if(!file){msg.textContent='Pilih foto terlebih dahulu.';return}msg.textContent='Mengunggah foto...';try{const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';const path='homepage/hero.'+ext;const r=await fetch(SUPABASE_URL+'/storage/v1/object/product-images/'+path,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':file.type,'x-upsert':'true'},body:file});if(!r.ok)throw Error(await r.text());const url=SUPABASE_URL+'/storage/v1/object/public/product-images/'+path+'?v='+Date.now();await api('/rest/v1/homepage_settings?on_conflict=id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify({id:'main',hero_image_url:url,updated_at:new Date().toISOString()})});currentHomeBannerUrl=url;document.getElementById('homeBannerPreview').src=url;document.getElementById('homeBannerPreview').style.display='block';document.getElementById('homeBannerFile').value='';msg.textContent='Foto beranda berhasil disimpan. Muat ulang aplikasi pembeli untuk melihat perubahan.'}catch(e){msg.textContent='Gagal menyimpan foto: '+e.message+' Pastikan SQL dan akses Storage sudah benar.'}}
+async function removeHomeBanner(){if(!confirm('Hapus foto banner khusus dan kembali ke tampilan bawaan?'))return;const msg=document.getElementById('homeBannerMsg');try{await api('/rest/v1/homepage_settings?id=eq.main',{method:'DELETE',headers:{Prefer:'return=minimal'}});currentHomeBannerUrl=null;document.getElementById('homeBannerPreview').removeAttribute('src');document.getElementById('homeBannerPreview').style.display='none';document.getElementById('homeBannerFile').value='';msg.textContent='Foto khusus dihapus. Aplikasi akan memakai tampilan banner bawaan.'}catch(e){msg.textContent='Gagal menghapus pengaturan foto: '+e.message}}
+
+function closeDetail(e){if(!e||e.target?.id==='detailModal')document.getElementById('detailModal').classList.add('hidden')}
+function showTab(t){productsTab.classList.toggle('hidden',t!=='products');ordersTab.classList.toggle('hidden',t!=='orders');chatTab.classList.toggle('hidden',t!=='chat');vouchersTab.classList.toggle('hidden',t!=='vouchers');productPromosTab.classList.toggle('hidden',t!=='productPromos');homeBannerTab.classList.toggle('hidden',t!=='homeBanner');tabProducts.classList.toggle('active',t==='products');tabOrders.classList.toggle('active',t==='orders');tabChat.classList.toggle('active',t==='chat');tabVouchers.classList.toggle('active',t==='vouchers');tabProductPromos.classList.toggle('active',t==='productPromos');tabHomeBanner.classList.toggle('active',t==='homeBanner');if(t==='chat')loadChatConversations();if(t==='vouchers')loadVouchers();if(t==='productPromos')loadProductPromos();if(t==='homeBanner')loadHomeBanner()}
+
+let activeAdminConversation=null;
+async function loadChatConversations(){
+  const box=document.getElementById('chatRows');if(!box)return;
+  try{
+    const rows=await api('/rest/v1/chat_conversations?select=*&order=last_message_at.desc.nullslast');
+    box.innerHTML=rows.length?rows.map(c=>`<tr><td>#${c.order_id}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><button class="btn primary" onclick="openAdminChat('${c.id}','${c.order_id}')">Buka Chat</button></td></tr>`).join(''):'<tr><td colspan="5">Belum ada percakapan.</td></tr>';
+  }catch(e){box.innerHTML=`<tr><td colspan="5">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
+}
+async function openAdminChat(id,orderId){
+  activeAdminConversation={id,orderId};
+  document.getElementById('adminChatTitle').textContent='Chat Pesanan #'+orderId;
+  document.getElementById('adminChatModal').classList.remove('hidden');
+  await loadAdminChatMessages();
+}
+async function loadAdminChatMessages(){
+  const c=activeAdminConversation;if(!c)return;
+  const box=document.getElementById('adminChatMessages');box.innerHTML='Memuat pesan...';
+  try{
+    const rows=await api('/rest/v1/chat_messages?select=id,sender_role,message,created_at&conversation_id=eq.'+encodeURIComponent(c.id)+'&order=created_at.asc');
+    box.innerHTML=rows.map(m=>`<div style="display:flex;justify-content:${m.sender_role==='admin'?'flex-end':'flex-start'};margin:8px 0"><div style="max-width:85%;padding:10px 12px;border-radius:14px;background:${m.sender_role==='admin'?'#e85b7a':'#f4eef1'};color:${m.sender_role==='admin'?'#fff':'#28242a'};white-space:pre-wrap;overflow-wrap:anywhere">${esc(m.message)}<div class="muted" style="margin-top:5px;color:inherit">${new Date(m.created_at).toLocaleString('id-ID')}</div></div></div>`).join('')||'<p class="muted">Belum ada pesan.</p>';
+    box.scrollTop=box.scrollHeight;
+  }catch(e){box.innerHTML='Gagal memuat pesan: '+esc(e.message);}
+}
+async function sendAdminChatMessage(){
+  const c=activeAdminConversation,input=document.getElementById('adminChatInput');const message=(input?.value||'').trim();
+  if(!c||!message)return;if(message.length>2000){alert('Pesan maksimal 2.000 karakter.');return;}
+  try{
+    await api('/rest/v1/chat_messages',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({conversation_id:c.id,sender_role:'admin',message})});
+    await api('/rest/v1/chat_conversations?id=eq.'+encodeURIComponent(c.id),{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify({last_message_preview:message.slice(0,160),last_message_at:new Date().toISOString(),last_sender_role:'admin'})});
+    input.value='';await loadAdminChatMessages();await loadChatConversations();
+  }catch(e){alert('Gagal mengirim balasan: '+e.message);}
+}
+function closeAdminChat(){document.getElementById('adminChatModal').classList.add('hidden');activeAdminConversation=null;}
+setInterval(()=>{if(activeAdminConversation&&!document.getElementById('adminChatModal').classList.contains('hidden'))loadAdminChatMessages();if(!document.getElementById('chatTab')?.classList.contains('hidden'))loadChatConversations();},7000);
+
+renderVariantEditor();renderSizeEditor();
+loadSeenOrderIds();
+token=sessionStorage.getItem('givit_admin_token');if(token){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');refresh().catch(()=>logout())}
+</script>
+</body>
+</html>
