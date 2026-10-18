@@ -591,11 +591,11 @@ async function loadChatConversations(){
   const box=document.getElementById('chatRows');if(!box)return;
   try{
     const rows=await api('/rest/v1/chat_conversations?select=*&order=last_message_at.desc.nullslast');
-    box.innerHTML=rows.length?rows.map(c=>`<tr><td>#${c.order_id}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${c.id}','${c.order_id}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${c.id}','${c.order_id}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="5">Belum ada percakapan.</td></tr>';
+    box.innerHTML=rows.length?rows.map(c=>`<tr><td>${c.order_id?'#'+esc(c.order_id):'Pra-pembelian'}</td><td>${esc(c.customer_name||'-')}<br><span class="muted">${esc(c.customer_phone||'-')}</span></td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${c.id}','${c.order_id||''}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${c.id}','${c.order_id||''}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="5">Belum ada percakapan.</td></tr>';
   }catch(e){box.innerHTML=`<tr><td colspan="5">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
 }
 async function deleteChatConversation(id,orderId){
- if(!confirm('Hapus seluruh percakapan chat untuk pesanan #'+orderId+'? Pesan dalam percakapan ini juga akan dihapus permanen.'))return;
+ if(!confirm('Hapus seluruh percakapan '+(orderId?'untuk pesanan #'+orderId:'pra-pembelian')+'? Pesan dalam percakapan ini juga akan dihapus permanen.'))return;
  try{
   await api('/rest/v1/chat_messages?conversation_id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});
   const deleted=await api('/rest/v1/chat_conversations?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=representation'}});
@@ -608,7 +608,7 @@ async function deleteChatConversation(id,orderId){
 
 async function openAdminChat(id,orderId){
   activeAdminConversation={id,orderId};
-  document.getElementById('adminChatTitle').textContent='Chat Pesanan #'+orderId;
+  document.getElementById('adminChatTitle').textContent=orderId?'Chat Pesanan #'+orderId:'Chat Pra-Pembelian';
   document.getElementById('adminChatModal').classList.remove('hidden');
   await loadAdminChatMessages();
 }
