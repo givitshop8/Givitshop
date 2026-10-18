@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - 'web/**'
+      - 'admin/**'
+      - 'Givitshop_Admin_Panel.zip'
       - '.github/workflows/deploy-website.yml'
   workflow_dispatch:
 
@@ -25,17 +27,38 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Siapkan website dan admin
+        run: |
+          rm -rf site extracted
+          mkdir -p site
+          cp -R web/. site/
+
+          if [ -f Givitshop_Admin_Panel.zip ]; then
+            unzip -q Givitshop_Admin_Panel.zip -d extracted
+            mkdir -p site/admin
+            cp -R extracted/admin/. site/admin/
+          elif [ -d admin ]; then
+            mkdir -p site/admin
+            cp -R admin/. site/admin/
+          else
+            echo "Folder admin tidak ditemukan"
+            exit 1
+          fi
+
+          touch site/.nojekyll
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload website
+      - name: Upload website dan admin
         uses: actions/upload-pages-artifact@v3
         with:
-          path: web
+          path: site
 
       - name: Deploy website
         id: deployment
