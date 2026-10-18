@@ -1238,59 +1238,64 @@ function renderAccount(){
 }
 
 
-// Chat pembeli-admin: akses riwayat menggunakan nomor WhatsApp + kode akses pesanan.
-let activeChatCredentials = null;
+// Chat admin pra-pembelian: tidak perlu checkout atau nomor pesanan.
+let activeGuestChat = null;
 async function chatRpc(fn, body){
   const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+fn,{
-    method:'POST',
-    headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify(body)
+    method:'POST',headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json'},body:JSON.stringify(body)
   });
-  const txt=await res.text(); let data=null; try{data=txt?JSON.parse(txt):null}catch(_){}
-  if(!res.ok) throw new Error(data?.message||data?.hint||txt||'Gagal mengakses chat');
-  return data;
+  const txt=await res.text();let data=null;try{data=txt?JSON.parse(txt):null}catch(_){}
+  if(!res.ok)throw new Error(data?.message||data?.hint||txt||'Gagal mengakses chat');return data;
 }
+function savedGuestChat(){try{return JSON.parse(localStorage.getItem('givitshop_guest_chat_v1')||'null')}catch(_){return null}}
 function openCustomerChat(){
-  const phone=lastCustomerPhone||'';
-  const code=lastAccessCode||'';
-  accountPage('Chat Admin',`<div class="checkout"><p style="color:#777;font-size:13px;margin-top:0">Masukkan data pesanan untuk membuka percakapan dengan admin.</p><label for="chatAccessPhone">Nomor WhatsApp saat checkout</label><input id="chatAccessPhone" inputmode="tel" autocomplete="tel" value="${escapeHtml(phone)}" placeholder="Nomor WhatsApp" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box"><label for="chatAccessCode" style="display:block;margin-top:12px">Kode akses pesanan (6 digit)</label><input id="chatAccessCode" inputmode="numeric" maxlength="6" value="${escapeHtml(code)}" placeholder="Kode akses 6 digit" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box"><label for="chatAccessOrder" style="display:block;margin-top:12px">Nomor pesanan</label><input id="chatAccessOrder" inputmode="numeric" placeholder="Contoh: 41" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box"><button class="cta" style="width:100%;margin-top:14px" onclick="submitCustomerChatAccess()">Buka Chat</button><button class="secondarybtn" style="width:100%;margin-top:8px" onclick="renderAccount()">Kembali ke Akun</button><p id="chatAccessError" style="color:#b42345;font-size:12px"></p></div>`);
+  const saved=savedGuestChat();
+  accountPage('Chat Admin',`<div class="checkout"><p style="color:#777;font-size:13px;margin-top:0">Tanyakan produk, stok, ukuran, atau hal lain kepada admin. Tidak perlu membeli atau checkout.</p>
+  <label for="guestChatName">Nama</label><input id="guestChatName" maxlength="100" autocomplete="name" value="${escapeHtml(saved?.name||'')}" placeholder="Nama kamu" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box">
+  <label for="guestChatPhone" style="display:block;margin-top:12px">Nomor WhatsApp</label><input id="guestChatPhone" inputmode="tel" autocomplete="tel" value="${escapeHtml(saved?.phone||'')}" placeholder="08xxxxxxxxxx" style="width:100%;padding:12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box">
+  <button class="cta" style="width:100%;margin-top:14px" onclick="startCustomerGuestChat()">Mulai Chat Admin</button>
+  ${saved?.conversationId&&saved?.token?'<button class="secondarybtn" style="width:100%;margin-top:8px" onclick="resumeCustomerGuestChat()">Lanjutkan Chat Sebelumnya</button>':''}
+  <button class="secondarybtn" style="width:100%;margin-top:8px" onclick="renderAccount()">Kembali ke Akun</button><p id="guestChatError" style="color:#b42345;font-size:12px"></p></div>`);
 }
-function submitCustomerChatAccess(){
-  const phone=(document.getElementById('chatAccessPhone')?.value||'').trim();
-  const code=(document.getElementById('chatAccessCode')?.value||'').trim();
-  const orderId=(document.getElementById('chatAccessOrder')?.value||'').trim();
-  const error=document.getElementById('chatAccessError');
-  if(!phone||!/^\d{6}$/.test(code)||!/^\d+$/.test(orderId)){
-    if(error)error.textContent='Isi nomor WhatsApp, kode akses 6 digit, dan nomor pesanan dengan benar.';
-    return;
-  }
-  lastCustomerPhone=phone;lastAccessCode=code;
-  activeChatCredentials={p_order_id:Number(orderId),p_phone:phone,p_access_code:code};
-  renderCustomerChat();
-}
-async function renderCustomerChat(){
-  const c=activeChatCredentials;if(!c)return;
-  accountPage('Chat Admin',`<div class="checkout"><p style="color:#777;font-size:13px">Chat dengan admin Givitshop untuk pesanan #${c.p_order_id}. Riwayat tersimpan di sistem.</p><div id="customerChatMessages" style="height:42vh;min-height:220px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff"></div><div style="display:flex;gap:8px;margin-top:10px;align-items:end"><textarea id="customerChatInput" rows="2" placeholder="Tulis pesan untuk admin..." style="flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:12px"></textarea><button class="cta" onclick="sendCustomerChatMessage()">Kirim</button></div><p id="customerChatStatus" style="font-size:12px;color:#777"></p><button class="secondarybtn" onclick="renderAccount()">Kembali ke Akun</button></div>`);
-  await loadCustomerChatMessages();
-}
-async function loadCustomerChatMessages(){
-  const c=activeChatCredentials,box=document.getElementById('customerChatMessages');if(!c||!box)return;
+function makeGuestToken(){const bytes=new Uint8Array(24);crypto.getRandomValues(bytes);return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('')}
+async function startCustomerGuestChat(){
+  const name=(document.getElementById('guestChatName')?.value||'').trim();
+  const phone=(document.getElementById('guestChatPhone')?.value||'').trim();
+  const error=document.getElementById('guestChatError');
+  if(name.length<2||name.length>100){if(error)error.textContent='Masukkan nama 2–100 karakter.';return}
+  if(phone.replace(/\D/g,'').length<8||phone.replace(/\D/g,'').length>20){if(error)error.textContent='Masukkan nomor WhatsApp yang benar.';return}
   try{
-    const rows=await chatRpc('customer_get_chat_messages',c);
+    const token=makeGuestToken();
+    const id=await chatRpc('customer_start_guest_chat',{p_customer_name:name,p_customer_phone:phone,p_guest_token:token});
+    activeGuestChat={conversationId:String(id),token,name,phone};
+    localStorage.setItem('givitshop_guest_chat_v1',JSON.stringify(activeGuestChat));
+    await renderCustomerGuestChat();
+  }catch(e){if(error)error.textContent='Chat belum bisa dibuat: '+e.message+'. Pastikan SQL chat pra-pembelian sudah dijalankan di Supabase.'}
+}
+async function resumeCustomerGuestChat(){
+  const s=savedGuestChat();if(!s?.conversationId||!s?.token)return;
+  activeGuestChat=s;await renderCustomerGuestChat();
+}
+async function renderCustomerGuestChat(){
+  const c=activeGuestChat;if(!c)return;
+  accountPage('Chat Admin',`<div class="checkout"><p style="color:#777;font-size:13px">Chat pra-pembelian dengan admin Givitshop. Riwayat pesan tersimpan.</p><div id="customerChatMessages" style="height:42vh;min-height:220px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff"></div><div style="display:flex;gap:8px;margin-top:10px;align-items:end"><textarea id="customerChatInput" rows="2" maxlength="2000" placeholder="Tulis pesan untuk admin..." style="flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:12px"></textarea><button class="cta" onclick="sendCustomerGuestChatMessage()">Kirim</button></div><p id="customerChatStatus" style="font-size:12px;color:#777"></p><button class="secondarybtn" onclick="renderAccount()">Kembali ke Akun</button></div>`);
+  await loadCustomerGuestChatMessages();
+}
+async function loadCustomerGuestChatMessages(){
+  const c=activeGuestChat,box=document.getElementById('customerChatMessages');if(!c||!box)return;
+  try{
+    const rows=await chatRpc('customer_get_guest_chat_messages',{p_conversation_id:c.conversationId,p_guest_token:c.token});
     box.innerHTML=(rows||[]).map(m=>`<div style="display:flex;justify-content:${m.sender_role==='customer'?'flex-end':'flex-start'};margin:8px 0"><div style="max-width:85%;padding:10px 12px;border-radius:14px;background:${m.sender_role==='customer'?'#e85b7a':'#f4eef1'};color:${m.sender_role==='customer'?'#fff':'#28242a'};white-space:pre-wrap;overflow-wrap:anywhere">${escapeHtml(m.message)}<div style="font-size:10px;opacity:.75;margin-top:5px">${new Date(m.created_at).toLocaleString('id-ID')}</div></div></div>`).join('')||'<div class="empty">Belum ada pesan. Silakan kirim pesan kepada admin.</div>';
-    box.scrollTop=box.scrollHeight;
-    const s=document.getElementById('customerChatStatus');if(s)s.textContent='Riwayat chat diperbarui.';
-  }catch(e){box.innerHTML='<div class="empty">Chat belum dapat dibuka. Pastikan nomor WhatsApp, kode akses, dan nomor pesanan benar, serta SQL chat sudah dipasang di Supabase.</div>';const s=document.getElementById('customerChatStatus');if(s)s.textContent=e.message;}
+    box.scrollTop=box.scrollHeight;const s=document.getElementById('customerChatStatus');if(s)s.textContent='Riwayat chat diperbarui.';
+  }catch(e){const s=document.getElementById('customerChatStatus');if(s)s.textContent='Gagal memuat chat: '+e.message}
 }
-setInterval(()=>{if(activeChatCredentials&&document.getElementById('customerChatMessages'))loadCustomerChatMessages();},5000);
-async function sendCustomerChatMessage(){
-  const c=activeChatCredentials,input=document.getElementById('customerChatInput'),status=document.getElementById('customerChatStatus');
-  const message=(input?.value||'').trim();if(!c||!message)return;
-  if(message.length>2000){alert('Pesan maksimal 2.000 karakter.');return;}
-  try{if(status)status.textContent='Mengirim...';await chatRpc('customer_send_chat_message',{...c,p_message:message});input.value='';await loadCustomerChatMessages();}
-  catch(e){if(status)status.textContent='Pesan gagal dikirim: '+e.message;}
+setInterval(()=>{if(activeGuestChat&&document.getElementById('customerChatMessages'))loadCustomerGuestChatMessages()},5000);
+async function sendCustomerGuestChatMessage(){
+  const c=activeGuestChat,input=document.getElementById('customerChatInput'),status=document.getElementById('customerChatStatus');const message=(input?.value||'').trim();
+  if(!c||!message)return;if(message.length>2000){alert('Pesan maksimal 2.000 karakter.');return}
+  try{if(status)status.textContent='Mengirim...';await chatRpc('customer_send_guest_chat_message',{p_conversation_id:c.conversationId,p_guest_token:c.token,p_message:message});input.value='';await loadCustomerGuestChatMessages()}
+  catch(e){if(status)status.textContent='Pesan gagal dikirim: '+e.message}
 }
-
 loadHomeBanner();
 loadProducts();
 
