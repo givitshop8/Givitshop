@@ -131,7 +131,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
  <div class="card">
   <h2>Chat Pembeli</h2>
   <p class="muted">Balas pesan pelanggan dari aplikasi Givitshop. Riwayat disimpan di Supabase.</p>
-  <div style="overflow:auto"><table><thead><tr><th>Pesanan</th><th>WhatsApp</th><th>Pesan terakhir</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody id="chatRows"><tr><td colspan="5">Buka tab ini untuk memuat percakapan.</td></tr></tbody></table></div>
+  <div style="overflow:auto"><table><thead><tr><th>Pesanan</th><th>Nama</th><th>WhatsApp</th><th>Pesan terakhir</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody id="chatRows"><tr><td colspan="6">Buka tab ini untuk memuat percakapan.</td></tr></tbody></table></div>
   <button class="btn secondary" style="margin-top:12px" onclick="loadChatConversations()">Muat ulang chat</button>
  </div>
 </section>
@@ -591,7 +591,7 @@ async function loadChatConversations(){
   const box=document.getElementById('chatRows');if(!box)return;
   try{
     const rows=await api('/rest/v1/chat_conversations?select=*&order=last_message_at.desc.nullslast');
-    box.innerHTML=rows.length?rows.map(c=>`<tr><td>${c.order_id?'#'+esc(c.order_id):'Pra-pembelian'}</td><td>${esc(c.customer_name||'-')}<br><span class="muted">${esc(c.customer_phone||'-')}</span></td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${c.id}','${c.order_id||''}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${c.id}','${c.order_id||''}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="5">Belum ada percakapan.</td></tr>';
+    box.innerHTML=rows.length?rows.map(c=>`<tr><td>${c.order_id?'#'+esc(c.order_id):'Pra-pembelian'}</td><td>${esc(c.customer_name||'-')}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${esc(c.id)}','${esc(c.order_id||'')}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${esc(c.id)}','${esc(c.order_id||'')}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="6">Belum ada percakapan.</td></tr>';
   }catch(e){box.innerHTML=`<tr><td colspan="5">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
 }
 async function deleteChatConversation(id,orderId){
@@ -602,7 +602,7 @@ async function deleteChatConversation(id,orderId){
   if(!Array.isArray(deleted)||deleted.length===0)throw Error('Percakapan tidak terhapus. Periksa policy DELETE Supabase untuk chat_conversations.');
   if(activeAdminConversation&&String(activeAdminConversation.id)===String(id))closeAdminChat();
   await loadChatConversations();
-  alert('Chat pesanan #'+orderId+' berhasil dihapus.');
+  alert('Percakapan '+(orderId?'pesanan #'+orderId:'pra-pembelian')+' berhasil dihapus.');
  }catch(e){alert('Gagal menghapus chat: '+(e.message||e)+'. Periksa policy DELETE Supabase untuk chat_messages dan chat_conversations.')}
 }
 
