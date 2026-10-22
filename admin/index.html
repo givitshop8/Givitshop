@@ -592,7 +592,7 @@ async function loadChatConversations(){
   try{
     const rows=await api('/rest/v1/chat_conversations?select=*&order=last_message_at.desc.nullslast');
     box.innerHTML=rows.length?rows.map(c=>`<tr><td>${c.order_id?'#'+esc(c.order_id):'Pra-pembelian'}</td><td>${esc(c.customer_name||'-')}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${esc(c.id)}','${esc(c.order_id||'')}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${esc(c.id)}','${esc(c.order_id||'')}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="6">Belum ada percakapan.</td></tr>';
-  }catch(e){box.innerHTML=`<tr><td colspan="5">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
+  }catch(e){box.innerHTML=`<tr><td colspan="6">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
 }
 async function deleteChatConversation(id,orderId){
  if(!confirm('Hapus seluruh percakapan '+(orderId?'untuk pesanan #'+orderId:'pra-pembelian')+'? Pesan dalam percakapan ini juga akan dihapus permanen.'))return;
