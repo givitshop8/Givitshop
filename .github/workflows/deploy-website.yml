@@ -1,15 +1,13 @@
 
-name: Deploy Website Givitshop
+name: Deploy Givitshop Admin and Website
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - 'web/**'
       - 'admin/**'
-      - 'Givitshop_Admin_Panel.zip'
-      - '.github/workflows/deploy-website.yml'
+      - '.github/workflows/admin-pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -29,37 +27,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Siapkan website dan admin
         run: |
-          rm -rf site extracted
-          mkdir -p site
+          set -e
+          rm -rf site
+          mkdir -p site/admin
           cp -R web/. site/
-
-          if [ -f Givitshop_Admin_Panel.zip ]; then
-            unzip -q Givitshop_Admin_Panel.zip -d extracted
-            mkdir -p site/admin
-            cp -R extracted/admin/. site/admin/
-          elif [ -d admin ]; then
-            mkdir -p site/admin
-            cp -R admin/. site/admin/
-          else
-            echo "Folder admin tidak ditemukan"
-            exit 1
-          fi
-
+          cp -R admin/. site/admin/
+          test -f site/index.html
+          test -f site/admin/index.html
           touch site/.nojekyll
 
-      - name: Configure GitHub Pages
+      - name: Konfigurasi Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload website dan admin
+      - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
-      - name: Deploy website
+      - name: Publikasikan website
         id: deployment
         uses: actions/deploy-pages@v4
