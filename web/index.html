@@ -729,7 +729,7 @@ async function loadHomeBanner(){
   track.innerHTML='';track.style.touchAction='pan-y';track.style.webkitUserSelect='none';track.style.userSelect='none';
   const oldControls=hero.querySelector('.home-banner-controls');if(oldControls)oldControls.remove();
   urls.forEach((url,i)=>{const slide=document.createElement('div');slide.className='home-banner-slide';const image=document.createElement('img');image.alt='Banner Givitshop '+(i+1);image.draggable=false;image.loading=i===0?'eager':'lazy';image.onerror=()=>{if(url!==bundledBanner){image.onerror=null;image.src=bundledBanner;}};
-    image.src=/^https?:\\/\\//i.test(url)?url+(url.includes('?')?'&':'?')+'banner_refresh='+Date.now():url;slide.appendChild(image);track.appendChild(slide)});
+    image.src=/^https?:\/\//i.test(url)?url+(url.includes('?')?'&':'?')+'banner_refresh='+Date.now():url;slide.appendChild(image);track.appendChild(slide)});
   const controls=document.createElement('div');controls.className='home-banner-controls';
   const dotsList=urls.map((_,i)=>{const b=document.createElement('button');b.type='button';b.className='home-banner-dot'+(i===0?' active':'');b.setAttribute('aria-label','Banner '+(i+1));b.onclick=()=>go(i);controls.appendChild(b);return b});
   (img.parentElement||hero).appendChild(controls);
