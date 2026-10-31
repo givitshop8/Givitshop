@@ -59,7 +59,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 <div class="tabs">
  <button class="tab active" id="tabProducts" onclick="showTab('products')">Produk</button>
  <button class="tab" id="tabOrders" onclick="showTab('orders')">Pesanan <span id="newOrderBadge" class="order-badge" style="display:none">0</span></button>
- <button class="tab" id="tabChat" onclick="showTab('chat')">Chat Pembeli</button>
+ <button class="tab" id="tabChat" onclick="showTab('chat')">Chat Pembeli <span id="newChatBadge" class="order-badge" style="display:none">0</span></button>
  <button class="tab" id="tabVouchers" onclick="showTab('vouchers')">Voucher</button>
  <button class="tab" id="tabProductPromos" onclick="showTab('productPromos')">Promo Produk</button>
  <button class="tab" id="tabHomeBanner" onclick="showTab('homeBanner')">Foto Beranda</button>
@@ -248,6 +248,26 @@ function loadSeenOrderIds(){try{seenOrderIds=new Set(JSON.parse(localStorage.get
 function saveSeenOrderIds(){localStorage.setItem(SEEN_ORDER_KEY,JSON.stringify([...seenOrderIds].slice(-500)))}
 function markOrderSeen(id){seenOrderIds.add(String(id));saveSeenOrderIds();renderNewOrderAlert()}
 function renderNewOrderAlert(){const fresh=orders.filter(o=>!seenOrderIds.has(String(o.id)));const alert=document.getElementById('newOrderAlert'),count=document.getElementById('newOrderCount'),badge=document.getElementById('newOrderBadge');if(!alert)return;count.textContent=`${fresh.length} pesanan baru`;alert.classList.toggle('show',fresh.length>0);badge.textContent=fresh.length;badge.style.display=fresh.length?'inline-flex':'none'}
+
+const SEEN_CHAT_KEY='givit_admin_seen_chat_messages_v1';
+let seenChatMessages=new Set(), chatSeenInitialized=false, chatPollInFlight=false;
+function loadSeenChatMessages(){
+ try{const saved=localStorage.getItem(SEEN_CHAT_KEY);chatSeenInitialized=saved!==null;seenChatMessages=new Set(saved?JSON.parse(saved).map(String):[])}
+ catch(e){seenChatMessages=new Set();chatSeenInitialized=false}
+}
+function saveSeenChatMessages(){try{localStorage.setItem(SEEN_CHAT_KEY,JSON.stringify([...seenChatMessages].slice(-1000)))}catch(e){}}
+function chatMessageKey(c){return String(c.id)+'|'+String(c.last_message_at||'');}
+function renderNewChatBadge(rows){
+ const badge=document.getElementById('newChatBadge');if(!badge)return;
+ const fresh=(rows||[]).filter(c=>c.last_sender_role==='customer'&&!seenChatMessages.has(chatMessageKey(c)));
+ badge.textContent=fresh.length;badge.style.display=fresh.length?'inline-flex':'none';
+}
+function markChatSeen(id){
+ const c=(window.givitAdminChatRows||[]).find(x=>String(x.id)===String(id));
+ if(c&&c.last_sender_role==='customer')seenChatMessages.add(chatMessageKey(c));
+ saveSeenChatMessages();renderNewChatBadge(window.givitAdminChatRows||[]);
+}
+
 function showNewOrders(){showTab('orders');const f=document.getElementById('orderFilter');if(f)f.value='all';renderOrders();document.getElementById('ordersTab')?.scrollIntoView({behavior:'smooth',block:'start'})}
 
 const headers=()=>({'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':'application/json'});
@@ -589,11 +609,19 @@ function showTab(t){productsTab.classList.toggle('hidden',t!=='products');orders
 
 let activeAdminConversation=null;
 async function loadChatConversations(){
-  const box=document.getElementById('chatRows');if(!box)return;
+  const box=document.getElementById('chatRows');if(!box||chatPollInFlight)return;
+  chatPollInFlight=true;
   try{
     const rows=await api('/rest/v1/chat_conversations?select=*&order=last_message_at.desc.nullslast');
+    window.givitAdminChatRows=rows||[];
+    if(!chatSeenInitialized){
+      (rows||[]).forEach(c=>{if(c.last_sender_role==='customer')seenChatMessages.add(chatMessageKey(c))});
+      chatSeenInitialized=true;saveSeenChatMessages();
+    }
+    renderNewChatBadge(rows||[]);
     box.innerHTML=rows.length?rows.map(c=>`<tr><td>${c.order_id?'#'+esc(c.order_id):'Pra-pembelian'}</td><td>${esc(c.customer_name||'-')}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${esc(c.id)}','${esc(c.order_id||'')}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${esc(c.id)}','${esc(c.order_id||'')}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="6">Belum ada percakapan.</td></tr>';
   }catch(e){box.innerHTML=`<tr><td colspan="6">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
+  finally{chatPollInFlight=false;}
 }
 async function deleteChatConversation(id,orderId){
  if(!confirm('Hapus seluruh percakapan '+(orderId?'untuk pesanan #'+orderId:'pra-pembelian')+'? Pesan dalam percakapan ini juga akan dihapus permanen.'))return;
@@ -608,6 +636,7 @@ async function deleteChatConversation(id,orderId){
 }
 
 async function openAdminChat(id,orderId){
+  markChatSeen(id);
   activeAdminConversation={id,orderId};
   document.getElementById('adminChatTitle').textContent=orderId?'Chat Pesanan #'+orderId:'Chat Pra-Pembelian';
   document.getElementById('adminChatModal').classList.remove('hidden');
@@ -632,10 +661,11 @@ async function sendAdminChatMessage(){
   }catch(e){alert('Gagal mengirim balasan: '+e.message);}
 }
 function closeAdminChat(){document.getElementById('adminChatModal').classList.add('hidden');activeAdminConversation=null;}
-setInterval(()=>{if(activeAdminConversation&&!document.getElementById('adminChatModal').classList.contains('hidden'))loadAdminChatMessages();if(!document.getElementById('chatTab')?.classList.contains('hidden'))loadChatConversations();},7000);
+setInterval(()=>{if(!token)return;if(activeAdminConversation&&!document.getElementById('adminChatModal').classList.contains('hidden'))loadAdminChatMessages();loadChatConversations();},7000);
 
 renderVariantEditor();renderSizeEditor();
 loadSeenOrderIds();
+loadSeenChatMessages();
 token=sessionStorage.getItem(ADMIN_TOKEN_KEY);refreshToken=sessionStorage.getItem(ADMIN_REFRESH_KEY);if(token){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');refresh().catch(async e=>{try{await refreshAdminSession();await refresh()}catch(_){document.getElementById('login').classList.remove('hidden');document.getElementById('app').classList.add('hidden');document.getElementById('loginMsg').textContent='Sesi admin berakhir. Silakan login kembali untuk memuat pesanan dan chat.';token=null;refreshToken=null;sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_REFRESH_KEY)}})}
 </script>
 </body>
