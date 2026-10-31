@@ -329,6 +329,129 @@ html, body {
     border-radius: 0 !important;
   }
 }
+
+/* GIVITSHOP LAYOUT UPDATE: konten desktop rata tengah seperti marketplace */
+html, body {
+  width: 100% !important;
+  min-width: 320px;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+body {
+  background: #f6f6f6 !important;
+}
+.app {
+  width: 100% !important;
+  max-width: 1032px !important;
+  min-height: 100vh;
+  margin: 0 auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  background: #fff !important;
+  box-shadow: 0 0 28px rgba(0,0,0,.06) !important;
+}
+/* Banner dibuat lebih pendek, di tengah, dan gambar tidak terpotong */
+#homeHero.hero.has-photo {
+  display: block !important;
+  width: calc(100% - 32px) !important;
+  max-width: 1000px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 5 !important;
+  max-height: 280px !important;
+  margin: 12px auto 20px !important;
+  padding: 0 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: #fff5f7 !important;
+}
+#homeHero .home-banner-track,
+#homeHero .home-banner-slide {
+  width: 100% !important;
+  height: 100% !important;
+}
+#homeHero .home-banner-slide img,
+#homeHero .hero-photo {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: 16px !important;
+  background: #fff5f7 !important;
+}
+/* Ruang konten konsisten di desktop */
+.section {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+#productGrid, .product-grid, .products, .product-list {
+  box-sizing: border-box !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+/* Navigasi dan bilah beli mengikuti lebar halaman, bukan layar penuh */
+.bottom, .buybar {
+  width: min(1032px, 100%) !important;
+}
+@media (min-width: 768px) {
+  .top {
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+  }
+  .cats {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  .products {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+  .pic {
+    height: 190px !important;
+    min-height: 190px !important;
+    max-height: 190px !important;
+  }
+}
+@media (max-width: 767px) {
+  body { background: #fff !important; }
+  .app {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  #homeHero.hero.has-photo {
+    width: calc(100% - 24px) !important;
+    max-width: none !important;
+    aspect-ratio: 16 / 7 !important;
+    max-height: 220px !important;
+    margin: 10px auto 16px !important;
+    border-radius: 14px !important;
+  }
+  #homeHero .home-banner-slide img,
+  #homeHero .hero-photo {
+    border-radius: 14px !important;
+  }
+  .section {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  #productGrid, .product-grid, .products, .product-list {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .bottom, .buybar { width: 100% !important; }
+}
+
 </style></head><body><div class="app">
 <header class="top"><div class="brand">Givitshop</div><div class="tag">Skincare • Makeup • Fashion • Hijab • Accessories</div><div class="search"><input id="search" placeholder="Cari produk, brand, atau kategori..." oninput="renderProducts()"><button class="icon" onclick="show('cart')"><span class="carticonwrap">🛒<span id="headerCartBadge" class="cartbadge" style="display:none">0</span></span></button></div></header>
 <main id="home" class="view active"><div class="hero" id="homeHero"><img id="homeHeroPhoto" class="hero-photo" alt="Foto banner Givitshop"><div class="hero-copy"><h1>Kulit sehat,<br>cantik setiap hari</h1><p>Temukan skincare favoritmu dengan pilihan produk yang praktis.</p><button class="cta" onclick="document.getElementById('products').scrollIntoView()">Belanja Sekarang</button></div><div class="blob"></div></div>
