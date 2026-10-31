@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Givitshop Admin</title>
-<link rel="icon" type="image/png" href="./favicon.png">
 <style>
 :root{--pink:#e85b7a;--soft:#fff1f5;--ink:#28242a;--muted:#77727a;--line:#eee7ea}
 *{box-sizing:border-box}body{margin:0;background:#faf8f9;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -58,12 +57,33 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 </div>
 <div class="tabs">
  <button class="tab active" id="tabProducts" onclick="showTab('products')">Produk</button>
+ <button class="tab" id="tabCategories" onclick="showTab('categories')">Kategori</button>
  <button class="tab" id="tabOrders" onclick="showTab('orders')">Pesanan <span id="newOrderBadge" class="order-badge" style="display:none">0</span></button>
- <button class="tab" id="tabChat" onclick="showTab('chat')">Chat Pembeli <span id="newChatBadge" class="order-badge" style="display:none">0</span></button>
+ <button class="tab" id="tabChat" onclick="showTab('chat')">Chat Pembeli</button>
  <button class="tab" id="tabVouchers" onclick="showTab('vouchers')">Voucher</button>
  <button class="tab" id="tabProductPromos" onclick="showTab('productPromos')">Promo Produk</button>
  <button class="tab" id="tabHomeBanner" onclick="showTab('homeBanner')">Foto Beranda</button>
 </div>
+
+<section id="categoriesTab" class="hidden">
+ <div class="card">
+  <h2>Kelola Kategori Beranda</h2>
+  <p class="muted">Tambah kategori yang akan muncul di halaman utama pembeli. Kategori yang dihapus tidak menghapus produk; produk lama tetap tersimpan.</p>
+  <div class="grid">
+   <div><label>Nama kategori</label><input id="newCategoryName" maxlength="40" placeholder="Contoh: Bodycare"></div>
+   <div><label>Ikon / Emoji</label><input id="newCategoryIcon" maxlength="8" value="🛍️" placeholder="Contoh: 🧴"></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+   <button class="btn primary" type="button" onclick="addStoreCategory()">＋ Tambah Kategori</button>
+   <button class="btn secondary" type="button" onclick="loadStoreCategories()">Muat Ulang</button>
+  </div>
+  <p id="categoryAdminMsg" class="muted" role="status"></p>
+ </div>
+ <div class="card">
+  <h2>Daftar Kategori</h2>
+  <div style="overflow:auto"><table><thead><tr><th>Ikon</th><th>Nama kategori</th><th>Urutan</th><th>Aksi</th></tr></thead><tbody id="storeCategoryRows"><tr><td colspan="4">Memuat kategori...</td></tr></tbody></table></div>
+ </div>
+</section>
 
 <section id="productsTab">
 <div class="card" id="bulkExcelCard">
@@ -132,7 +152,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
  <div class="card">
   <h2>Chat Pembeli</h2>
   <p class="muted">Balas pesan pelanggan dari aplikasi Givitshop. Riwayat disimpan di Supabase.</p>
-  <div style="overflow:auto"><table><thead><tr><th>Pesanan</th><th>Nama</th><th>WhatsApp</th><th>Pesan terakhir</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody id="chatRows"><tr><td colspan="6">Buka tab ini untuk memuat percakapan.</td></tr></tbody></table></div>
+  <div style="overflow:auto"><table><thead><tr><th>Pesanan</th><th>WhatsApp</th><th>Pesan terakhir</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody id="chatRows"><tr><td colspan="5">Buka tab ini untuk memuat percakapan.</td></tr></tbody></table></div>
   <button class="btn secondary" style="margin-top:12px" onclick="loadChatConversations()">Muat ulang chat</button>
  </div>
 </section>
@@ -240,6 +260,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 const SUPABASE_URL='https://oaojkkhvscbufpakunrs.supabase.co';
 const SUPABASE_KEY='sb_publishable_jeoQMVZMgtnJeUR9tsq8tg_owYrhU-S';
 let token=null, refreshToken=null, refreshingAuth=null, products=[], orders=[];
+let storeCategories=[];
 const ADMIN_TOKEN_KEY='givit_admin_token', ADMIN_REFRESH_KEY='givit_admin_refresh_token';
 let editingVariants=[], editingSizes=[];
 const SEEN_ORDER_KEY='givit_admin_seen_order_ids_v1';
@@ -248,26 +269,6 @@ function loadSeenOrderIds(){try{seenOrderIds=new Set(JSON.parse(localStorage.get
 function saveSeenOrderIds(){localStorage.setItem(SEEN_ORDER_KEY,JSON.stringify([...seenOrderIds].slice(-500)))}
 function markOrderSeen(id){seenOrderIds.add(String(id));saveSeenOrderIds();renderNewOrderAlert()}
 function renderNewOrderAlert(){const fresh=orders.filter(o=>!seenOrderIds.has(String(o.id)));const alert=document.getElementById('newOrderAlert'),count=document.getElementById('newOrderCount'),badge=document.getElementById('newOrderBadge');if(!alert)return;count.textContent=`${fresh.length} pesanan baru`;alert.classList.toggle('show',fresh.length>0);badge.textContent=fresh.length;badge.style.display=fresh.length?'inline-flex':'none'}
-
-const SEEN_CHAT_KEY='givit_admin_seen_chat_messages_v1';
-let seenChatMessages=new Set(), chatSeenInitialized=false, chatPollInFlight=false;
-function loadSeenChatMessages(){
- try{const saved=localStorage.getItem(SEEN_CHAT_KEY);chatSeenInitialized=saved!==null;seenChatMessages=new Set(saved?JSON.parse(saved).map(String):[])}
- catch(e){seenChatMessages=new Set();chatSeenInitialized=false}
-}
-function saveSeenChatMessages(){try{localStorage.setItem(SEEN_CHAT_KEY,JSON.stringify([...seenChatMessages].slice(-1000)))}catch(e){}}
-function chatMessageKey(c){return String(c.id)+'|'+String(c.last_message_at||'');}
-function renderNewChatBadge(rows){
- const badge=document.getElementById('newChatBadge');if(!badge)return;
- const fresh=(rows||[]).filter(c=>c.last_sender_role==='customer'&&!seenChatMessages.has(chatMessageKey(c)));
- badge.textContent=fresh.length;badge.style.display=fresh.length?'inline-flex':'none';
-}
-function markChatSeen(id){
- const c=(window.givitAdminChatRows||[]).find(x=>String(x.id)===String(id));
- if(c&&c.last_sender_role==='customer')seenChatMessages.add(chatMessageKey(c));
- saveSeenChatMessages();renderNewChatBadge(window.givitAdminChatRows||[]);
-}
-
 function showNewOrders(){showTab('orders');const f=document.getElementById('orderFilter');if(f)f.value='all';renderOrders();document.getElementById('ordersTab')?.scrollIntoView({behavior:'smooth',block:'start'})}
 
 const headers=()=>({'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':'application/json'});
@@ -605,40 +606,71 @@ async function saveHomeBanner(){const msg=document.getElementById('homeBannerMsg
 async function removeHomeBanner(){if(!confirm('Hapus foto banner khusus dan kembali ke tampilan bawaan?'))return;const msg=document.getElementById('homeBannerMsg');try{await api('/rest/v1/homepage_settings?id=eq.main',{method:'DELETE',headers:{Prefer:'return=minimal'}});currentHomeBannerUrl=null;document.getElementById('homeBannerPreview').removeAttribute('src');document.getElementById('homeBannerPreview').style.display='none';document.getElementById('homeBannerFile').value='';msg.textContent='Foto khusus dihapus. Aplikasi akan memakai tampilan banner bawaan.'}catch(e){msg.textContent='Gagal menghapus pengaturan foto: '+e.message}}
 
 function closeDetail(e){if(!e||e.target?.id==='detailModal')document.getElementById('detailModal').classList.add('hidden')}
-function showTab(t){productsTab.classList.toggle('hidden',t!=='products');ordersTab.classList.toggle('hidden',t!=='orders');chatTab.classList.toggle('hidden',t!=='chat');vouchersTab.classList.toggle('hidden',t!=='vouchers');productPromosTab.classList.toggle('hidden',t!=='productPromos');homeBannerTab.classList.toggle('hidden',t!=='homeBanner');tabProducts.classList.toggle('active',t==='products');tabOrders.classList.toggle('active',t==='orders');tabChat.classList.toggle('active',t==='chat');tabVouchers.classList.toggle('active',t==='vouchers');tabProductPromos.classList.toggle('active',t==='productPromos');tabHomeBanner.classList.toggle('active',t==='homeBanner');if(t==='chat')loadChatConversations();if(t==='vouchers')loadVouchers();if(t==='productPromos')loadProductPromos();if(t==='homeBanner')loadHomeBanner()}
+async function loadStoreCategories(){
+ const body=document.getElementById('storeCategoryRows');
+ const msg=document.getElementById('categoryAdminMsg');
+ if(body)body.innerHTML='<tr><td colspan="4">Memuat kategori...</td></tr>';
+ try{
+  storeCategories=await api('/rest/v1/store_categories?select=*&order=sort_order.asc,name.asc');
+  if(!Array.isArray(storeCategories))storeCategories=[];
+  if(body)body.innerHTML=storeCategories.length?storeCategories.map(c=>`<tr><td style="font-size:22px">${esc(c.icon||'🛍️')}</td><td><b>${esc(c.name)}</b></td><td>${Number(c.sort_order)||0}</td><td><button class="btn danger mini" type="button" onclick="deleteStoreCategory('${String(c.id)}')">Hapus</button></td></tr>`).join(''):'<tr><td colspan="4">Belum ada kategori.</td></tr>';
+  if(msg)msg.textContent='Kategori berhasil dimuat.';
+ }catch(e){
+  if(body)body.innerHTML='<tr><td colspan="4">Gagal memuat kategori.</td></tr>';
+  if(msg)msg.textContent='Gagal memuat kategori: '+e.message+'. Pastikan SQL kategori sudah dijalankan di Supabase.';
+ }
+}
+async function addStoreCategory(){
+ const name=document.getElementById('newCategoryName').value.trim();
+ const icon=document.getElementById('newCategoryIcon').value.trim()||'🛍️';
+ const msg=document.getElementById('categoryAdminMsg');
+ if(!name){msg.textContent='Nama kategori wajib diisi.';return}
+ if(storeCategories.some(c=>String(c.name).toLocaleLowerCase('id-ID')===name.toLocaleLowerCase('id-ID'))){msg.textContent='Kategori tersebut sudah ada.';return}
+ msg.textContent='Menyimpan kategori...';
+ try{
+  await api('/rest/v1/store_categories',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({id:crypto.randomUUID(),name,icon,sort_order:storeCategories.length+1,is_active:true})});
+  document.getElementById('newCategoryName').value='';
+  msg.textContent='Kategori berhasil ditambahkan.';
+  await loadStoreCategories();
+ }catch(e){msg.textContent='Gagal menambahkan kategori: '+e.message}
+}
+async function deleteStoreCategory(id){
+ const c=storeCategories.find(x=>String(x.id)===String(id));
+ if(!c)return;
+ if(!confirm('Hapus kategori "'+c.name+'"? Produk yang memakai kategori ini tidak ikut terhapus.'))return;
+ const msg=document.getElementById('categoryAdminMsg');msg.textContent='Menghapus kategori...';
+ try{
+  await api('/rest/v1/store_categories?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});
+  msg.textContent='Kategori berhasil dihapus.';
+  await loadStoreCategories();
+ }catch(e){msg.textContent='Gagal menghapus kategori: '+e.message}
+}
+
+function showTab(t){productsTab.classList.toggle('hidden',t!=='products');categoriesTab.classList.toggle('hidden',t!=='categories');ordersTab.classList.toggle('hidden',t!=='orders');chatTab.classList.toggle('hidden',t!=='chat');vouchersTab.classList.toggle('hidden',t!=='vouchers');productPromosTab.classList.toggle('hidden',t!=='productPromos');homeBannerTab.classList.toggle('hidden',t!=='homeBanner');tabProducts.classList.toggle('active',t==='products');tabCategories.classList.toggle('active',t==='categories');tabOrders.classList.toggle('active',t==='orders');tabChat.classList.toggle('active',t==='chat');tabVouchers.classList.toggle('active',t==='vouchers');tabProductPromos.classList.toggle('active',t==='productPromos');tabHomeBanner.classList.toggle('active',t==='homeBanner');if(t==='categories')loadStoreCategories();if(t==='chat')loadChatConversations();if(t==='vouchers')loadVouchers();if(t==='productPromos')loadProductPromos();if(t==='homeBanner')loadHomeBanner()}
 
 let activeAdminConversation=null;
 async function loadChatConversations(){
-  const box=document.getElementById('chatRows');if(!box||chatPollInFlight)return;
-  chatPollInFlight=true;
+  const box=document.getElementById('chatRows');if(!box)return;
   try{
     const rows=await api('/rest/v1/chat_conversations?select=*&order=last_message_at.desc.nullslast');
-    window.givitAdminChatRows=rows||[];
-    if(!chatSeenInitialized){
-      (rows||[]).forEach(c=>{if(c.last_sender_role==='customer')seenChatMessages.add(chatMessageKey(c))});
-      chatSeenInitialized=true;saveSeenChatMessages();
-    }
-    renderNewChatBadge(rows||[]);
-    box.innerHTML=rows.length?rows.map(c=>`<tr><td>${c.order_id?'#'+esc(c.order_id):'Pra-pembelian'}</td><td>${esc(c.customer_name||'-')}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${esc(c.id)}','${esc(c.order_id||'')}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${esc(c.id)}','${esc(c.order_id||'')}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="6">Belum ada percakapan.</td></tr>';
-  }catch(e){box.innerHTML=`<tr><td colspan="6">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
-  finally{chatPollInFlight=false;}
+    box.innerHTML=rows.length?rows.map(c=>`<tr><td>#${c.order_id}</td><td>${esc(c.customer_phone||'-')}</td><td>${esc(c.last_message_preview||'-')}</td><td>${c.last_message_at?new Date(c.last_message_at).toLocaleString('id-ID'):'-'}</td><td><div class="row-actions"><button class="btn primary" onclick="openAdminChat('${c.id}','${c.order_id}')">Buka Chat</button><button class="btn danger" onclick="deleteChatConversation('${c.id}','${c.order_id}')">Hapus</button></div></td></tr>`).join(''):'<tr><td colspan="5">Belum ada percakapan.</td></tr>';
+  }catch(e){box.innerHTML=`<tr><td colspan="5">Gagal memuat chat: ${esc(e.message)}. Pastikan CHAT_SCHEMA.sql sudah dijalankan di Supabase.</td></tr>`;}
 }
 async function deleteChatConversation(id,orderId){
- if(!confirm('Hapus seluruh percakapan '+(orderId?'untuk pesanan #'+orderId:'pra-pembelian')+'? Pesan dalam percakapan ini juga akan dihapus permanen.'))return;
+ if(!confirm('Hapus seluruh percakapan chat untuk pesanan #'+orderId+'? Pesan dalam percakapan ini juga akan dihapus permanen.'))return;
  try{
   await api('/rest/v1/chat_messages?conversation_id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}});
   const deleted=await api('/rest/v1/chat_conversations?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=representation'}});
   if(!Array.isArray(deleted)||deleted.length===0)throw Error('Percakapan tidak terhapus. Periksa policy DELETE Supabase untuk chat_conversations.');
   if(activeAdminConversation&&String(activeAdminConversation.id)===String(id))closeAdminChat();
   await loadChatConversations();
-  alert('Percakapan '+(orderId?'pesanan #'+orderId:'pra-pembelian')+' berhasil dihapus.');
+  alert('Chat pesanan #'+orderId+' berhasil dihapus.');
  }catch(e){alert('Gagal menghapus chat: '+(e.message||e)+'. Periksa policy DELETE Supabase untuk chat_messages dan chat_conversations.')}
 }
 
 async function openAdminChat(id,orderId){
-  markChatSeen(id);
   activeAdminConversation={id,orderId};
-  document.getElementById('adminChatTitle').textContent=orderId?'Chat Pesanan #'+orderId:'Chat Pra-Pembelian';
+  document.getElementById('adminChatTitle').textContent='Chat Pesanan #'+orderId;
   document.getElementById('adminChatModal').classList.remove('hidden');
   await loadAdminChatMessages();
 }
@@ -661,11 +693,10 @@ async function sendAdminChatMessage(){
   }catch(e){alert('Gagal mengirim balasan: '+e.message);}
 }
 function closeAdminChat(){document.getElementById('adminChatModal').classList.add('hidden');activeAdminConversation=null;}
-setInterval(()=>{if(!token)return;if(activeAdminConversation&&!document.getElementById('adminChatModal').classList.contains('hidden'))loadAdminChatMessages();loadChatConversations();},7000);
+setInterval(()=>{if(activeAdminConversation&&!document.getElementById('adminChatModal').classList.contains('hidden'))loadAdminChatMessages();if(!document.getElementById('chatTab')?.classList.contains('hidden'))loadChatConversations();},7000);
 
 renderVariantEditor();renderSizeEditor();
 loadSeenOrderIds();
-loadSeenChatMessages();
 token=sessionStorage.getItem(ADMIN_TOKEN_KEY);refreshToken=sessionStorage.getItem(ADMIN_REFRESH_KEY);if(token){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');refresh().catch(async e=>{try{await refreshAdminSession();await refresh()}catch(_){document.getElementById('login').classList.remove('hidden');document.getElementById('app').classList.add('hidden');document.getElementById('loginMsg').textContent='Sesi admin berakhir. Silakan login kembali untuk memuat pesanan dan chat.';token=null;refreshToken=null;sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_REFRESH_KEY)}})}
 </script>
 </body>
