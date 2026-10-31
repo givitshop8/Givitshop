@@ -284,6 +284,51 @@ html, body {
   .pic { height: 165px !important; min-height: 165px !important; max-height: 165px !important; }
 }
 
+/* Banner beranda full width dan rata tengah */
+@media (min-width: 768px) {
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .app {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  #homeHero.hero.has-photo {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 8px 0 18px !important;
+    padding: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  #homeHero .home-banner-track,
+  #homeHero .home-banner-slide {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  #homeHero .home-banner-slide img,
+  #homeHero .hero-photo {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    border-radius: 0 !important;
+  }
+}
 </style></head><body><div class="app">
 <header class="top"><div class="brand">Givitshop</div><div class="tag">Skincare • Makeup • Fashion • Hijab • Accessories</div><div class="search"><input id="search" placeholder="Cari produk, brand, atau kategori..." oninput="renderProducts()"><button class="icon" onclick="show('cart')"><span class="carticonwrap">🛒<span id="headerCartBadge" class="cartbadge" style="display:none">0</span></span></button></div></header>
 <main id="home" class="view active"><div class="hero" id="homeHero"><img id="homeHeroPhoto" class="hero-photo" alt="Foto banner Givitshop"><div class="hero-copy"><h1>Kulit sehat,<br>cantik setiap hari</h1><p>Temukan skincare favoritmu dengan pilihan produk yang praktis.</p><button class="cta" onclick="document.getElementById('products').scrollIntoView()">Belanja Sekarang</button></div><div class="blob"></div></div>
