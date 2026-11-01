@@ -778,11 +778,19 @@ async function loadHomeBanner(){
   track.addEventListener('pointercancel',()=>{mouseDown=false});
   restart();
 }
+
+function renderStoreCategoryIcon(value){
+ const v=String(value||'🛍️');
+ if(/^https?:\/\//i.test(v)||/^data:image\//i.test(v)){
+  return `<img src="${escapeHtml(v)}" alt="" loading="lazy" style="width:28px;height:28px;object-fit:contain;vertical-align:middle">`;
+ }
+ return escapeHtml(v);
+}
 function renderStoreCategories(){
  const grid=document.getElementById('homeCategoryGrid');
  const chips=document.getElementById('productCategoryChips');
  const safeName=s=>String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
- if(grid)grid.innerHTML=storeCategories.map(c=>`<div class="cat" onclick="filterCat('${safeName(c.name)}')"><b>${escapeHtml(c.icon||'🛍️')}</b>${escapeHtml(c.name||'')}</div>`).join('')||'<div class="empty">Belum ada kategori.</div>';
+ if(grid)grid.innerHTML=storeCategories.map(c=>`<div class="cat" onclick="filterCat('${safeName(c.name)}')"><b>${renderStoreCategoryIcon(c.icon)}</b>${escapeHtml(c.name||'')}</div>`).join('')||'<div class="empty">Belum ada kategori.</div>';
  if(chips){
   const active=currentFilter||'Semua';
   chips.innerHTML=`<button class="chip ${active==='Semua'?'active':''}" onclick="filterCat('Semua')">Semua</button>`+storeCategories.map(c=>`<button class="chip ${active===c.name?'active':''}" onclick="filterCat('${safeName(c.name)}')">${escapeHtml(c.name||'')}</button>`).join('');
