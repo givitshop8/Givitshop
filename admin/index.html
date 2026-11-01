@@ -606,6 +606,43 @@ async function saveHomeBanner(){const msg=document.getElementById('homeBannerMsg
 async function removeHomeBanner(){if(!confirm('Hapus foto banner khusus dan kembali ke tampilan bawaan?'))return;const msg=document.getElementById('homeBannerMsg');try{await api('/rest/v1/homepage_settings?id=eq.main',{method:'DELETE',headers:{Prefer:'return=minimal'}});currentHomeBannerUrl=null;document.getElementById('homeBannerPreview').removeAttribute('src');document.getElementById('homeBannerPreview').style.display='none';document.getElementById('homeBannerFile').value='';msg.textContent='Foto khusus dihapus. Aplikasi akan memakai tampilan banner bawaan.'}catch(e){msg.textContent='Gagal menghapus pengaturan foto: '+e.message}}
 
 function closeDetail(e){if(!e||e.target?.id==='detailModal')document.getElementById('detailModal').classList.add('hidden')}
+
+function renderCategoryIconAdmin(value){
+ const v=String(value||'🛍️');
+ if(/^https?:\/\//i.test(v)||/^data:image\//i.test(v)){
+  return `<img src="${esc(v)}" alt="Ikon kategori" style="width:42px;height:42px;object-fit:contain;border-radius:8px;background:#fff">`;
+ }
+ return esc(v);
+}
+async function compressCategoryIcon(file){
+ if(!file||!file.type.startsWith('image/'))throw new Error('Pilih file gambar yang valid.');
+ const dataUrl=await new Promise((resolve,reject)=>{
+  const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Gagal membaca gambar.'));reader.readAsDataURL(file);
+ });
+ const img=await new Promise((resolve,reject)=>{
+  const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Gambar tidak bisa dibuka.'));image.src=dataUrl;
+ });
+ const canvas=document.createElement('canvas');
+ const scale=Math.min(1,256/Math.max(img.width,img.height));
+ canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));
+ canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+ return canvas.toDataURL('image/jpeg',0.78);
+}
+async function updateCategoryIcon(id,input){
+ const file=input.files&&input.files[0];if(!file)return;
+ const msg=document.getElementById('categoryAdminMsg');
+ try{
+  msg.textContent='Memproses gambar ikon...';
+  const icon=await compressCategoryIcon(file);
+  msg.textContent='Menyimpan gambar ikon...';
+  await api('/rest/v1/store_categories?id=eq.'+encodeURIComponent(id),{
+   method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify({icon})
+  });
+  msg.textContent='Gambar ikon kategori berhasil diperbarui.';
+  await loadStoreCategories();
+ }catch(e){msg.textContent='Gagal mengganti gambar ikon: '+e.message;}
+ finally{input.value='';}
+}
 async function loadStoreCategories(){
  const body=document.getElementById('storeCategoryRows');
  const msg=document.getElementById('categoryAdminMsg');
@@ -613,7 +650,17 @@ async function loadStoreCategories(){
  try{
   storeCategories=await api('/rest/v1/store_categories?select=*&order=sort_order.asc,name.asc');
   if(!Array.isArray(storeCategories))storeCategories=[];
-  if(body)body.innerHTML=storeCategories.length?storeCategories.map(c=>`<tr><td style="font-size:22px">${esc(c.icon||'🛍️')}</td><td><b>${esc(c.name)}</b></td><td>${Number(c.sort_order)||0}</td><td><button class="btn danger mini" type="button" onclick="deleteStoreCategory('${String(c.id)}')">Hapus</button></td></tr>`).join(''):'<tr><td colspan="4">Belum ada kategori.</td></tr>';
+  if(body)body.innerHTML=storeCategories.length?storeCategories.map(c=>`<tr>
+  <td style="font-size:22px">${renderCategoryIconAdmin(c.icon)}</td>
+  <td><b>${esc(c.name)}</b></td>
+  <td>${Number(c.sort_order)||0}</td>
+  <td style="min-width:210px">
+   <label class="btn secondary mini" style="display:inline-block;cursor:pointer;margin:2px">Ganti gambar
+    <input type="file" accept="image/*" style="display:none" onchange="updateCategoryIcon('${String(c.id)}',this)">
+   </label>
+   <button class="btn danger mini" type="button" onclick="deleteStoreCategory('${String(c.id)}')">Hapus</button>
+  </td>
+ </tr>` ).join(''):'<tr><td colspan="4">Belum ada kategori.</td></tr>';
   if(msg)msg.textContent='Kategori berhasil dimuat.';
  }catch(e){
   if(body)body.innerHTML='<tr><td colspan="4">Gagal memuat kategori.</td></tr>';
